@@ -19,6 +19,7 @@ public class consultasHQL {
 		// TODO Auto-generated method stub
 
 		SessionFactory sesion = HibernateUtil.getSessionFactory();
+/*
 		Session session = sesion.openSession();
 		// Visualiza los datos del departamento 30
 		String hql = "from Departamentos as dep where dep.deptNo = 30";
@@ -33,8 +34,9 @@ public class consultasHQL {
 		System.out.printf("%d, %s, %s%n", dep.getDeptNo(), dep.getLoc(),
 		dep.getDnombre());
 		session.close();
-		
+		*/
 		SessionFactory sesion2 = HibernateUtil.getSessionFactory();
+		/*
 		Session session2 = sesion2.openSession();
 		String hql2 = "select d.deptNo, count(e.empNo), coalesce(avg(e.salario),0) , "
 		 + " d.dnombre "
@@ -47,8 +49,9 @@ public class consultasHQL {
 		System.out.printf("Numero Dep: %d, Nombre: %s, Salario medio: %.2f, Nº emple: %d%n", filaActual[0],
 		filaActual[3], filaActual[2], filaActual[1]);
 		}
-		session2.close();
 		
+		session2.close();
+		*/
 	}
 
 }
