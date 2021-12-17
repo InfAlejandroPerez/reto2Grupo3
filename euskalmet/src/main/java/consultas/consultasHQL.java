@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 
 import hibernateUtilities.HibernateUtil;
 //import primero.Departamentos;
+import modelo.Municipios;
 
 public class consultasHQL {
 	
@@ -22,9 +23,11 @@ public class consultasHQL {
 
 		Session session = sesion.openSession();
 		// Visualiza los datos del departamento 30
-		String hql = "from Departamentos as dep where dep.deptNo = 30";
+		String hql = "from municipios as mun where CodMunicipio = 1";
 		Query q = session.createQuery(hql);
-		
+		Municipios municipio = (Municipios) q.uniqueResult();
+		System.out.printf("%d, %s, %s%n", municipio.getCodMunicipio(), municipio.getNombre(),
+				municipio.getDescripcion());
 		/*
 		Departamentos dep = (Departamentos) q.uniqueResult();
 		System.out.printf("%d, %s, %s%n", dep.getDeptNo(), dep.getLoc(),

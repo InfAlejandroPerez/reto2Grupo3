@@ -11,9 +11,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import hibernateUtilitiesities.HibernateUtil;
-import primero.Departamentos;
-import primero.Empleados;
+import hibernateUtilities.HibernateUtil;
+//import primero.Departamentos;
+//import primero.Empleados;
 
 public class consultasHQL2 {
 	
@@ -24,8 +24,9 @@ public class consultasHQL2 {
 		
 		String hql = "from Departamentos as dep where dep.deptNo = 10";
 		Query q = session.createQuery(hql);
-		Departamentos dep = (Departamentos) q.uniqueResult();
+		//Departamentos dep = (Departamentos) q.uniqueResult();
 		
+		/*
 		System.out.println("Nombre: " +dep.getDnombre());
 		System.out.println("Location: " +dep.getLoc());
 		System.out.println("No: " +dep.getDeptNo());
@@ -96,6 +97,7 @@ public class consultasHQL2 {
 		
 		session.close();
 		sesion.close();
+	*/
 	}
 
 
