@@ -19,9 +19,20 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper.Builder;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
 public class JsonParse {
 
-    public static void printIntoFile(String path, String content) {
+	/**
+	 * Recibe una cadena de texto y la crea sobre un archivo con la ruta y extensión especificada
+	 * @param path     String  Path del archivo resultante
+	 * @param content  String  Contenido
+	 */
+    public void printIntoFile(String path, String content) {
 
         try (PrintWriter writer = new PrintWriter(path)) {
             writer.print(content);
@@ -31,7 +42,12 @@ public class JsonParse {
         }
     }
     
-    public static String readFile(String path) {
+    /**
+     * Lee un fichero y devuelve su contenido como String
+     * @param path  String  Ruta del archivo a leer
+     * @return      String  Contenido del archivo leido
+     */
+    public String readFile(String path) {
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 			StringBuilder strBuilder = new StringBuilder();
 			String line = br.readLine();
@@ -52,7 +68,7 @@ public class JsonParse {
      * Elimina atributos de los objetos de un archivo JSON
      * @param path   String   Ruta del archivo JSON a analizar
      * @param atts	 Array	  Array de claves sobre las que se desea operar
-     * @param remove boolean  True si se desea eliminar las claves contenidas en atts, false si se eliminarán todas las demás
+     * @param remove boolean  True si se desea eliminar las claves contenidas en atts, false si se eliminarán todas las que no aparecen en el mismo
      */
     public String removeAtts(String path, String[] atts, boolean remove) {
     	String s = readFile(path);
@@ -98,14 +114,40 @@ public class JsonParse {
           }
     }
     
+    public String jsonToCSV(String jsonPath) {
+    	try {
+			JsonNode jsonTree = new ObjectMapper().readTree(new File(jsonPath));
+			
+			com.fasterxml.jackson.dataformat.csv.CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
+			JsonNode firstObject = jsonTree.elements().next();
+			firstObject.fieldNames().forEachRemaining(fieldName -> {csvSchemaBuilder.addColumn(fieldName);} );
+			CsvSchema csvSchema = csvSchemaBuilder.build().withHeader().withColumnSeparator(';').withEscapeChar('"');
+			
+			CsvMapper csvMapper = new CsvMapper();
+			csvMapper.writerFor(JsonNode.class)
+			  .with(csvSchema)
+			  .writeValue(new File("./src/main/resources/fuentes/csv/pueblos.csv"), jsonTree);
+			
+    	} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return jsonPath;
+    }
+    
 	public static void main(String[] args) {
 	      	JsonParse parser = new JsonParse();
 	      	String[] atts = {"municipalitycode", "municipality"};
 	      	String[] atts2 = {"municipality"};
 	      	
-	      	String parsed = parser.removeAtts("./src/main/resources/fuentes/json/pueblos.json", atts, false);
-	      	printIntoFile("./src/main/resources/fuentes/json/parsed/parsed-pueblos.json", parsed);
+	      	String pathJsonBruto = "./src/main/resources/fuentes/json/pueblos.json";
+	      	String parsed = parser.removeAtts(pathJsonBruto, atts, false);
+	      	String  pathJsonParsed = "./src/main/resources/fuentes/json/parsed/parsed-pueblos.json";
+	      	parser.printIntoFile(pathJsonParsed, parsed);
 	      	System.out.println(parsed);
+	      	
+	      	parser.jsonToCSV(pathJsonParsed);
+	      	
+	      	
 	      	
 	}
 }
