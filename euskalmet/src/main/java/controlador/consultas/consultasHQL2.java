@@ -1,4 +1,4 @@
-package consultas;
+package controlador.consultas;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,9 +11,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import hibernateUtilities.HibernateUtil;
-//import primero.Departamentos;
-//import primero.Empleados;
+import controlador.hibernateUtilities.HibernateUtil;
 
 public class consultasHQL2 {
 	

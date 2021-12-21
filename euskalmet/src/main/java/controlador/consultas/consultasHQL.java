@@ -1,4 +1,4 @@
-package consultas;
+package controlador.consultas;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import hibernateUtilities.HibernateUtil;
+import controlador.hibernateUtilities.HibernateUtil;
 //import primero.Departamentos;
 import modelo.Municipios;
 

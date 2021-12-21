@@ -6,11 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.html.*;
+import javax.swing.text.html.parser.*;
 
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
@@ -26,9 +33,23 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper.Builder;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 public class JsonParse {
+	
+	private static String RESOURCES = "./src/main/resources/";
+	private static String FUENTES = RESOURCES + "fuentes/";
+	private static String JSON_PATH = FUENTES + "json/";
+	private static String JSON_PARSED = JSON_PATH + "parsed/";
+	private static String CSV_PATH = FUENTES + "csv/";
 
+	/*
+	 * Para parsear los paises repetidos
+	 * 
+	 * Search: (.*country.*?")(España ?)+
+	 * Replce: $1$2
+	 */
+	
+	
 	/**
-	 * Recibe una cadena de texto y la crea sobre un archivo con la ruta y extensión especificada
+	 * Recibe una cadena de texto y la escribe sobre un archivo con la ruta y extensión especificada
 	 * @param path     String  Path del archivo resultante
 	 * @param content  String  Contenido
 	 */
@@ -72,24 +93,22 @@ public class JsonParse {
      */
     public String removeAtts(String path, String[] atts, boolean remove) {
     	String s = readFile(path);
-
       	JSONParser parser = new JSONParser();
-
         try{
             Object obj = parser.parse(s);
-            JSONArray array = (JSONArray)obj;
+            JSONArray arrayObjetosJSON = (JSONArray)obj;
 
-            JSONObject obj2 = (JSONObject)array.get(1);
+            for(int i = 0 ; i < arrayObjetosJSON.size() ; i++) {
+              	boolean fixDescription = false;
 
-
-            for(int i = 0 ; i < array.size() ; i++) {
-            	
-            	JSONObject pueblo = (JSONObject) array.get(i);
-            	Iterator it = pueblo.entrySet().iterator();
+            	JSONObject objetoJSON = (JSONObject) arrayObjetosJSON.get(i);
+            	Iterator it = objetoJSON.entrySet().iterator();
             	
             	while(it.hasNext()) {
             	    String key = ((Entry) it.next()).getKey().toString();
+            	    
             	    boolean mantener = remove;
+            	    
             	    for(int j = 0 ; j < atts.length ; j++) {
             	    	boolean equals = key.equals(atts[j]);
             	    	if(equals) {
@@ -100,12 +119,23 @@ public class JsonParse {
             	    
             	    if(!mantener) {
             	    	it.remove();
+            	    } 
+            	    else if (key.equals("turismDescription")) {
+            	    	fixDescription = true;
             	    }
             	}
-            	
+            	if(fixDescription) {
+                	String content = (String) objetoJSON.get("turismDescription");
+        	    	objetoJSON.remove("turismDescription");
+        	    	objetoJSON.put("turismDescription", this.htmlToPlainText(content));
+                }
             }
             
-            return array.toString();
+            
+            
+            String y = arrayObjetosJSON.toString();
+            System.out.println(y);
+            return arrayObjetosJSON.toString();
           
          }catch(ParseException pe) {
              System.out.println("position: " + pe.getPosition());
@@ -114,7 +144,7 @@ public class JsonParse {
           }
     }
     
-    public String jsonToCSV(String jsonPath) {
+    public String jsonToCSV(String jsonPath, String csvPath) {
     	try {
 			JsonNode jsonTree = new ObjectMapper().readTree(new File(jsonPath));
 			
@@ -126,7 +156,7 @@ public class JsonParse {
 			CsvMapper csvMapper = new CsvMapper();
 			csvMapper.writerFor(JsonNode.class)
 			  .with(csvSchema)
-			  .writeValue(new File("./src/main/resources/fuentes/csv/pueblos.csv"), jsonTree);
+			  .writeValue(new File(csvPath), jsonTree);
 			
     	} catch (IOException e) {
 			e.printStackTrace();
@@ -134,18 +164,59 @@ public class JsonParse {
 		return jsonPath;
     }
     
+    private String htmlToPlainText(String html) {
+    	final StringBuilder sb = new StringBuilder();
+      	HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
+      	    public boolean readyForNewline;
+
+      	    @Override
+      	    public void handleText(final char[] data, final int pos) {
+      	        String s = new String(data);
+      	        sb.append(s.trim());
+      	        readyForNewline = true;
+      	    }
+
+      	    @Override
+      	    public void handleStartTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
+      	        if (readyForNewline && (t == HTML.Tag.DIV || t == HTML.Tag.BR || t == HTML.Tag.P)) {
+      	            sb.append("\n");
+      	            readyForNewline = false;
+      	        }
+      	    }
+
+      	    @Override
+      	    public void handleSimpleTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
+      	        handleStartTag(t, a, pos);
+      	    }
+      	};
+      	
+      	try {
+			new ParserDelegator().parse(new StringReader(html), parserCallback, false);
+
+			return sb.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}    
+      	
+    }
+    
 	public static void main(String[] args) {
 	      	JsonParse parser = new JsonParse();
-	      	String[] atts = {"municipalitycode", "municipality"};
+	      	String[] atts = {"municipalitycode", "municipality", "territorycode", "turismDescription"};
 	      	String[] atts2 = {"municipality"};
 	      	
-	      	String pathJsonBruto = "./src/main/resources/fuentes/json/pueblos.json";
-	      	String parsed = parser.removeAtts(pathJsonBruto, atts, false);
-	      	String  pathJsonParsed = "./src/main/resources/fuentes/json/parsed/parsed-pueblos.json";
-	      	parser.printIntoFile(pathJsonParsed, parsed);
-	      	System.out.println(parsed);
 	      	
-	      	parser.jsonToCSV(pathJsonParsed);
+	      	String pathJsonBruto = JSON_PATH + "pueblos.json";
+	      	String parsedJsonPueblos = parser.removeAtts(pathJsonBruto, atts, false);
+	      	
+	      	String  pueblosJsonParsed = JSON_PARSED + "parsed-pueblos.json";
+	      	parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblos);
+	      	String pueblosCSV = CSV_PATH + "pueblos.csv";
+	      	System.out.println("…");
+	      	System.out.println("\u2026");
+
+	      	parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
 	      	
 	      	
 	      	
