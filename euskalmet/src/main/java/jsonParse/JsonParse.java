@@ -7,19 +7,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.HashMap;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.html.*;
-import javax.swing.text.html.parser.*;
-
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.parser.ParserDelegator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,8 +24,15 @@ import org.json.simple.parser.ParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper.Builder;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+
+import controlador.hibernateUtilities.HibernateUtil;
+import modelo.Municipios;
+import modelo.Provincia;
+
+import org.apache.commons.codec.binary.StringUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class JsonParse {
 	
@@ -164,6 +166,50 @@ public class JsonParse {
 		return jsonPath;
     }
     
+    private void insertMunicipiosFromJSON(String path) {
+    	String s = readFile(path);
+      	JSONParser parser = new JSONParser();
+        try{
+            Object obj = parser.parse(s);
+            JSONArray arrayObjetosJSON = (JSONArray)obj;
+            
+            SessionFactory sesion = HibernateUtil.getSessionFactory();
+
+    		Session session = sesion.openSession();
+            session.beginTransaction();
+
+           
+            
+            for(int i = 0 ; i < arrayObjetosJSON.size() ; i++) {
+              	boolean fixDescription = false;
+
+            	JSONObject objetoJSON = (JSONObject) arrayObjetosJSON.get(i);
+            	
+            	Municipios mun = new Municipios();
+             	mun.setNombre((String) objetoJSON.get("documentName"));
+             	mun.setCodMunicipio(Integer.parseInt((String) objetoJSON.get("municipalitycode")) );
+             	
+             	Provincia pro = new Provincia();
+             	pro.setCodProvincia(Integer.parseInt((String) objetoJSON.get("territorycode")));
+             	pro.setNombre((String) objetoJSON.get("territory"));
+             	
+             	mun.setProvincia(pro);
+             	mun.setDescripcion(this.htmlToPlainText((String) objetoJSON.get("turismDescription")));
+                
+             	session.save(pro);
+                session.save(mun);
+
+                break;
+             	
+            }
+            
+            session.getTransaction().commit();
+        	
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    }
+    
     private String htmlToPlainText(String html) {
     	final StringBuilder sb = new StringBuilder();
       	HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
@@ -208,15 +254,17 @@ public class JsonParse {
 	      	
 	      	
 	      	String pathJsonBruto = JSON_PATH + "pueblos.json";
-	      	String parsedJsonPueblos = parser.removeAtts(pathJsonBruto, atts, false);
+	      	String bruto = parser.removeAtts(pathJsonBruto, atts, false);;
+	      	byte[] parsedJsonPueblos = StringUtils.getBytesUtf8(bruto);
+	      	String parsedJsonPueblosUTF8 = StringUtils.newStringUtf8(parsedJsonPueblos);
 	      	
 	      	String  pueblosJsonParsed = JSON_PARSED + "parsed-pueblos.json";
-	      	parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblos);
+	      	//parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblosUTF8);
 	      	String pueblosCSV = CSV_PATH + "pueblos.csv";
-	      	System.out.println("…");
-	      	System.out.println("\u2026");
 
 	      	parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
+	      	
+	      	parser.insertMunicipiosFromJSON(pathJsonBruto);
 	      	
 	      	
 	      	
