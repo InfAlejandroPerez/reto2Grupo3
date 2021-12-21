@@ -2,9 +2,11 @@ package jsonParse;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
@@ -43,9 +45,9 @@ public class JsonParse {
 	private static String CSV_PATH = FUENTES + "csv/";
 
 	/*
-	 * Para parsear los paises repetidos
+	 * Para parsear las provincias repetidas
 	 * 
-	 * Search: (.*country.*?")(España ?)+
+	 * Search: ((?:territory|territorycode)" : ")(\w+ ?)+
 	 * Replce: $1$2
 	 */
 	
@@ -71,7 +73,7 @@ public class JsonParse {
      * @return      String  Contenido del archivo leido
      */
     public String readFile(String path) {
-		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))) {
 			StringBuilder strBuilder = new StringBuilder();
 			String line = br.readLine();
 

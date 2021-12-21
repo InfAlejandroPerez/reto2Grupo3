@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/main/resources/fuentes/json/espacios-naturales.json=UTF-16
+encoding//src/main/resources/fuentes/json/espacios-naturales.json=UTF-8
+encoding//src/main/resources/fuentes/json/estaciones.json=UTF-8
 encoding//src/main/resources/fuentes/json/pueblos.json=UTF-8

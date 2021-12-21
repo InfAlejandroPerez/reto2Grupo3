@@ -1,4 +1,4 @@
-jsonCallback([ {
+{
   "Name" : "3 DE MARZO",
   "Province" : "Araba/Álava",
   "Town" : "Vitoria-Gasteiz",
@@ -529,4 +529,4 @@ jsonCallback([ {
   "CoordenatesYETRS89" : "4770489,269",
   "Latitude" : "43,08507598449891",
   "Longitude" : "-2,316228856182885"
-} ]);
+} ]
