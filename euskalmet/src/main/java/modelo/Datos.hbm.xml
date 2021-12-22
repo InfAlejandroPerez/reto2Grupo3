@@ -28,5 +28,26 @@
   <property generated="never" lazy="false" name="velocidadViento" type="int">
    <column name="`Velocidad viento`" not-null="true"/>
   </property>
+  <property generated="never" lazy="false" name="cOmgm3" type="double">
+   <column name="`COmgm3`" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="cO8hmgm3" type="double">
+   <column name="CO8hmgm3" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="nOgm3" type="double">
+   <column name="NOgm3" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="nOXgm3" type="double">
+   <column name="NOXgm3" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="pM10gm3" type="double">
+   <column name="PM10gm3" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="pM25gm3" type="double">
+   <column name="PM25gm3" not-null="false"/>
+  </property>
+  <property generated="never" lazy="false" name="sO2gm3" type="double">
+   <column name="SO2gm3" not-null="false"/>
+  </property>
  </class>
 </hibernate-mapping>

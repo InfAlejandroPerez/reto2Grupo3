@@ -12,6 +12,12 @@
         <property generated="never" lazy="false" name="coordenadaX" optimistic-lock="true" type="double" unique="false">
             <column name="CoordenadaX" not-null="true" precision="22" scale="0"/>
         </property>
+        <property generated="never" lazy="false" name="nombre" type="string">
+            <column name="Nombre" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="direccion" type="string">
+            <column name="Direccion" not-null="true"/>
+        </property>
         <property generated="never" lazy="false" name="coordenadaY" optimistic-lock="true" type="double" unique="false">
             <column name="CoordenadaY" not-null="true" precision="22" scale="0"/>
         </property>

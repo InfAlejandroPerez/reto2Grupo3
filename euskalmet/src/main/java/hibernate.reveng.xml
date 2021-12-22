@@ -21,7 +21,15 @@
 		<column name="Hora"></column>
 		<column name="Temperatura"></column>
 		<column name="Precipitaciones"></column>
-		<column name="Velocidad viento"></column>
+		<column name="Velocidad viento"></column>		
+		<column name="COmgm3"></column>
+		<column name="CO8hmgm3"></column>
+		<column name="NOgm3"></column>
+		<column name="NOXgm3"></column>
+		<column name="PM10gm3"></column>
+		<column name="PM25gm3"></column>
+		<column name="SO2gm3"></column>
+		
 	</table>
 	<table catalog="euskalmet" name="espacios_naturales">
 		<column name="CodEspacio"></column>

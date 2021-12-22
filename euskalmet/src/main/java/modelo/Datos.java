@@ -10,8 +10,19 @@ public class Datos implements java.io.Serializable {
 	private Estaciones estaciones;
 	private String precipitaciones;
 	private int temperatura;
-	private int velocidadViento;
+	private int velocidadViento;	
+	private double cOmgm3;
+	
+	
 
+	private double cO8hmgm3;
+	private double nOgm3;
+	private double nOXgm3;
+	private double pM10gm3;
+	private double pM25gm3;
+	private double sO2gm3;
+	
+	
 	public Datos() {
 	}
 
@@ -22,7 +33,53 @@ public class Datos implements java.io.Serializable {
 		this.temperatura = temperatura;
 		this.velocidadViento = velocidadViento;
 	}
+	public double getcO8hmgm3() {
+		return cO8hmgm3;
+	}
 
+	public void setcO8hmgm3(double cO8hmgm3) {
+		this.cO8hmgm3 = cO8hmgm3;
+	}
+
+	public double getnOgm3() {
+		return nOgm3;
+	}
+
+	public void setnOgm3(double nOgm3) {
+		this.nOgm3 = nOgm3;
+	}
+
+	public double getnOXgm3() {
+		return nOXgm3;
+	}
+
+	public void setnOXgm3(double nOXgm3) {
+		this.nOXgm3 = nOXgm3;
+	}
+
+	public double getpM10gm3() {
+		return pM10gm3;
+	}
+
+	public void setpM10gm3(double pM10gm3) {
+		this.pM10gm3 = pM10gm3;
+	}
+
+	public double getpM25gm3() {
+		return pM25gm3;
+	}
+
+	public void setpM25gm3(double pM25gm3) {
+		this.pM25gm3 = pM25gm3;
+	}
+
+	public double getsO2gm3() {
+		return sO2gm3;
+	}
+
+	public void setsO2gm3(double sO2gm3) {
+		this.sO2gm3 = sO2gm3;
+	}
 	public DatosId getId() {
 		return this.id;
 	}
@@ -61,6 +118,14 @@ public class Datos implements java.io.Serializable {
 
 	public void setVelocidadViento(int velocidadViento) {
 		this.velocidadViento = velocidadViento;
+	}
+
+	public double getcOmgm3() {
+		return cOmgm3;
+	}
+
+	public void setcOmgm3(double cOmgm3) {
+		this.cOmgm3 = cOmgm3;
 	}
 
 }

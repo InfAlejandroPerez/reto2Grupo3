@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -29,6 +30,9 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import controlador.hibernateUtilities.HibernateUtil;
+import modelo.Datos;
+import modelo.DatosId;
+import modelo.Estaciones;
 import modelo.Municipios;
 import modelo.Provincia;
 
@@ -197,9 +201,33 @@ public class JsonParse {
              	
              	mun.setProvincia(pro);
              	mun.setDescripcion(this.htmlToPlainText((String) objetoJSON.get("turismDescription")));
-                
+
              	session.save(pro);
                 session.save(mun);
+             	
+             	Estaciones est = new Estaciones();
+             	est.setCodEstacion(8);
+             	est.setMunicipios(mun);
+             	est.setNombre("nombre");
+             	est.setDireccion("fdfdf");
+             	
+             	session.save(est);
+
+             	Datos dat = new Datos();
+             	dat.setId(new DatosId(est.getCodEstacion(), new Date(), new Date()));
+             	dat.setPrecipitaciones("dfdf");
+             	dat.setEstaciones(est);
+             	dat.setcOmgm3(6.66);
+             	dat.setcO8hmgm3(4.4);
+             	dat.setnOgm3(5.5);
+             	dat.setpM25gm3(1.1);
+             	dat.setpM10gm3(7.7);
+             	dat.setsO2gm3(8.8);
+             	dat.setnOXgm3(54);
+
+             	session.save(dat);
+             	
+             	
 
                 break;
              	

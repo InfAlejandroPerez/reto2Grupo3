@@ -13,6 +13,8 @@ public class Estaciones implements java.io.Serializable {
 	private Municipios municipios;
 	private double coordenadaX;
 	private double coordenadaY;
+	private String direccion;
+	private String nombre;
 	private Set datoses = new HashSet(0);
 
 	public Estaciones() {
@@ -71,6 +73,22 @@ public class Estaciones implements java.io.Serializable {
 
 	public void setDatoses(Set datoses) {
 		this.datoses = datoses;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 }
