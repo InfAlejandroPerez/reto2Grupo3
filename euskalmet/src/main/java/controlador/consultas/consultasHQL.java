@@ -29,7 +29,8 @@ public class consultasHQL {
 		System.out.printf("%d, %s, %s%n", municipio.getCodMunicipio(), municipio.getNombre(),
 				municipio.getDescripcion());
 		
-		
+		session.close();
+		sesion.close();
 		/*
 		Departamentos dep = (Departamentos) q.uniqueResult();
 		System.out.printf("%d, %s, %s%n", dep.getDeptNo(), dep.getLoc(),
