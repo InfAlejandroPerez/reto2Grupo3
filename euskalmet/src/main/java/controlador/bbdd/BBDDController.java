@@ -1,7 +1,12 @@
 package controlador.bbdd;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -10,6 +15,8 @@ import org.hibernate.SessionFactory;
 
 import controlador.hibernateUtilities.HibernateUtil;
 import modelo.Datos;
+import modelo.Municipios;
+import modelo.Provincia;
 
 public class BBDDController {
 	private SessionFactory sessionFactory;
@@ -26,9 +33,6 @@ public class BBDDController {
 			this.sessionFactory.close();
 	}
 	
-	public List<Object> query(String hql) {
-		return null;
-	}
 	
 	public List<Datos> getDatos() {
 		String hql = "FROM modelo.Datos";
@@ -42,20 +46,53 @@ public class BBDDController {
 		return lista;
 	}
 	
-	public List<Datos> getDatos(int codEstacion, Date fecha, Time hora) {
-		String hql = "FROM modelo.Datos";
+	public List<Datos> getDatos(int codEstacion, LocalDate fecha, LocalTime hora) {
+		List<Datos> ret = null;
+		String hql = "FROM modelo.Datos as dat WHERE Fecha = :fecha AND Hora = :hora";
+					
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String dateStr = dateFormatter.format(fecha);
+		
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+		String timeStr = timeFormatter.format(hora);
+				
 		Session sesion = this.sessionFactory.getCurrentSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
-		List<Datos> lista = query.list();
+		query.setParameter("fecha", dateStr);
+		query.setParameter("hora", timeStr);
+		
+		ret = query.list();
+		
+		sesion.close();
+		return ret;
+	}
+	
+	
+	public List<Provincia> getProvincias() {
+		String hql = "FROM modelo.Provincia";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		List<Provincia> lista = query.list();
 		
 		sesion.close();
 		return lista;
 	}
 	
-	
-	
+	public List<Municipios> getMunicipios() {
+		String hql = "FROM modelo.Municipios";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		List<Municipios> lista = query.list();
+		
+		sesion.close();
+		return lista;
+	}
 	
 	
 
