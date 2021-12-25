@@ -19,9 +19,7 @@ import modelo.Municipios;
 import modelo.Provincia;
 
 public class BBDDController {
-	private SessionFactory sessionFactory;
-	private Session session;
-	
+	private SessionFactory sessionFactory;	
 	
 	public BBDDController() {
 		this.sessionFactory = HibernateUtil.getSessionFactory();
@@ -70,6 +68,36 @@ public class BBDDController {
 	}
 	
 	
+	public Provincia getProvincia(int codProvincia) {
+		Provincia ret;
+		String hql = "FROM modelo.Provincia WHERE CodProvincia = :codProvincia";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("codProvincia", codProvincia);
+		
+		ret = (Provincia) query.uniqueResult();
+		
+		sesion.close();
+		return ret;
+	}
+	
+	public Municipios getMunicipio(int codMunicipio) {
+		Municipios ret;
+		String hql = "FROM modelo.Municipios WHERE CodMunicipio = :codMunicipio";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("codMunicipio", codMunicipio);
+		
+		ret = (Municipios) query.uniqueResult();
+		
+		sesion.close();
+		return ret;
+	}
+	
 	public List<Provincia> getProvincias() {
 		String hql = "FROM modelo.Provincia";
 		Session sesion = this.sessionFactory.getCurrentSession();
@@ -94,6 +122,30 @@ public class BBDDController {
 		return lista;
 	}
 	
+	public int getLastEstacionId() {
+		int ret = 0;
+		String hql = "SELECT max(codEstacion) FROM modelo.Estaciones";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		ret = (int) query.uniqueResult();
+		
+		sesion.close();
+		return ret;	 	
+	}
+
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
+	// Geters and Setters
 	
 
 }

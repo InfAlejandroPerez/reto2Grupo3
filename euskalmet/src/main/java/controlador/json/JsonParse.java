@@ -1,4 +1,4 @@
-package controlador;
+package controlador.json;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,10 +29,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
+import controlador.bbdd.BBDDController;
 import controlador.hibernateUtilities.HibernateUtil;
 import modelo.Datos;
 import modelo.DatosId;
 import modelo.Estaciones;
+import modelo.Modelo;
 import modelo.Municipios;
 import modelo.Provincia;
 
@@ -42,11 +44,7 @@ import org.hibernate.SessionFactory;
 
 public class JsonParse {
 	
-	private static String RESOURCES = "./src/main/resources/";
-	private static String FUENTES = RESOURCES + "fuentes/";
-	private static String JSON_PATH = FUENTES + "json/";
-	private static String JSON_PARSED = JSON_PATH + "parsed/";
-	private static String CSV_PATH = FUENTES + "csv/";
+	
 
 	/*
 	 * Para parsear las provincias repetidas
@@ -54,7 +52,6 @@ public class JsonParse {
 	 * Search: ((?:territory|territorycode)" : ")(\w+ ?)+
 	 * Replce: $1$2
 	 */
-	
 	
 	/**
 	 * Recibe una cadena de texto y la escribe sobre un archivo con la ruta y extensión especificada
@@ -71,7 +68,9 @@ public class JsonParse {
         }
     }
     
-    /**
+   
+
+	/**
      * Lee un fichero y devuelve su contenido como String
      * @param path  String  Ruta del archivo a leer
      * @return      String  Contenido del archivo leido
@@ -172,75 +171,9 @@ public class JsonParse {
 		return jsonPath;
     }
     
-    private void insertMunicipiosFromJSON(String path) {
-    	String s = readFile(path);
-      	JSONParser parser = new JSONParser();
-        try{
-            Object obj = parser.parse(s);
-            JSONArray arrayObjetosJSON = (JSONArray)obj;
-            
-            SessionFactory sesion = HibernateUtil.getSessionFactory();
-
-    		Session session = sesion.openSession();
-            session.beginTransaction();
-
-           
-            
-            for(int i = 0 ; i < arrayObjetosJSON.size() ; i++) {
-              	boolean fixDescription = false;
-
-            	JSONObject objetoJSON = (JSONObject) arrayObjetosJSON.get(i);
-            	
-            	Municipios mun = new Municipios();
-             	mun.setNombre((String) objetoJSON.get("documentName"));
-             	mun.setCodMunicipio(Integer.parseInt((String) objetoJSON.get("municipalitycode")) );
-             	
-             	Provincia pro = new Provincia();
-             	pro.setCodProvincia(Integer.parseInt((String) objetoJSON.get("territorycode")));
-             	pro.setNombre((String) objetoJSON.get("territory"));
-             	
-             	mun.setProvincia(pro);
-             	mun.setDescripcion(this.htmlToPlainText((String) objetoJSON.get("turismDescription")));
-
-             	session.save(pro);
-                session.save(mun);
-             	
-             	Estaciones est = new Estaciones();
-             	est.setCodEstacion(8);
-             	est.setMunicipios(mun);
-             	est.setNombre("nombre");
-             	est.setDireccion("fdfdf");
-             	
-             	session.save(est);
-
-             	Datos dat = new Datos();
-             	dat.setId(new DatosId(est.getCodEstacion(), new Date(), new Date()));
-             	dat.setPrecipitaciones("dfdf");
-             	dat.setEstaciones(est);
-             	dat.setcOmgm3(6.66);
-             	dat.setcO8hmgm3(4.4);
-             	dat.setnOgm3(5.5);
-             	dat.setpM25gm3(1.1);
-             	dat.setpM10gm3(7.7);
-             	dat.setsO2gm3(8.8);
-             	dat.setnOXgm3(54);
-
-             	session.save(dat);
-             	
-             	
-
-                break;
-             	
-            }
-            
-            session.getTransaction().commit();
-        	
-        } catch (Exception e) {
-        	e.printStackTrace();
-        }
-    }
     
-    private String htmlToPlainText(String html) {
+    
+    public String htmlToPlainText(String html) {
     	final StringBuilder sb = new StringBuilder();
       	HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
       	    public boolean readyForNewline;
@@ -278,23 +211,25 @@ public class JsonParse {
     }
     
 	public static void main(String[] args) {
+			BBDDController bbddController = new BBDDController();	
+			Modelo modelo = new Modelo(bbddController);
 	      	JsonParse parser = new JsonParse();
+	      	
 	      	String[] atts = {"municipalitycode", "municipality", "territorycode", "turismDescription"};
 	      	String[] atts2 = {"municipality"};
 	      	
 	      	
-	      	String pathJsonBruto = JSON_PATH + "pueblos.json";
+	      	String pathJsonBruto = JsonController.getJSON_PATH() + "pueblos.json";
 	      	String bruto = parser.removeAtts(pathJsonBruto, atts, false);;
 	      	byte[] parsedJsonPueblos = StringUtils.getBytesUtf8(bruto);
 	      	String parsedJsonPueblosUTF8 = StringUtils.newStringUtf8(parsedJsonPueblos);
 	      	
-	      	String  pueblosJsonParsed = JSON_PARSED + "parsed-pueblos.json";
+	      	String  pueblosJsonParsed = JsonController.getJSON_PARSED_PATH() + "parsed-pueblos.json";
 	      	//parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblosUTF8);
-	      	String pueblosCSV = CSV_PATH + "pueblos.csv";
+	      	String pueblosCSV = JsonController.getCSV_PATH() + "pueblos.csv";
 
 	      	parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
 	      	
-	      	parser.insertMunicipiosFromJSON(pathJsonBruto);
 	      	
 	      	
 	      	

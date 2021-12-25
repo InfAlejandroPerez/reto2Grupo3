@@ -7,12 +7,17 @@ import java.util.Date;
 
 import controlador.bbdd.BBDDController;
 import modelo.Modelo;
+import modelo.Municipios;
+import modelo.Provincia;
 
 public class Main {
 	public static void main(String[] args) {
 		BBDDController bbddController = new BBDDController();
 		
 		Modelo modelo = new Modelo(bbddController);
+		
+		int a = modelo.getBbddController().getLastEstacionId();
+		System.out.println("n = " + a);
 		
 		LocalDate dia = LocalDate.of(2021, 12, 22);
 		LocalTime hora = LocalTime.of(17, 45, 19);
