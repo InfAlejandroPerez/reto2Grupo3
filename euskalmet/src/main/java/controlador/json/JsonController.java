@@ -118,15 +118,15 @@ public class JsonController {
             	Municipios mun = getMunicipio(objetoJSON, pro, session);
 
             	// Estaciones
-             	Estaciones est = getEstacion(objetoJSON, mun, session);
+             	//Estaciones est = getEstacion(objetoJSON, mun, session);
 
              	// Datos
-            	Datos dat = getDAtos(objetoJSON, est, session);
-                break;
-             	
+            	//Datos dat = getDAtos(objetoJSON, est, session);
+                session.getTransaction().commit();
+                session.beginTransaction();
+
             }
             
-            session.getTransaction().commit();
         	
         } catch (Exception e) {
         	e.printStackTrace();
@@ -141,6 +141,7 @@ public class JsonController {
 		
       	String pathJsonBruto = JSON_PATH + "pueblos.json";
 		controller.insertFromJSON(pathJsonBruto);
+		System.out.println("finished");
 	}
 	
 	// Getters and Setters

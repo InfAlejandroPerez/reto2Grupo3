@@ -45,11 +45,10 @@ import org.hibernate.SessionFactory;
 public class JsonParse {
 	
 	
-
 	/*
 	 * Para parsear las provincias repetidas
 	 * 
-	 * Search: ((?:territory|territorycode)" : ")(\w+ ?)+
+	 * Search: ((?:territory|territorycode|municipality|municipalitycode)" : ")(\w+ ?)+
 	 * Replce: $1$2
 	 */
 	
