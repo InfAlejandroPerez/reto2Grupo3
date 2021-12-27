@@ -15,6 +15,7 @@ import org.hibernate.SessionFactory;
 
 import controlador.hibernateUtilities.HibernateUtil;
 import modelo.Datos;
+import modelo.Estaciones;
 import modelo.Municipios;
 import modelo.Provincia;
 
@@ -98,6 +99,21 @@ public class BBDDController {
 		return ret;
 	}
 	
+	public Municipios getMunicipio(String nameMunicipio) {
+		Municipios ret;
+		String hql = "FROM modelo.Municipios WHERE Nombre = :nameMunicipio";
+		Session sesion = this.sessionFactory.getCurrentSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("nameMunicipio", nameMunicipio);
+		
+		ret = (Municipios) query.uniqueResult();
+		
+		sesion.close();
+		return ret;		
+	}
+	
 	public List<Provincia> getProvincias() {
 		String hql = "FROM modelo.Provincia";
 		Session sesion = this.sessionFactory.getCurrentSession();
@@ -129,13 +145,17 @@ public class BBDDController {
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
-		ret = (int) query.uniqueResult();
+		try {
+			ret = (int) query.uniqueResult();
+		} catch (Exception e) {
+			ret = 0;
+		}
 		
 		sesion.close();
 		return ret;	 	
 	}
-
-
+	
+	// Geters and Setters
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -145,7 +165,6 @@ public class BBDDController {
 		this.sessionFactory = sessionFactory;
 	}
 	
-	// Geters and Setters
 	
 
 }

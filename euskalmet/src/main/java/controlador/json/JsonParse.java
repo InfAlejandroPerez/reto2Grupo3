@@ -49,7 +49,13 @@ public class JsonParse {
 	 * Para parsear las provincias repetidas
 	 * 
 	 * Search: ((?:territory|territorycode|municipality|municipalitycode)" : ")(\w+ ?)+
-	 * Replce: $1$2
+	 * Replace: $1$2
+	 * 
+	 * 
+	 * Para eliminar los espacios después de las entidades de tilde y ñ
+	 * 
+	 * Search: (&.acute|&ntilde) ?
+	 * Replace: $1;
 	 */
 	
 	/**
