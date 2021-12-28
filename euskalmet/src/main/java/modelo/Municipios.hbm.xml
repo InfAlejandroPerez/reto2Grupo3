@@ -13,7 +13,7 @@
             <column length="50" name="Nombre" not-null="true"/>
         </property>
         <property generated="never" lazy="false" name="descripcion" optimistic-lock="true" type="string" unique="false">
-            <column length="500" name="Descripcion" not-null="true"/>
+            <column length="500" name="Descripcion" not-null="false"/>
         </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="estacioneses" optimistic-lock="true" sort="unsorted" table="estaciones">
             <key on-delete="noaction">

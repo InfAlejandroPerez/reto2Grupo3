@@ -80,7 +80,7 @@ public class BBDDController {
 		
 		ret = (Provincia) query.uniqueResult();
 		
-		sesion.close();
+		//sesion.close();
 		return ret;
 	}
 	
@@ -95,23 +95,38 @@ public class BBDDController {
 		
 		ret = (Municipios) query.uniqueResult();
 		
-		sesion.close();
 		return ret;
 	}
 	
-	public Municipios getMunicipio(String nameMunicipio) {
+	public Municipios getMunicipio(String nameMunicipio, Session sesion) {
 		Municipios ret;
 		String hql = "FROM modelo.Municipios WHERE Nombre = :nameMunicipio";
-		Session sesion = this.sessionFactory.getCurrentSession();
-		sesion.beginTransaction();
+		//Session sesion = this.sessionFactory.getCurrentSession();
+		//sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
 		query.setParameter("nameMunicipio", nameMunicipio);
 		
 		ret = (Municipios) query.uniqueResult();
 		
-		sesion.close();
+		//sesion.close();
 		return ret;		
+	}
+	
+	public Municipios insertMunicipio(int codMunicipio, String nombre, int codProvincia) {
+		Session session = this.sessionFactory.getCurrentSession();
+		boolean isOpen = session.isOpen();
+
+		session.beginTransaction();
+		
+		Provincia provincia = getProvincia(codProvincia);
+		Municipios newMunicipio = new Municipios(codMunicipio, provincia, nombre);
+		
+		session.save(newMunicipio);
+		//sesion.getTransaction().commit();
+		//session.close();
+		return newMunicipio;
+
 	}
 	
 	public List<Provincia> getProvincias() {
@@ -151,7 +166,6 @@ public class BBDDController {
 			ret = 0;
 		}
 		
-		sesion.close();
 		return ret;	 	
 	}
 	

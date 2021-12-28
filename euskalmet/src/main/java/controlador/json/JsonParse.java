@@ -80,7 +80,7 @@ public class JsonParse {
      * @param path  String  Ruta del archivo a leer
      * @return      String  Contenido del archivo leido
      */
-    public String readFile(String path) {
+	public static String readFile(String path) {
 		try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"))) {
 			StringBuilder strBuilder = new StringBuilder();
 			String line = br.readLine();
@@ -229,11 +229,11 @@ public class JsonParse {
 	      	byte[] parsedJsonPueblos = StringUtils.getBytesUtf8(bruto);
 	      	String parsedJsonPueblosUTF8 = StringUtils.newStringUtf8(parsedJsonPueblos);
 	      	
-	      	String  pueblosJsonParsed = JsonController.getJSON_PARSED_PATH() + "parsed-pueblos.json";
+	      	//String  pueblosJsonParsed = JsonController.getJSON_PARSED_PATH() + "parsed-pueblos.json";
 	      	//parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblosUTF8);
 	      	String pueblosCSV = JsonController.getCSV_PATH() + "pueblos.csv";
 
-	      	parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
+	      	//parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
 	      	
 	      	
 	      	

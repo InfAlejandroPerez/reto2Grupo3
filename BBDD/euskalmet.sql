@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-12-2021 a las 16:50:51
+-- Tiempo de generación: 28-12-2021 a las 17:05:21
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -43,13 +43,6 @@ CREATE TABLE `datos` (
   `SO2gm3` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `datos`
---
-
-INSERT INTO `datos` (`CodEstacion`, `Fecha`, `Hora`, `Precipitaciones`, `Temperatura`, `Velocidad viento`, `COmgm3`, `CO8hmgm3`, `NOgm3`, `NOXgm3`, `PM10gm3`, `PM25gm3`, `SO2gm3`) VALUES
-(8, '2021-12-22', '17:45:19', 'dfdf', 0, 0, 6.66, 4.4, 5.5, 54, 7.7, 1.1, 8.8);
-
 -- --------------------------------------------------------
 
 --
@@ -82,7 +75,65 @@ CREATE TABLE `estaciones` (
 --
 
 INSERT INTO `estaciones` (`CodEstacion`, `Nombre`, `Direccion`, `CodMunicipio`, `CoordenadaX`, `CoordenadaY`) VALUES
-(8, 'nombre', 'fdfdf', 1, 0, 0);
+(1, '3 DE MARZO', 'Plaza Tres de Marzo, s/n', 59, 42.85604797053618, -2.667784994714487),
+(2, 'ABANTO', 'Avda. del Minero, 2. Ayuntamiento', 2, 43.32047399433485, -3.0741559961978044),
+(3, 'AGURAIN', 'C/ Fueros, 11. Subcomisaría de la Ertzaintza.', 51, 42.84901250588428, -2.3937033896081683),
+(4, 'ALGORTA (BBIZI2)', 'Carretera de Galea, s/n ', 44, 43.362055748944286, -3.0227822073211765),
+(5, 'ALONSOTEGI', 'C/ Baztieta, s/n. Bº Irauregi', 912, 43.247567997964374, -2.988024000380936),
+(6, 'ANDOAIN', 'Ikastola Aita larramendi', 9, 43.22137866586519, -2.02332524753123),
+(7, 'ARRAIZ (Monte)', 'Camino de Arraiz, s/n', 20, 43.245553729819484, -2.960475856567045),
+(8, 'ATEGORRIETA', 'Avda. Ategorrieta, 71', 69, 43.32199194732484, -1.960650618338729),
+(9, 'AV. GASTEIZ', 'Avda. Gasteiz, 97', 59, 42.85478118366939, -2.6807098224581067),
+(10, 'AVDA. TOLOSA', 'C/ Andrestegi, 2 ', 69, 43.30941344063433, -2.010938423674493),
+(11, 'AZPEITIA', 'C/ Perdillegi, s/n', 18, 43.180370053194196, -2.2682104189344456),
+(12, 'AÑORGA', 'Avda. de Añorga, 12 (Añorga Txiki)', 69, 43.29053138556358, -1.9957411467011474),
+(13, 'BANDERAS (meteo)', 'Monte Banderas, s/n', 20, 43.28099012364825, -2.953278416670214),
+(14, 'BARAKALDO', 'C/ Hogar propio, 7. CIFP Nicolás Larburu', 13, 43.298378997955, -2.987132999827669),
+(15, 'BASAURI', 'C/ Uribarri, 5. CEIP Bizkotxalde.', 15, 43.24113129588412, -2.8837610228035238),
+(16, 'BEASAIN', 'Plaza Gipuzkoa, 1', 19, 43.04809432240711, -2.191380269702985),
+(17, 'BOROA METEO', 'Parque Empresarial Boroa, s/n', 3, 43.23590459584916, -2.7506874305174405),
+(18, 'CASTREJANA', 'C/ Larrazabal, 1. Bº Castrejana', 13, 43.25807942736176, -2.973456590856772),
+(19, 'DURANGO', 'C/ San Roque, 20 bajo. E.S. Roque', 27, 43.168285997690994, -2.6379580009450136),
+(20, 'EASO', 'Plaza del Centenario, s/n', 69, 43.31215280742268, -1.9809008637096939),
+(21, 'ELCIEGO', 'C/ Gabriel Celaya, 8', 22, 42.51824807424149, -2.61947521199466),
+(22, 'ERANDIO', 'Avda. José Luis Goyoaga, s/n (Pasaje de Altzaga)', 902, 43.3026526345891, -2.9772399863752486),
+(23, 'EUROPA', 'Parque Europa. Bº Txurdinaga', 20, 43.25491056506432, -2.902376115931137),
+(24, 'FARMACIA', 'Paseo Universidad, 7. Fac. Farmacia UPV', 59, 42.840099615592926, -2.672563184280286),
+(25, 'FERIA (meteo)', 'C/ Rafael Moreno Pitxitxi, s/n', 20, 43.26522199716327, -2.9475439999557134),
+(26, 'HERNANI', 'C/ Aristizabal, s/n. Centro de salud Hernani.', 40, 43.26743142273141, -1.977715640356133),
+(27, 'JAIZKIBEL', 'Monte Jaizkibel, s/n', 36, 43.342775184321106, -1.8594129027945114),
+(28, 'LARRABETZU', 'Barrio Berrezoaga, 3', 52, 43.261226121618066, -2.799399084312731),
+(29, 'LAS CARRERAS', 'Plaza Trinidad, s/n. Bº Las Carreras', 2, 43.31960312849335, -3.0973975060209376),
+(30, 'LASARTE-ORIA', 'Parque Tximistarreta', 902, 43.26870022418793, -2.0191293415933154),
+(31, 'LEZO', 'Plaza Polantzarene, s/n', 53, 43.32152243586307, -1.900131049811533),
+(32, 'LLODIO', 'C/ Lamuza, s/n', 36, 43.1440289422417, -2.9633852821260223),
+(33, 'LOS HERRAN', 'Parque Judizmendi. Bº Judizmendi', 59, 42.84370295644861, -2.661230556636825),
+(34, 'MAZARREDO', 'C/ Alameda Mazarredo, s/n (Guggenheim)', 20, 43.26750551179745, -2.935188110338201),
+(35, 'MONDRAGON', 'Plaza Jose María Arizmendiarrieta, s/n', 55, 43.06412079434686, -2.4903966831445423),
+(36, 'MONTORRA', 'Barrio Montorra fte. nº5', 3, 43.209014222504145, -2.7165885073623226),
+(37, 'MUNDAKA', 'Camino Goitiz, s/n. Depósito de Agua', 68, 43.40588884294258, -2.7031593675211343),
+(38, 'MUNOA', 'C/ Llano, 55. CEP Munoa. Bº Lutxana', 13, 43.28558799716144, -2.978696000976749),
+(39, 'MUSKIZ', 'C/ Giba Fregenal, s/n. Estación de Renfe', 71, 43.32071311956527, -3.1127162723783197),
+(40, 'Mª DIAZ HARO', 'C/ Mª Díaz de Haro, 60', 20, 43.25880286639215, -2.945656664175787),
+(41, 'NAUTICA', 'C/ Mª Díaz de Haro, 68 (Esc. Náutica)', 78, 43.32694444265417, -3.023333333735672),
+(42, 'PAGOETA', 'Jardín Botánico de Iturraran. Parque Natural de Pagoeta. ', 16, 43.25060521979407, -2.1548873966664503),
+(43, 'PUYO', 'Camino de Puyo, 14', 69, 43.302777170621106, -1.9840112864449164),
+(44, 'SAN JULIAN', 'Camino a Valles, s/n. Bº San Julian', 71, 43.33265015831669, -3.112994770178107),
+(45, 'SAN MIGUEL', 'Parque pinceles. Bº San Miguel', 15, 43.2212234317361, -2.886508983250916),
+(46, 'SANGRONIZ', 'C/ Iturrikosolo, s/n', 904, 43.29842135635236, -2.93038581833024),
+(47, 'SANTURCE', 'C/ Vista Alegre, 29 ', 82, 43.33301199742545, -3.042560000349237),
+(48, 'SERANTES', 'Camino Serantes igoera, s/n', 82, 43.3344367083824, -3.0629905698856272),
+(49, 'SESTAO', 'Parque Portopin', 84, 43.307726099387494, -2.9959496198447484),
+(50, 'TOLOSA', 'Avda. Martin Jose Iraola, 23', 71, 43.13078067861342, -2.078002156707588),
+(51, 'URKIOLA', 'Urkiola auzoa, 8', 1, 43.100442429429606, -2.6508700717196243),
+(52, 'USURBIL', 'San Inazio', 73, 43.27378032307657, -2.0505110667115676),
+(53, 'VALDEREJO', 'Ctro. de Interpretación. Parque Natural de Valderejo', 55, 42.87516709375477, -3.231732505322038),
+(54, 'ZALLA', 'Avda. Kosme Bibanko Etxebarria, 2', 96, 43.2128572411877, -3.134461258966499),
+(55, 'ZELAIETA PARQUE', 'Parque Zelaieta ', 3, 43.21890568490462, -2.7344969803118295),
+(56, 'ZIERBENA (Puerto)', 'Puerto de Zierbena, s/n. Bº El Puerto', 913, 43.35305543364201, -3.080988277376953),
+(57, 'ZUBIETA', 'URIBITARTE IBILBIDEA', 69, 43.272061873363164, -2.0313507420960284),
+(58, 'ZUBIETA METEO', 'ZUBIETA', 69, 43.25597376352475, -2.0317166856330036),
+(59, 'ZUMARRAGA', 'Grupo Izazpi 3, 6 ', 80, 43.08507598449891, -2.316228856182885);
 
 -- --------------------------------------------------------
 
@@ -137,7 +188,7 @@ CREATE TABLE `hashes` (
 CREATE TABLE `municipios` (
   `CodMunicipio` int(11) NOT NULL,
   `Nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `Descripcion` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `Descripcion` longtext COLLATE utf8_spanish_ci DEFAULT NULL,
   `CodProvincia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -148,6 +199,7 @@ CREATE TABLE `municipios` (
 INSERT INTO `municipios` (`CodMunicipio`, `Nombre`, `Descripcion`, `CodProvincia`) VALUES
 (1, 'Abadiño', 'Montes y árboles tiñen de verde los parajes de esta localidad perteneciente a la comarca del Duranguesado y por los que circulan los ríos Ibaizabal y Urkiola. Una buena opción para admirar estos parajes es a través de diversas rutas que ofrece Abadiño y que se pueden realizar a pie, en bicicleta incluso a caballo. Al llegar a esta bella localidad, quedaremos impresionados por sus edificios, con una larga historia en sus cimientos. La Torre de Muntsaratz, por ejemplo, data del siglo IX y se trata de una de las edificaciones renacentistas más importantes de su género. Otro de los monumentos más destacables es la Casa de Astola, que fue centro de actividades políticas y administrativas. Hoy en día, funciona como sede de varias asociaciones de la comarca. Asimismo, fuera del núcleo urbano, llama la atención el Santuario de San Antonio, situado en el corazón del Parque Natural de Urkiola, rodeado de impresionantes montes y de robledales, hayedos y fresnos.Ferias de gran tradición: San Blas y San AntonioLas fiestas patronales comienzan el 12 de mayo (Santo Domingo), por lo que todo el que quiera podrádisfrutar del inmejorable ambiente que se respira estos días. La música y el baile se apoderan de las calles de este pueblo vizcaíno. En el calendario festivo destacan otras dos ferias: la de San Blas (3 de febrero), con su feria de ganado, y la de San Antonio (13 de junio), que se celebra en las inmediaciones del Santuario de Urkiola. En esta última romería, según manda la tradición, las casaderas que buscan encontrar pronto un marido dan vueltas a la piedra que se encuentra enfrente del Santuario.', 48),
 (2, 'Abanto y Ciérvana-Abanto Zierbena', 'Esta pequeña localidad de Bizkaia disfruta de un enclave natural único, a tan solo 20 minutos de Bilbao. Sin necesidad de elegir mar o montaña, Abanto y Zierbena lo tiene todo, siendo un lugar idóneo para disfrutar y descansar.Pasado mineroLos viajeros que elijan Abanto y Ciérvana como destino se darán cuenta del especial paisaje que rodea el municipio. El visitante podrácontemplar los restos de infraestructuras mineras entre los que destacan los hornos de calcinación de la mina Joséy mina Lorenza, cerca del barrio de Las Carreras, o el lago Gerente, antiguo pozo minero. También llama la atención el paisaje singular de La Barga, con sus agujas calizas emergiendo de la tierra en la mina Cristina, o el castillete del pozo Ezequiela, creado para la ventilación de la mina de Agruminsa, el único castillete minero que se conserva en Bizkaia. Todo aquel que quiera conocer de primera mano los entresijos de esta actividad, sólo tiene que visitar el Museo de la Minería del País Vasco, situado en Gallarta, en la cabecera del municipio. La protección del patrimonio industrial de la minería es uno de los objetivos de este museo. Allí, encontraremos todas las curiosidades y características sobre los restos industriales que se distribuyen por toda la zona minera. Asimismo, podremos observar muchos de los tesoros que se conservan únicamente en este lugar.', 48),
+(3, 'Amorebieta-Etxano', NULL, 48),
 (9, 'Andoain', 'Rodeado de bellos y verdes montes nos sumergimos en el municipio de Andoain, localidad perteneciente al territorio histórico de Gipuzkoa y por la que circulan las aguas del rio Oria. Andoain destaca tanto por su extenso entorno natural como por la oferta cultural que ofrece. Los montes Belkoain, Buruntza y Adarra rodean el pueblo, dotándolo de un paraje realmente admirable. Además, se emplaza en el valle de Leizaran, donde antiguamente pasaba el tren de Plazaola que cubría el recorrido entre Navarra y Gipuzkoa. Este excepcional valle dispone, a su vez, de numerosos parques, entre los que se encuentran Etxarri y Otita. Todos ellos son lugares apropiados para descansar y tomar un refrescante baño.Descubriendo el casco urbanoTras esta ruta por los alrededores, nos adentramos en el casco urbano para conocer los rincones más interesantes. En la plaza del pueblo, por ejemplo, podemos contemplar el edificio del ayuntamiento y la iglesia San Martín de Tours, dos bonitas construcciones que han sido testigo del paso de los años en Andoain. Asimismo, en el centro de la plaza, nos toparemos con la estatua de Aita Manuel Larramendi, ilustre personaje de la localidad. Como colofón final a nuestra visita, es importante ir al centro cultural Bastero, situado en el casco urbano. Estamos ante el edificio cultural por excelencia del municipio, ya que allíse concentran las mayores actividades de esta índole, como conciertos y obras de teatro. Cuenta además, con salas de cine en las que se proyectan las últimas películas de la cartelera. Gracias a todas estas características, Andoain dispone de una oferta turística muy variada.', 20),
 (13, 'Barakaldo', 'Barakaldo se encuentra dentro de la comarca del Gran Bilbao, en la margen izquierda de la ría del Ibaizabal. Cuenta con montañas de pequeña altura, como Argalario y Arroletza, y limita al norte con los municipios de Sestao y Trapagaran al sur con Gü eñes y Alonsotegi al este con Bilbao y Erandio, y al oeste con Galdames y Gü eñes. Es el segundo municipio más poblado de Bizkaia, por detrás de su capital, Bilbao. Además, al estar ubicado en un enclave privilegiado, con una excelente comunicación vial, es un punto de referencia importante dentro del Gran Bilbao. Por ejemplo, el Bilbao Exhibition Centre (BEC), la feria de muestras de Bilbao que acoge importantes ferias, congresos, conciertos y acontecimientos deportivos, se sitúa en las campas de Ansio, y desde su inauguración en 2004 ha dado a la ciudad una imagen nueva y moderna.Variedad de paisajesBarakaldo une diferentes paisajes dentro del municipio desde la ría hasta la montaña, el visitante encontraráplazas, avenidas, zonas ajardinadas y un parque Botánico, espacios apropiados para realizar rutas y paseos. Merece la pena visitar el barrio del Regato, algo alejado del centro urbano, con su pantano rodeado de un bidegorri con bancos y fuentes. Por otro lado, el municipio es todo un referente cultural, gracias en gran medida al Teatro Barakaldo, que acoge numerosos eventos y actividades durante todo el año. Barakaldo celebra sus fiestas patronales del Carmen a mediados del mes de julio, donde predomina el ambiente festivo lleno de espectáculos y actuaciones de todo tipo.', 48),
 (15, 'Basauri', 'Basauri se halla en el territorio histórico de Bizkaia, más concretamente, en la comarca de Uribe Nervión. El municipio se alza a ambos lados del río Nervión, en el punto donde éste se une con el Ibaizabal. Pueblo eminentemente industrial, Basauri se desanexionóde Arrigorriaga en 1510 como Anteiglesia de San Miguel de Basauri. En este barrio estuvo el Ayuntamiento de la localidad, hasta inicios del siglo XX, cuando se decidiótrasladar al barrio de Dos Caminos. El nombre de Dos Caminos (Bidebieta) fue tomado por la confluencia del camino que une Bilbao con Castilla y el segundo camino que partiendo de Bilbao se dirige a Gipuzkoa y Francia. Esta situación de privilegio contribuyóa la mejora de la economía del municipio, reflejada en el auge de sus tabernas, situadas todas ellas al borde del camino. Para recordar esa confluencia de caminos, la emblemática figura de un carro tirado por dos burros todavía hoy adorna el cruce.Bizkotxalde, el parque más grande de BizkaiaEn lo referente al conjunto de patrimonio artístico que alberga el municipio, la Torre de Ariz y la ermita de San Fausto de Ariz, ligada a la torre históricamente, son los principales símbolos de Basauri. La hermosa parroquia de San Miguel, del siglo XVI, y la ermita de San Martín de Fínaga son otros edificios característicos. Otro de los enclaves destacables de Basauri es el parque de Soloarte, que alberga obras al aire libre de uno de los hijos ilustres del pueblo: el escultor Agustín Ibarrola. Otro parque, Bizkotxalde, es el parque urbano más grande de Bizkaia. Basauri celebra sus fiestas patronales en San Fausto, a mediados del mes de octubre, fecha en la que más de 10.000 personas toman las calles ataviadas con trajes tradicionales.', 48),

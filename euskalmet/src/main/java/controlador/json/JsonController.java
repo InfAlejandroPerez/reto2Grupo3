@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -68,8 +70,15 @@ public class JsonController {
      	int lastEstacionId = modelo.getBbddController().getLastEstacionId();
      	est.setCodEstacion(lastEstacionId + 1);
      	est.setMunicipios(mun);
-     	est.setNombre("nombre");
-     	est.setDireccion("fdfdf");
+     	est.setNombre((String) objetoJSON.get("Name"));
+     	est.setDireccion((String) objetoJSON.get("Address"));
+     	String latitude = (String) objetoJSON.get("Latitude");
+     	latitude = latitude.replace(',', '.');
+     	String longitude = (String) objetoJSON.get("Longitude");
+     	longitude = longitude.replace(',', '.');
+     	est.setCoordenadaX(Double.parseDouble(latitude));
+     	est.setCoordenadaY(Double.parseDouble(longitude));
+     	
     	session.save(est);
 
      	return est;
@@ -110,6 +119,35 @@ public class JsonController {
 		return ret;
 	}
 	
+	public int getMunicipioId(String nombreMunicipio) {
+		Pattern pat = Pattern.compile("\"(.*)\",\"(.*)\",\"(" + nombreMunicipio + ")\"");
+		Matcher mat = pat.matcher(JsonParse.readFile(FUENTES_PATH + "municipios/full.csv"));
+		int ret = 0;
+		if(mat.find()) {
+			ret = Integer.parseInt(mat.group(2));
+		}
+		
+		return ret;
+	}
+	
+	public int getProvinciaId(String nombreMunicipio) {
+		Pattern pat = Pattern.compile("\"(.*)\",\"(.*)\",\"(" + nombreMunicipio + ")\"");
+		Matcher mat = pat.matcher(JsonParse.readFile(FUENTES_PATH + "municipios/full.csv"));
+		int ret = 0;
+		if(mat.find()) 
+			ret = Integer.parseInt(mat.group(1));
+		
+		
+		return ret;
+	}
+	
+	private Municipios createMunicipioFromName(String nombre) {
+		int codMunicipio = getMunicipioId(nombre);
+		int codProvincia = getProvinciaId(nombre);
+		Municipios ret = this.modelo.getBbddController().insertMunicipio(codMunicipio, nombre, codProvincia);
+		return ret;
+	}
+	
 	private void insertEstacionesFromJSON(String path) {
 		JSONArray estaciones = getJSONArray(path);
 		SessionFactory sessionFactory = this.modelo.getBbddController().getSessionFactory();
@@ -118,9 +156,23 @@ public class JsonController {
 		
 		for(int i = 0 ; i < estaciones.size() ; i++ ) {
 			JSONObject estacion = (JSONObject) estaciones.get(i);
-			Municipios muns = this.modelo.getBbddController().getMunicipio((String) estacion.get("Town"));
-			System.out.println(muns.getNombre());
+			String nombrePueblo = (String) estacion.get("Town");
+			Municipios mun = this.modelo.getBbddController().getMunicipio(nombrePueblo, session);
+			if(mun != null)
+				System.out.println(mun.getNombre());
+			else {
+				int codMunicipio = getMunicipioId(nombrePueblo);
+				mun = this.modelo.getBbddController().getMunicipio(codMunicipio);
+				if(mun == null)
+					mun = createMunicipioFromName(nombrePueblo);
+
+			}
 			System.out.println(estacion);
+			
+			Estaciones es = getEstacion(estacion, mun, session);
+			session.getTransaction().commit();
+			session = sessionFactory.getCurrentSession();
+            session.beginTransaction();
 		}
 	}
 	
@@ -170,15 +222,6 @@ public class JsonController {
 
 	public static void setJSON_PATH(String jSON_PATH) {
 		JSON_PATH = jSON_PATH;
-	}
-
-	public static String getJSON_PARSED_PATH() {
-		return JSON_PARSED_PATH;
-	}
-
-
-	public static void setJSON_PARSED_PATH(String jSON_PARSED_PATH) {
-		JSON_PARSED_PATH = jSON_PARSED_PATH;
 	}
 
 
