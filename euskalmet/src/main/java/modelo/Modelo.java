@@ -1,22 +1,22 @@
 package modelo;
 
-import controlador.bbdd.BBDDController;
+import controlador.bbdd.DBController;
 
 public class Modelo {
 
-	private BBDDController bbddController;
+	private DBController dbController;
 
-	public Modelo(BBDDController bbddController) {
+	public Modelo(DBController dbController) {
 		super();
-		this.setBbddController(bbddController);
+		this.dbController = dbController;
 	}
 
-	public BBDDController getBbddController() {
-		return bbddController;
+	public DBController getDBController() {
+		return dbController;
 	}
 
-	public void setBbddController(BBDDController bbddController) {
-		this.bbddController = bbddController;
+	public void setDBController(DBController bbddController) {
+		this.dbController = bbddController;
 	}
 	
 	

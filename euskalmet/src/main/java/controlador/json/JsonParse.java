@@ -4,13 +4,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -19,6 +16,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
+import org.apache.commons.codec.binary.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,18 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-import controlador.bbdd.BBDDController;
-import controlador.hibernateUtilities.HibernateUtil;
-import modelo.Datos;
-import modelo.DatosId;
-import modelo.Estaciones;
+import controlador.bbdd.DBController;
 import modelo.Modelo;
-import modelo.Municipios;
-import modelo.Provincia;
-
-import org.apache.commons.codec.binary.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 public class JsonParse {
 	
@@ -216,7 +204,7 @@ public class JsonParse {
     }
     
 	public static void main(String[] args) {
-			BBDDController bbddController = new BBDDController();	
+			DBController bbddController = new DBController();	
 			Modelo modelo = new Modelo(bbddController);
 	      	JsonParse parser = new JsonParse();
 	      	

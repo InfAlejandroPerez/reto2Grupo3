@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-12-2021 a las 17:05:21
+-- Tiempo de generación: 29-12-2021 a las 11:04:30
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -263,13 +263,6 @@ CREATE TABLE `usuarios` (
   `Nombre` int(50) NOT NULL,
   `password` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `usuarios`
---
-
-INSERT INTO `usuarios` (`CodUsuario`, `Nombre`, `password`) VALUES
-(1, 11, 212);
 
 --
 -- Índices para tablas volcadas
