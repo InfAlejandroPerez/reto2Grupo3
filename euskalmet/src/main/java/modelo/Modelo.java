@@ -1,6 +1,6 @@
 package modelo;
 
-import controlador.bbdd.DBController;
+import database.DBController;
 
 public class Modelo {
 

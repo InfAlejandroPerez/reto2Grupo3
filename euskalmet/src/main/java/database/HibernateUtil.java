@@ -1,4 +1,4 @@
-package controlador.bbdd;
+package database;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-import controlador.bbdd.DBController;
+import database.DBController;
 import modelo.Modelo;
 
 public class JsonParse {

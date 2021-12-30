@@ -24,7 +24,6 @@ public class Municipios implements java.io.Serializable {
 		this.codMunicipio = codMunicipio;
 		this.provincia = provincia;
 		this.nombre = nombre;
-		this.descripcion = descripcion;
 	}
 
 	public Municipios(int codMunicipio, Provincia provincia, String nombre, String descripcion) {

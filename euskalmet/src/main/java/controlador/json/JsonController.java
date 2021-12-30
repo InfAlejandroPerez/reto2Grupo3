@@ -3,6 +3,7 @@ package controlador.json;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import controlador.bbdd.DBController;
+import database.DBController;
 import modelo.Datos;
 import modelo.DatosId;
 import modelo.Estaciones;
@@ -81,14 +82,16 @@ public class JsonController {
 	
 	/**
 	 * Recibe un objeto JSON y devuelve un objeto Estaciones extrayendo sus datos
+	 * Se le ha de pasar la sesión por parámetro ya que necesita buscar el último elemento insertado en la sesión local o dará error
 	 * TODO: sustituir atributos inherentes al json por parámetros de la función
 	 * @param objetoJSON
 	 * @param mun
+	 * @param sesion
 	 * @return
 	 */
-	private Estaciones getEstacion(JSONObject objetoJSON, Municipios mun) {
+	private Estaciones getEstacion(JSONObject objetoJSON, Municipios mun, Session sesion) {
         Estaciones est = new Estaciones();
-     	int lastEstacionId = modelo.getDBController().getLastEstacionId();
+     	int lastEstacionId = modelo.getDBController().getLastEstacionId(sesion);
      	
      	est.setCodEstacion(lastEstacionId + 1);
      	est.setMunicipios(mun);
@@ -212,10 +215,11 @@ public class JsonController {
 	private void insertEstaciones(String path) {
 		JSONArray estaciones = getJSONArray(path);
 		
-		Session session = this.modelo.getDBController().getCurrentSession();
+		Session session = this.modelo.getDBController().openSession();
 		Transaction transaction = session.beginTransaction();
 
 		for(int i = 0 ; i < estaciones.size() ; i++ ) {
+
 			JSONObject estacion = (JSONObject) estaciones.get(i);
 			String nombrePueblo = (String) estacion.get("Town");
 			Municipios mun = this.modelo.getDBController().getMunicipio(nombrePueblo);
@@ -229,11 +233,13 @@ public class JsonController {
 				if(mun == null)
 					mun = createMunicipioFromName(nombrePueblo);
 			}
-			Estaciones es = getEstacion(estacion, mun);
-			session.save(es);
+			
+			Estaciones es = getEstacion(estacion, mun, session);
+			session.saveOrUpdate(es);
 		}
 		
 		transaction.commit();
+		session.close();
 	}
 	
 	/**
@@ -253,11 +259,14 @@ public class JsonController {
         	session.save(pro);
       
         	Municipios mun = getMunicipio(objetoJSON, pro);
-        	session.save(mun);
+        	System.out.println(mun.getCodMunicipio());
+        	System.out.println(mun.getNombre());
+        	session.saveOrUpdate(mun);
         }
         
         transaction.commit();
     }
+	
 	public static void main(String[] args) {
       	DBController bbddController = new DBController();
       	Modelo modelo = new Modelo(bbddController);
@@ -266,9 +275,9 @@ public class JsonController {
 		JsonController controller = new JsonController(parser, modelo);
 		
       	String pathPueblosBruto = FUENTES_PATH + "municipios/pueblos.json";
-		controller.insertPueblos(pathPueblosBruto);
+		//controller.insertPueblos(pathPueblosBruto);
       	controller.insertEstaciones(JSON_PATH + "estaciones.json");
-		System.out.println("finished");
+      	System.out.println("finished");
 	}
 	
 	// Getters and Setters

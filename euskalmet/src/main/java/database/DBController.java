@@ -1,4 +1,4 @@
-package controlador.bbdd;
+package database;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -29,15 +29,19 @@ public class DBController {
 			this.sessionFactory.close();
 	}
 	
+	public Session openSession() {
+		return this.sessionFactory.openSession();
+	}
+	
 	
 	public List<Datos> getDatos() {
 		String hql = "FROM modelo.Datos";
-		Session sesion = this.getCurrentSession();
-		sesion.beginTransaction();
+		Session sesion = this.openSession();
 		
 		Query query = sesion.createQuery(hql);
 		List<Datos> lista = query.list();
 		
+		sesion.close();
 		return lista;
 	}
 	
@@ -51,8 +55,7 @@ public class DBController {
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 		String timeStr = timeFormatter.format(hora);
 				
-		Session sesion = this.getCurrentSession();
-		sesion.beginTransaction();
+		Session sesion = this.openSession();
 		
 		Query query = sesion.createQuery(hql);
 		query.setParameter("fecha", dateStr);
@@ -60,6 +63,7 @@ public class DBController {
 		
 		ret = query.list();
 		
+		sesion.close();
 		return ret;
 	}
 	
@@ -67,7 +71,7 @@ public class DBController {
 	public Provincia getProvincia(int codProvincia) {
 		Provincia ret;
 		String hql = "FROM modelo.Provincia WHERE CodProvincia = :codProvincia";
-		Session sesion = this.getCurrentSession();
+		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
@@ -75,13 +79,14 @@ public class DBController {
 		
 		ret = (Provincia) query.uniqueResult();
 		
+		sesion.close();
 		return ret;
 	}
 	
 	public Municipios getMunicipio(int codMunicipio) {
 		Municipios ret;
 		String hql = "FROM modelo.Municipios WHERE CodMunicipio = :codMunicipio";
-		Session sesion = this.getCurrentSession();
+		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
@@ -89,49 +94,51 @@ public class DBController {
 		
 		ret = (Municipios) query.uniqueResult();
 		
+		sesion.close();
 		return ret;
 	}
 	
 	public Municipios getMunicipio(String nameMunicipio) {
 		Municipios ret;
 		String hql = "FROM modelo.Municipios WHERE Nombre = :nameMunicipio";
-		Session sesion = this.getCurrentSession();
+		Session sesion = this.openSession();
 		
 		Query query = sesion.createQuery(hql);
 		query.setParameter("nameMunicipio", nameMunicipio);
 		
 		ret = (Municipios) query.uniqueResult();
 		
+		sesion.close();
 		return ret;		
 	}
 	
 	public List<Provincia> getProvincias() {
 		String hql = "FROM modelo.Provincia";
-		Session sesion = this.getCurrentSession();
+		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
 		List<Provincia> lista = query.list();
 		
+		sesion.close();
 		return lista;
 	}
 	
 	public List<Municipios> getMunicipios() {
 		String hql = "FROM modelo.Municipios";
-		Session sesion = this.getCurrentSession();
+		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
 		List<Municipios> lista = query.list();
 		
+		sesion.close();
 		return lista;
 	}
 	
-	public int getLastEstacionId() {
+	public int getLastEstacionId(Session sesion) {
 		int ret = 0;
 		String hql = "SELECT max(codEstacion) FROM modelo.Estaciones";
-		Session sesion = this.getCurrentSession();
-		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
 		try {

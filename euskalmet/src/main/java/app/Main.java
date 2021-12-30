@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
-import controlador.bbdd.DBController;
+import database.DBController;
 import modelo.Modelo;
 import modelo.Municipios;
 import modelo.Provincia;
@@ -16,8 +16,6 @@ public class Main {
 		
 		Modelo modelo = new Modelo(bbddController);
 		
-		int a = modelo.getDBController().getLastEstacionId();
-		System.out.println("n = " + a);
 		
 		LocalDate dia = LocalDate.of(2021, 12, 22);
 		LocalTime hora = LocalTime.of(17, 45, 19);

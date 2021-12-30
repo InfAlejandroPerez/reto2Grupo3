@@ -10,21 +10,21 @@ import java.util.Set;
 public class Usuarios implements java.io.Serializable {
 
 	private int codUsuario;
-	private int nombre;
-	private int password;
+	private String nombre;
+	private String password;
 	private Set municipioses = new HashSet(0);
 	private Set espaciosNaturaleses = new HashSet(0);
 
 	public Usuarios() {
 	}
 
-	public Usuarios(int codUsuario, int nombre, int password) {
+	public Usuarios(int codUsuario, String nombre, String password) {
 		this.codUsuario = codUsuario;
 		this.nombre = nombre;
 		this.password = password;
 	}
 
-	public Usuarios(int codUsuario, int nombre, int password, Set municipioses, Set espaciosNaturaleses) {
+	public Usuarios(int codUsuario, String nombre, String password, Set municipioses, Set espaciosNaturaleses) {
 		this.codUsuario = codUsuario;
 		this.nombre = nombre;
 		this.password = password;
@@ -40,19 +40,19 @@ public class Usuarios implements java.io.Serializable {
 		this.codUsuario = codUsuario;
 	}
 
-	public int getNombre() {
+	public String getNombre() {
 		return this.nombre;
 	}
 
-	public void setNombre(int nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	public int getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 
-	public void setPassword(int password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 

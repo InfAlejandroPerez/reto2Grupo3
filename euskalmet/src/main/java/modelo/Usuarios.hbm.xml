@@ -6,10 +6,10 @@
             <column name="CodUsuario"/>
             <generator class="assigned"/>
         </id>
-        <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="int" unique="false">
+        <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
             <column name="Nombre" not-null="true"/>
         </property>
-        <property generated="never" lazy="false" name="password" optimistic-lock="true" type="int" unique="false">
+        <property generated="never" lazy="false" name="password" optimistic-lock="true" type="string" unique="false">
             <column name="password" not-null="true"/>
         </property>
         <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="municipioses" optimistic-lock="true" sort="unsorted" table="favoritos_municipios">
