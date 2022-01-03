@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 3 ene 2022 17:02:56 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 3 ene 2022 16:33:08 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
     <class catalog="euskalmet" dynamic-insert="false" dynamic-update="false" mutable="true" name="modelo.Municipios" optimistic-lock="none" polymorphism="implicit" select-before-update="false" table="municipios">
         <composite-id class="modelo.MunicipiosId" mapped="false" name="id" unsaved-value="undefined">
@@ -22,7 +22,6 @@
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="usuarioses" optimistic-lock="true" sort="unsorted" table="favoritos_municipios">
             <key on-delete="noaction">
                 <column name="CodMunicipio" not-null="true"/>
-                <column name="CodProvincia" not-null="true"/>
             </key>
             <many-to-many embed-xml="true" entity-name="modelo.Usuarios" not-found="exception" unique="false">
                 <column name="CodUsuario" not-null="true"/>
@@ -31,7 +30,6 @@
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="espaciosNaturaleses" optimistic-lock="true" sort="unsorted" table="esta_en">
             <key on-delete="noaction">
                 <column name="CodMunicipio" not-null="true"/>
-                <column name="CodProvincia" not-null="true"/>
             </key>
             <many-to-many embed-xml="true" entity-name="modelo.EspaciosNaturales" not-found="exception" unique="false">
                 <column name="CodEspacio" not-null="true"/>

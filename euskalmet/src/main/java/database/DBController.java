@@ -83,14 +83,15 @@ public class DBController {
 		return ret;
 	}
 	
-	public Municipios getMunicipio(int codMunicipio) {
+	public Municipios getMunicipio(int codMunicipio, int codProvincia) {
 		Municipios ret;
-		String hql = "FROM modelo.Municipios WHERE CodMunicipio = :codMunicipio";
+		String hql = "FROM modelo.Municipios WHERE CodMunicipio = :codMunicipio and CodProvincia = :codProvincia";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
 		Query query = sesion.createQuery(hql);
 		query.setParameter("codMunicipio", codMunicipio);
+		query.setParameter("codProvincia", codProvincia);
 		
 		ret = (Municipios) query.uniqueResult();
 		

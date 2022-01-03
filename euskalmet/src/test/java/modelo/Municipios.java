@@ -1,5 +1,5 @@
 package modelo;
-// Generated 3 ene 2022 17:02:56 by Hibernate Tools 5.5.7.Final
+// Generated 3 ene 2022 16:33:08 by Hibernate Tools 5.5.7.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +20,9 @@ public class Municipios implements java.io.Serializable {
 	public Municipios() {
 	}
 
-	public Municipios(MunicipiosId id, String nombre) {
+	public Municipios(MunicipiosId id, Provincia provincia, String nombre) {
 		this.id = id;
+		this.provincia = provincia;
 		this.nombre = nombre;
 	}
 

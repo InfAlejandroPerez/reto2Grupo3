@@ -19,6 +19,7 @@ import modelo.DatosId;
 import modelo.Estaciones;
 import modelo.Modelo;
 import modelo.Municipios;
+import modelo.MunicipiosId;
 import modelo.Provincia;
 
 public class JsonController {
@@ -66,14 +67,13 @@ public class JsonController {
 	 * @param pro
 	 * @return
 	 */
-	private Municipios getMunicipio(JSONObject objetoJSON, Provincia pro) {
+	private Municipios getMunicipio(JSONObject objetoJSON, int codProvincia) {
         int codMunicipio = Integer.parseInt((String) objetoJSON.get("municipalitycode"));
-    	Municipios mun = this.modelo.getDBController().getMunicipio(codMunicipio);
+    	Municipios mun = this.modelo.getDBController().getMunicipio(codMunicipio, codProvincia);
     	if(mun == null) {
     		mun = new Municipios();
     		mun.setNombre((String) objetoJSON.get("documentName"));
-         	mun.setCodMunicipio(codMunicipio);
-         	mun.setProvincia(pro);
+    		mun.setId(new MunicipiosId(codMunicipio, codProvincia));
          	mun.setDescripcion(this.parser.htmlToPlainText((String) objetoJSON.get("turismDescription")));
     	}
      	
@@ -124,13 +124,13 @@ public class JsonController {
      	dat.setId(new DatosId(est.getCodEstacion(), new Date(), new Date()));
      	dat.setPrecipitaciones("dfdf");
      	dat.setEstaciones(est);
-     	dat.setcOmgm3(6.66);
-     	dat.setcO8hmgm3(4.4);
-     	dat.setnOgm3(5.5);
-     	dat.setpM25gm3(1.1);
-     	dat.setpM10gm3(7.7);
-     	dat.setsO2gm3(8.8);
-     	dat.setnOXgm3(54);
+     	dat.setComgm3(6.66);
+     	dat.setCo8hmgm3(4.4);
+     	dat.setNogm3(5.5);
+     	dat.setPm25gm3(1.1);
+     	dat.setPm10gm3(7.7);
+     	dat.setSo2gm3(8.8);
+     	dat.setNoxgm3(54d);
      	
      	return dat; 	
 	}
@@ -197,11 +197,14 @@ public class JsonController {
 		Session sesion = this.modelo.getDBController().getCurrentSession();
 		int codMunicipio = getMunicipioId(nombre);
 		int codProvincia = getProvinciaId(nombre);
+		Transaction transaction = sesion.beginTransaction();
 		
-		Provincia provincia = sesion.get(Provincia.class, codProvincia);
-		Municipios newMunicipio = new Municipios(codMunicipio, provincia, nombre);
+		//Provincia provincia = sesion.get(Provincia.class, codProvincia);
+		MunicipiosId id = new MunicipiosId(codMunicipio, codProvincia);
+		Municipios newMunicipio = new Municipios(id, nombre);
 		
 		sesion.save(newMunicipio);
+		transaction.commit();
 		
 		return newMunicipio;
 	}
@@ -227,7 +230,8 @@ public class JsonController {
 			// Si no encuentro el municipio por el nombre busco su id en el csv de municipios
 			if(mun == null) {
 				int codMunicipio = getMunicipioId(nombrePueblo);
-				mun = session.get(Municipios.class, codMunicipio);
+				int codProvincia = getProvinciaId(nombrePueblo);
+				mun = this.modelo.getDBController().getMunicipio(codMunicipio, codProvincia);
 				
 				// Si no existe un municipio con ese id en la BBDD lo inserto
 				if(mun == null)
@@ -235,7 +239,7 @@ public class JsonController {
 			}
 			
 			Estaciones es = getEstacion(estacion, mun, session);
-			session.saveOrUpdate(es);
+			session.save(es);
 		}
 		
 		transaction.commit();
@@ -258,8 +262,8 @@ public class JsonController {
         	Provincia pro = getProvincia(objetoJSON);        	
         	session.save(pro);
       
-        	Municipios mun = getMunicipio(objetoJSON, pro);
-        	System.out.println(mun.getCodMunicipio());
+        	Municipios mun = getMunicipio(objetoJSON, pro.getCodProvincia());
+        	System.out.println(mun.getId().getCodMunicipio());
         	System.out.println(mun.getNombre());
         	session.saveOrUpdate(mun);
         }
