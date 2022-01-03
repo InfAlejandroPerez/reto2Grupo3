@@ -136,12 +136,13 @@ public class JsonController {
 	}
 
 	/**
-	 * Recibe una ruta de un json y devuelve su JSONArray correspondiente
-	 * @param path  String    Ruta del archivo
+	 * Recibe una ruta / contenido de un json y devuelve su JSONArray correspondiente
+	 * @param content        String    Ruta del archivo
+	 * @param isContent   boolean   True si es el contenido de un JSON, false si es su ruta
 	 * @return      JSONArray Array de objetos JSON resultante
 	 */
-	private JSONArray getJSONArray(String path) {
-		String s = this.parser.readFile(path);
+	private JSONArray getJSONArray(String content, boolean isContent) {
+		String s = isContent ? content : JsonParse.readFile(content);
       	JSONParser parser = new JSONParser();
       	JSONArray ret = null;
         try{
@@ -216,7 +217,7 @@ public class JsonController {
 	 * @param path  String  Ruta del archivo
 	 */
 	private void insertEstaciones(String path) {
-		JSONArray estaciones = getJSONArray(path);
+		JSONArray estaciones = getJSONArray(path, false);
 		
 		Session session = this.modelo.getDBController().openSession();
 		Transaction transaction = session.beginTransaction();
@@ -251,7 +252,7 @@ public class JsonController {
 	 * @param path
 	 */
 	private void insertPueblos(String path) {
-        JSONArray arrayPueblos = getJSONArray(path);
+        JSONArray arrayPueblos = getJSONArray(path, false);
         
         Session session = this.modelo.getDBController().getCurrentSession();
         Transaction transaction = session.beginTransaction();
@@ -271,6 +272,17 @@ public class JsonController {
         transaction.commit();
     }
 	
+	private void insertDatos(String content) {
+		 JSONArray arrayDatos = getJSONArray(content, true);
+	        
+        Session session = this.modelo.getDBController().getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        
+        for(int i = 0 ; i < arrayDatos.size() ; i++) {
+        	System.out.println(arrayDatos.get(i));
+        }
+	}
+	
 	public static void main(String[] args) {
       	DBController bbddController = new DBController();
       	Modelo modelo = new Modelo(bbddController);
@@ -280,7 +292,8 @@ public class JsonController {
 		
       	String pathPueblosBruto = FUENTES_PATH + "municipios/pueblos.json";
 		//controller.insertPueblos(pathPueblosBruto);
-      	controller.insertEstaciones(JSON_PATH + "estaciones.json");
+      	//controller.insertEstaciones(JSON_PATH + "estaciones.json");
+      	controller.insertDatos(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
       	System.out.println("finished");
 	}
 	

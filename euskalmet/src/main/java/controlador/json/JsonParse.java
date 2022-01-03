@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
@@ -61,7 +64,26 @@ public class JsonParse {
         }
     }
     
-   
+    public String readURL(String path, boolean parseJSONCallback) {
+    	String[] commands =  {"curl", "-X", "GET", path};
+    	Process process = null;
+    	String ret = "";
+		try {
+			process = Runtime.getRuntime().exec(commands);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()) );
+	    	String line;
+	    	
+	    	while ((line = reader.readLine()) != null) 
+	    	    ret += line;
+	    	
+	    	if(parseJSONCallback)
+	    		ret = ret.replaceAll("(jsonCallback\\(|\\);)", "");
+	    	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+    	return ret;
+    }
 
 	/**
      * Lee un fichero y devuelve su contenido como String
