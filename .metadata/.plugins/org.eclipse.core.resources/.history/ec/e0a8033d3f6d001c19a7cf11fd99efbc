@@ -1,0 +1,12 @@
+package controlador.json;
+
+import modelo.Modelo;
+
+public class DatosController extends JsonController {
+
+	public DatosController(JsonParse parser, Modelo modelo) {
+		super(parser, modelo);
+		// TODO Auto-generated constructor stub
+	}
+
+}

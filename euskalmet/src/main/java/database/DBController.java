@@ -9,9 +9,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import modelo.Datos;
-import modelo.Municipios;
-import modelo.Provincia;
+import model.Datos;
+import model.Municipios;
+import model.Provincia;
 
 public class DBController {
 	private SessionFactory sessionFactory;	

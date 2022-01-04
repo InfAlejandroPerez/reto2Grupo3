@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-01-2022 a las 17:30:52
+-- Tiempo de generación: 04-01-2022 a las 09:55:54
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `datos` (
-  `CodEstacion` int(11) NOT NULL,
+  `NombreEstacion` varchar(30) NOT NULL,
   `Fecha` date NOT NULL,
   `Hora` time NOT NULL,
   `Precipitaciones` varchar(50) NOT NULL,
@@ -62,11 +62,10 @@ CREATE TABLE `espacios_naturales` (
 --
 
 CREATE TABLE `estaciones` (
-  `CodEstacion` int(11) NOT NULL,
+  `Nombre` varchar(30) NOT NULL,
   `CodMunicipio` int(11) NOT NULL,
   `CodProvincia` int(11) NOT NULL,
   `CoordenadaX` double NOT NULL,
-  `Nombre` varchar(255) NOT NULL,
   `Direccion` varchar(255) NOT NULL,
   `CoordenadaY` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -75,66 +74,66 @@ CREATE TABLE `estaciones` (
 -- Volcado de datos para la tabla `estaciones`
 --
 
-INSERT INTO `estaciones` (`CodEstacion`, `CodMunicipio`, `CodProvincia`, `CoordenadaX`, `Nombre`, `Direccion`, `CoordenadaY`) VALUES
-(1, 59, 1, 42.85604797053618, '3 DE MARZO', 'Plaza Tres de Marzo, s/n', -2.667784994714487),
-(2, 2, 48, 43.32047399433485, 'ABANTO', 'Avda. del Minero, 2. Ayuntamiento', -3.0741559961978044),
-(3, 51, 1, 42.84901250588428, 'AGURAIN', 'C/ Fueros, 11. Subcomisaría de la Ertzaintza.', -2.3937033896081683),
-(4, 44, 48, 43.362055748944286, 'ALGORTA (BBIZI2)', 'Carretera de Galea, s/n ', -3.0227822073211765),
-(5, 912, 48, 43.247567997964374, 'ALONSOTEGI', 'C/ Baztieta, s/n. Bº Irauregi', -2.988024000380936),
-(6, 9, 20, 43.22137866586519, 'ANDOAIN', 'Ikastola Aita larramendi', -2.02332524753123),
-(7, 20, 48, 43.245553729819484, 'ARRAIZ (Monte)', 'Camino de Arraiz, s/n', -2.960475856567045),
-(8, 69, 20, 43.32199194732484, 'ATEGORRIETA', 'Avda. Ategorrieta, 71', -1.960650618338729),
-(9, 59, 1, 42.85478118366939, 'AV. GASTEIZ', 'Avda. Gasteiz, 97', -2.6807098224581067),
-(10, 69, 20, 43.30941344063433, 'AVDA. TOLOSA', 'C/ Andrestegi, 2 ', -2.010938423674493),
-(11, 18, 20, 43.180370053194196, 'AZPEITIA', 'C/ Perdillegi, s/n', -2.2682104189344456),
-(12, 69, 20, 43.29053138556358, 'AÑORGA', 'Avda. de Añorga, 12 (Añorga Txiki)', -1.9957411467011474),
-(13, 20, 48, 43.28099012364825, 'BANDERAS (meteo)', 'Monte Banderas, s/n', -2.953278416670214),
-(14, 13, 48, 43.298378997955, 'BARAKALDO', 'C/ Hogar propio, 7. CIFP Nicolás Larburu', -2.987132999827669),
-(15, 15, 48, 43.24113129588412, 'BASAURI', 'C/ Uribarri, 5. CEIP Bizkotxalde.', -2.8837610228035238),
-(16, 19, 20, 43.04809432240711, 'BEASAIN', 'Plaza Gipuzkoa, 1', -2.191380269702985),
-(17, 3, 48, 43.23590459584916, 'BOROA METEO', 'Parque Empresarial Boroa, s/n', -2.7506874305174405),
-(18, 13, 48, 43.25807942736176, 'CASTREJANA', 'C/ Larrazabal, 1. Bº Castrejana', -2.973456590856772),
-(19, 27, 48, 43.168285997690994, 'DURANGO', 'C/ San Roque, 20 bajo. E.S. Roque', -2.6379580009450136),
-(20, 69, 20, 43.31215280742268, 'EASO', 'Plaza del Centenario, s/n', -1.9809008637096939),
-(21, 22, 1, 42.51824807424149, 'ELCIEGO', 'C/ Gabriel Celaya, 8', -2.61947521199466),
-(22, 902, 48, 43.3026526345891, 'ERANDIO', 'Avda. José Luis Goyoaga, s/n (Pasaje de Altzaga)', -2.9772399863752486),
-(23, 20, 48, 43.25491056506432, 'EUROPA', 'Parque Europa. Bº Txurdinaga', -2.902376115931137),
-(24, 59, 1, 42.840099615592926, 'FARMACIA', 'Paseo Universidad, 7. Fac. Farmacia UPV', -2.672563184280286),
-(25, 20, 48, 43.26522199716327, 'FERIA (meteo)', 'C/ Rafael Moreno Pitxitxi, s/n', -2.9475439999557134),
-(26, 40, 20, 43.26743142273141, 'HERNANI', 'C/ Aristizabal, s/n. Centro de salud Hernani.', -1.977715640356133),
-(27, 36, 20, 43.342775184321106, 'JAIZKIBEL', 'Monte Jaizkibel, s/n', -1.8594129027945114),
-(28, 52, 48, 43.261226121618066, 'LARRABETZU', 'Barrio Berrezoaga, 3', -2.799399084312731),
-(29, 2, 48, 43.31960312849335, 'LAS CARRERAS', 'Plaza Trinidad, s/n. Bº Las Carreras', -3.0973975060209376),
-(30, 902, 20, 43.26870022418793, 'LASARTE-ORIA', 'Parque Tximistarreta', -2.0191293415933154),
-(31, 53, 20, 43.32152243586307, 'LEZO', 'Plaza Polantzarene, s/n', -1.900131049811533),
-(32, 36, 1, 43.1440289422417, 'LLODIO', 'C/ Lamuza, s/n', -2.9633852821260223),
-(33, 59, 1, 42.84370295644861, 'LOS HERRAN', 'Parque Judizmendi. Bº Judizmendi', -2.661230556636825),
-(34, 20, 48, 43.26750551179745, 'MAZARREDO', 'C/ Alameda Mazarredo, s/n (Guggenheim)', -2.935188110338201),
-(35, 55, 20, 43.06412079434686, 'MONDRAGON', 'Plaza Jose María Arizmendiarrieta, s/n', -2.4903966831445423),
-(36, 3, 48, 43.209014222504145, 'MONTORRA', 'Barrio Montorra fte. nº5', -2.7165885073623226),
-(37, 68, 48, 43.40588884294258, 'MUNDAKA', 'Camino Goitiz, s/n. Depósito de Agua', -2.7031593675211343),
-(38, 13, 48, 43.28558799716144, 'MUNOA', 'C/ Llano, 55. CEP Munoa. Bº Lutxana', -2.978696000976749),
-(39, 71, 48, 43.32071311956527, 'MUSKIZ', 'C/ Giba Fregenal, s/n. Estación de Renfe', -3.1127162723783197),
-(40, 20, 48, 43.25880286639215, 'Mª DIAZ HARO', 'C/ Mª Díaz de Haro, 60', -2.945656664175787),
-(41, 78, 48, 43.32694444265417, 'NAUTICA', 'C/ Mª Díaz de Haro, 68 (Esc. Náutica)', -3.023333333735672),
-(42, 16, 20, 43.25060521979407, 'PAGOETA', 'Jardín Botánico de Iturraran. Parque Natural de Pagoeta. ', -2.1548873966664503),
-(43, 69, 20, 43.302777170621106, 'PUYO', 'Camino de Puyo, 14', -1.9840112864449164),
-(44, 71, 48, 43.33265015831669, 'SAN JULIAN', 'Camino a Valles, s/n. Bº San Julian', -3.112994770178107),
-(45, 15, 48, 43.2212234317361, 'SAN MIGUEL', 'Parque pinceles. Bº San Miguel', -2.886508983250916),
-(46, 904, 48, 43.29842135635236, 'SANGRONIZ', 'C/ Iturrikosolo, s/n', -2.93038581833024),
-(47, 82, 48, 43.33301199742545, 'SANTURCE', 'C/ Vista Alegre, 29 ', -3.042560000349237),
-(48, 82, 48, 43.3344367083824, 'SERANTES', 'Camino Serantes igoera, s/n', -3.0629905698856272),
-(49, 84, 48, 43.307726099387494, 'SESTAO', 'Parque Portopin', -2.9959496198447484),
-(50, 71, 20, 43.13078067861342, 'TOLOSA', 'Avda. Martin Jose Iraola, 23', -2.078002156707588),
-(51, 1, 48, 43.100442429429606, 'URKIOLA', 'Urkiola auzoa, 8', -2.6508700717196243),
-(52, 73, 20, 43.27378032307657, 'USURBIL', 'San Inazio', -2.0505110667115676),
-(53, 55, 1, 42.87516709375477, 'VALDEREJO', 'Ctro. de Interpretación. Parque Natural de Valderejo', -3.231732505322038),
-(54, 96, 48, 43.2128572411877, 'ZALLA', 'Avda. Kosme Bibanko Etxebarria, 2', -3.134461258966499),
-(55, 3, 48, 43.21890568490462, 'ZELAIETA PARQUE', 'Parque Zelaieta ', -2.7344969803118295),
-(56, 913, 48, 43.35305543364201, 'ZIERBENA (Puerto)', 'Puerto de Zierbena, s/n. Bº El Puerto', -3.080988277376953),
-(57, 69, 20, 43.272061873363164, 'ZUBIETA', 'URIBITARTE IBILBIDEA', -2.0313507420960284),
-(58, 69, 20, 43.25597376352475, 'ZUBIETA METEO', 'ZUBIETA', -2.0317166856330036),
-(59, 80, 20, 43.08507598449891, 'ZUMARRAGA', 'Grupo Izazpi 3, 6 ', -2.316228856182885);
+INSERT INTO `estaciones` (`Nombre`, `CodMunicipio`, `CodProvincia`, `CoordenadaX`, `Direccion`, `CoordenadaY`) VALUES
+('3 DE MARZO', 59, 1, 42.85604797053618, 'Plaza Tres de Marzo, s/n', -2.667784994714487),
+('ABANTO', 2, 48, 43.32047399433485, 'Avda. del Minero, 2. Ayuntamiento', -3.0741559961978044),
+('AGURAIN', 51, 1, 42.84901250588428, 'C/ Fueros, 11. Subcomisaría de la Ertzaintza.', -2.3937033896081683),
+('ALGORTA (BBIZI2)', 44, 48, 43.362055748944286, 'Carretera de Galea, s/n ', -3.0227822073211765),
+('ALONSOTEGI', 912, 48, 43.247567997964374, 'C/ Baztieta, s/n. Bº Irauregi', -2.988024000380936),
+('ANDOAIN', 9, 20, 43.22137866586519, 'Ikastola Aita larramendi', -2.02332524753123),
+('AÑORGA', 69, 20, 43.29053138556358, 'Avda. de Añorga, 12 (Añorga Txiki)', -1.9957411467011474),
+('ARRAIZ (Monte)', 20, 48, 43.245553729819484, 'Camino de Arraiz, s/n', -2.960475856567045),
+('ATEGORRIETA', 69, 20, 43.32199194732484, 'Avda. Ategorrieta, 71', -1.960650618338729),
+('AV. GASTEIZ', 59, 1, 42.85478118366939, 'Avda. Gasteiz, 97', -2.6807098224581067),
+('AVDA. TOLOSA', 69, 20, 43.30941344063433, 'C/ Andrestegi, 2 ', -2.010938423674493),
+('AZPEITIA', 18, 20, 43.180370053194196, 'C/ Perdillegi, s/n', -2.2682104189344456),
+('BANDERAS (meteo)', 20, 48, 43.28099012364825, 'Monte Banderas, s/n', -2.953278416670214),
+('BARAKALDO', 13, 48, 43.298378997955, 'C/ Hogar propio, 7. CIFP Nicolás Larburu', -2.987132999827669),
+('BASAURI', 15, 48, 43.24113129588412, 'C/ Uribarri, 5. CEIP Bizkotxalde.', -2.8837610228035238),
+('BEASAIN', 19, 20, 43.04809432240711, 'Plaza Gipuzkoa, 1', -2.191380269702985),
+('BOROA METEO', 3, 48, 43.23590459584916, 'Parque Empresarial Boroa, s/n', -2.7506874305174405),
+('CASTREJANA', 13, 48, 43.25807942736176, 'C/ Larrazabal, 1. Bº Castrejana', -2.973456590856772),
+('DURANGO', 27, 48, 43.168285997690994, 'C/ San Roque, 20 bajo. E.S. Roque', -2.6379580009450136),
+('EASO', 69, 20, 43.31215280742268, 'Plaza del Centenario, s/n', -1.9809008637096939),
+('ELCIEGO', 22, 1, 42.51824807424149, 'C/ Gabriel Celaya, 8', -2.61947521199466),
+('ERANDIO', 902, 48, 43.3026526345891, 'Avda. José Luis Goyoaga, s/n (Pasaje de Altzaga)', -2.9772399863752486),
+('EUROPA', 20, 48, 43.25491056506432, 'Parque Europa. Bº Txurdinaga', -2.902376115931137),
+('FARMACIA', 59, 1, 42.840099615592926, 'Paseo Universidad, 7. Fac. Farmacia UPV', -2.672563184280286),
+('FERIA (meteo)', 20, 48, 43.26522199716327, 'C/ Rafael Moreno Pitxitxi, s/n', -2.9475439999557134),
+('HERNANI', 40, 20, 43.26743142273141, 'C/ Aristizabal, s/n. Centro de salud Hernani.', -1.977715640356133),
+('JAIZKIBEL', 36, 20, 43.342775184321106, 'Monte Jaizkibel, s/n', -1.8594129027945114),
+('LARRABETZU', 52, 48, 43.261226121618066, 'Barrio Berrezoaga, 3', -2.799399084312731),
+('LAS CARRERAS', 2, 48, 43.31960312849335, 'Plaza Trinidad, s/n. Bº Las Carreras', -3.0973975060209376),
+('LASARTE-ORIA', 902, 20, 43.26870022418793, 'Parque Tximistarreta', -2.0191293415933154),
+('LEZO', 53, 20, 43.32152243586307, 'Plaza Polantzarene, s/n', -1.900131049811533),
+('LLODIO', 36, 1, 43.1440289422417, 'C/ Lamuza, s/n', -2.9633852821260223),
+('LOS HERRAN', 59, 1, 42.84370295644861, 'Parque Judizmendi. Bº Judizmendi', -2.661230556636825),
+('MAZARREDO', 20, 48, 43.26750551179745, 'C/ Alameda Mazarredo, s/n (Guggenheim)', -2.935188110338201),
+('MONDRAGON', 55, 20, 43.06412079434686, 'Plaza Jose María Arizmendiarrieta, s/n', -2.4903966831445423),
+('MONTORRA', 3, 48, 43.209014222504145, 'Barrio Montorra fte. nº5', -2.7165885073623226),
+('MUNDAKA', 68, 48, 43.40588884294258, 'Camino Goitiz, s/n. Depósito de Agua', -2.7031593675211343),
+('MUNOA', 13, 48, 43.28558799716144, 'C/ Llano, 55. CEP Munoa. Bº Lutxana', -2.978696000976749),
+('MUSKIZ', 71, 48, 43.32071311956527, 'C/ Giba Fregenal, s/n. Estación de Renfe', -3.1127162723783197),
+('Mª DIAZ HARO', 20, 48, 43.25880286639215, 'C/ Mª Díaz de Haro, 60', -2.945656664175787),
+('NAUTICA', 78, 48, 43.32694444265417, 'C/ Mª Díaz de Haro, 68 (Esc. Náutica)', -3.023333333735672),
+('PAGOETA', 16, 20, 43.25060521979407, 'Jardín Botánico de Iturraran. Parque Natural de Pagoeta. ', -2.1548873966664503),
+('PUYO', 69, 20, 43.302777170621106, 'Camino de Puyo, 14', -1.9840112864449164),
+('SAN JULIAN', 71, 48, 43.33265015831669, 'Camino a Valles, s/n. Bº San Julian', -3.112994770178107),
+('SAN MIGUEL', 15, 48, 43.2212234317361, 'Parque pinceles. Bº San Miguel', -2.886508983250916),
+('SANGRONIZ', 904, 48, 43.29842135635236, 'C/ Iturrikosolo, s/n', -2.93038581833024),
+('SANTURCE', 82, 48, 43.33301199742545, 'C/ Vista Alegre, 29 ', -3.042560000349237),
+('SERANTES', 82, 48, 43.3344367083824, 'Camino Serantes igoera, s/n', -3.0629905698856272),
+('SESTAO', 84, 48, 43.307726099387494, 'Parque Portopin', -2.9959496198447484),
+('TOLOSA', 71, 20, 43.13078067861342, 'Avda. Martin Jose Iraola, 23', -2.078002156707588),
+('URKIOLA', 1, 48, 43.100442429429606, 'Urkiola auzoa, 8', -2.6508700717196243),
+('USURBIL', 73, 20, 43.27378032307657, 'San Inazio', -2.0505110667115676),
+('VALDEREJO', 55, 1, 42.87516709375477, 'Ctro. de Interpretación. Parque Natural de Valderejo', -3.231732505322038),
+('ZALLA', 96, 48, 43.2128572411877, 'Avda. Kosme Bibanko Etxebarria, 2', -3.134461258966499),
+('ZELAIETA PARQUE', 3, 48, 43.21890568490462, 'Parque Zelaieta ', -2.7344969803118295),
+('ZIERBENA (Puerto)', 913, 48, 43.35305543364201, 'Puerto de Zierbena, s/n. Bº El Puerto', -3.080988277376953),
+('ZUBIETA', 69, 20, 43.272061873363164, 'URIBITARTE IBILBIDEA', -2.0313507420960284),
+('ZUBIETA METEO', 69, 20, 43.25597376352475, 'ZUBIETA', -2.0317166856330036),
+('ZUMARRAGA', 80, 20, 43.08507598449891, 'Grupo Izazpi 3, 6 ', -2.316228856182885);
 
 -- --------------------------------------------------------
 
@@ -279,7 +278,7 @@ CREATE TABLE `usuarios` (
 -- Indices de la tabla `datos`
 --
 ALTER TABLE `datos`
-  ADD PRIMARY KEY (`CodEstacion`,`Fecha`,`Hora`);
+  ADD PRIMARY KEY (`NombreEstacion`,`Fecha`,`Hora`);
 
 --
 -- Indices de la tabla `espacios_naturales`
@@ -291,7 +290,7 @@ ALTER TABLE `espacios_naturales`
 -- Indices de la tabla `estaciones`
 --
 ALTER TABLE `estaciones`
-  ADD PRIMARY KEY (`CodEstacion`),
+  ADD PRIMARY KEY (`Nombre`),
   ADD KEY `fk_municipios` (`CodMunicipio`,`CodProvincia`);
 
 --
@@ -348,7 +347,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `datos`
 --
 ALTER TABLE `datos`
-  ADD CONSTRAINT `FKh1q6p36ejtxhtme7v8vem66x4` FOREIGN KEY (`CodEstacion`) REFERENCES `estaciones` (`CodEstacion`);
+  ADD CONSTRAINT `fk_datos_estacion` FOREIGN KEY (`NombreEstacion`) REFERENCES `estaciones` (`Nombre`);
 
 --
 -- Filtros para la tabla `estaciones`

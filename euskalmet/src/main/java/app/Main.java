@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
-import controlador.json.JsonParse;
+import controller.json.JsonParse;
 import database.DBController;
-import modelo.Modelo;
-import modelo.Municipios;
-import modelo.Provincia;
+import model.Modelo;
+import model.Municipios;
+import model.Provincia;
 
 public class Main {
 	public static void main(String[] args) {
