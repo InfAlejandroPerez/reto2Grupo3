@@ -7,9 +7,9 @@ import org.json.simple.JSONObject;
 
 import controller.json.JsonController;
 import controller.json.JsonParse;
-import model.Estaciones;
-import model.Modelo;
-import model.Municipios;
+import modelo.Estaciones;
+import modelo.Modelo;
+import modelo.Municipios;
 
 public class EstacionesController extends JsonController {
 
@@ -76,7 +76,7 @@ public class EstacionesController extends JsonController {
 				
 				// Si no existe un municipio con ese id en la BBDD lo inserto
 				if(mun == null)
-					mun = munController.createMunicipioFromName(nombrePueblo);
+					mun = this.createMunicipioFromName(nombrePueblo);
 			}
 			
 			Estaciones es = getEstacion(estacion, mun, session);

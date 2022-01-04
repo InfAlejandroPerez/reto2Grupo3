@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-01-2022 a las 09:55:54
+-- Tiempo de generación: 04-01-2022 a las 20:52:03
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -31,9 +31,9 @@ CREATE TABLE `datos` (
   `NombreEstacion` varchar(30) NOT NULL,
   `Fecha` date NOT NULL,
   `Hora` time NOT NULL,
-  `Precipitaciones` varchar(50) NOT NULL,
-  `Temperatura` int(11) NOT NULL,
-  `Velocidad viento` int(11) NOT NULL,
+  `Precipitaciones` varchar(50) DEFAULT NULL,
+  `Temperatura` int(11) DEFAULT NULL,
+  `Velocidad viento` int(11) DEFAULT NULL,
   `COmgm3` double DEFAULT NULL,
   `CO8hmgm3` double DEFAULT NULL,
   `NOgm3` double DEFAULT NULL,

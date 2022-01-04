@@ -9,9 +9,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import model.Datos;
-import model.Municipios;
-import model.Provincia;
+import modelo.Datos;
+import modelo.Estaciones;
+import modelo.Municipios;
+import modelo.Provincia;
 
 public class DBController {
 	private SessionFactory sessionFactory;	
@@ -135,6 +136,31 @@ public class DBController {
 		
 		sesion.close();
 		return lista;
+	}
+	
+	public Estaciones getEstacionContaining(String[] partes) {
+		String hql = "FROM modelo.Estaciones";
+		Session sesion = this.getCurrentSession();
+				
+		hql += " WHERE ";
+
+		for(int i = 0 ; i < partes.length ; i++) {
+			if(i > 0) hql += " AND ";
+
+			hql +=  "Nombre" + " LIKE " + (":parte" + i);
+		}
+		
+		Query query = sesion.createQuery(hql);
+		
+		for(int i = 0 ; i < partes.length ; i++) {
+			String paramName = "parte" + i;
+			String paramValue = "%"+ partes[i] + "%";
+			query.setParameter(paramName, paramValue);
+		}
+
+
+		
+		return (Estaciones) query.uniqueResult();
 	}
 	
 	// Geters and Setters

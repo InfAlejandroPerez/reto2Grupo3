@@ -1,4 +1,4 @@
-package model;
+package modelo;
 // Generated 4 ene 2022 0:52:55 by Hibernate Tools 5.5.7.Final
 
 /**

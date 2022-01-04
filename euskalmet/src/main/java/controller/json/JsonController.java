@@ -17,13 +17,13 @@ import controller.json.types.DatosController;
 import controller.json.types.EstacionesController;
 import controller.json.types.MunicipiosController;
 import database.DBController;
-import model.Datos;
-import model.DatosId;
-import model.Estaciones;
-import model.Modelo;
-import model.Municipios;
-import model.MunicipiosId;
-import model.Provincia;
+import modelo.Datos;
+import modelo.DatosId;
+import modelo.Estaciones;
+import modelo.Modelo;
+import modelo.Municipios;
+import modelo.MunicipiosId;
+import modelo.Provincia;
 
 public class JsonController {
 	
@@ -34,19 +34,18 @@ public class JsonController {
 	protected static String CSV_PATH = FUENTES_PATH + "csv/";
 	protected Modelo modelo;
 	
-	protected MunicipiosController munController;
-	protected EstacionesController estController;
-	protected DatosController      datController;
+	//protected MunicipiosController munController;
+	//protected EstacionesController estController;
+	//protected DatosController      datController;
 	
 	public JsonController(JsonParse parser, Modelo modelo) {
-		super();
+		//super();
 		this.parser = parser;
 		this.modelo = modelo;
 		
-		
-		munController = new MunicipiosController(parser, modelo);
-		estController = new EstacionesController(parser, modelo);
-		datController = new DatosController(parser, modelo);
+		//munController = new MunicipiosController(parser, modelo);
+		//estController = new EstacionesController(parser, modelo);
+		//datController = new DatosController(parser, modelo);
 	}
 
 	/**
@@ -101,30 +100,54 @@ public class JsonController {
 		return ret;
 	}
 	
-	
-	private void insertDatos(String content) {
-		 JSONArray arrayDatos = getJSONArray(content, true);
-	        
-        Session session = this.modelo.getDBController().getCurrentSession();
-        Transaction transaction = session.beginTransaction();
-        
-        for(int i = 0 ; i < arrayDatos.size() ; i++) {
-        	System.out.println(arrayDatos.get(i));
-        }
+
+	/**
+	 * Recibe el nombre de un municipio, busca sus códigos en el csv de Municipios, inserta el nuevo municipio en la BBDD y devuelve el objeto creado
+	 * TODO: controlar excepciones en este metodo, no válido para pueblos que no existen en el csv
+	 * @param nombre
+	 * @return
+	 */
+	protected Municipios createMunicipioFromName(String nombre) {
+		Session sesion = this.modelo.getDBController().getCurrentSession();
+		int codMunicipio = getMunicipioId(nombre);
+		int codProvincia = getProvinciaId(nombre);
+		Transaction transaction = sesion.beginTransaction();
+		
+		//Provincia provincia = sesion.get(Provincia.class, codProvincia);
+		MunicipiosId id = new MunicipiosId(codMunicipio, codProvincia);
+		Municipios newMunicipio = new Municipios(id, nombre);
+		
+		sesion.save(newMunicipio);
+		transaction.commit();
+		
+		return newMunicipio;
 	}
+	
+
 	
 	public static void main(String[] args) {
       	DBController bbddController = new DBController();
       	Modelo modelo = new Modelo(bbddController);
 		JsonParse parser = new JsonParse();
-		
+
 		JsonController controller = new JsonController(parser, modelo);
 		
       	String pathPueblosBruto = FUENTES_PATH + "municipios/pueblos.json";
-		controller.munController.insertPueblos(pathPueblosBruto);
-      	controller.estController.insertEstaciones(JSON_PATH + "estaciones.json");
-      	//controller.insertDatos(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
-      	System.out.println("finished");
+		
+      	// Municipios
+      	MunicipiosController munController = new MunicipiosController(parser, modelo);
+		//munController.insertPueblos(pathPueblosBruto);
+      	
+      	//Estaciones
+      	EstacionesController estController = new EstacionesController(parser, modelo);
+      	//estController.insertEstaciones(JSON_PATH + "estaciones.json");
+      	
+      	//Datos
+      	DatosController datController = new DatosController(parser, modelo);
+		//datController.insertDatosEstacion(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
+      	String jsonIndex = JSON_PATH + "index.json";
+      	datController.insertDatos(jsonIndex);
+		System.out.println("finished");
 	}
 	
 	// Getters and Setters

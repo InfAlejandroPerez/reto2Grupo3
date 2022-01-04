@@ -31,7 +31,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import database.DBController;
-import model.Modelo;
+import modelo.Modelo;
 
 public class JsonParse {
 //	  Para parsear las provincias repetidas

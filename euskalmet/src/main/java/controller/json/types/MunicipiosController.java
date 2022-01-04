@@ -8,18 +8,18 @@ import org.json.simple.JSONObject;
 import controller.json.JsonController;
 import controller.json.JsonParse;
 import database.DBController;
-import model.Modelo;
-import model.Municipios;
-import model.MunicipiosId;
-import model.Provincia;
+import modelo.Modelo;
+import modelo.Municipios;
+import modelo.MunicipiosId;
+import modelo.Provincia;
 
 public class MunicipiosController extends JsonController {
 
+	
 	public MunicipiosController(JsonParse parser, Modelo modelo) {
 		super(parser, modelo);
 	}
-	
-	
+
 	/**
 	 * Recibe un objeto json y devuelve un objeto Municipios extrayendo sus datos
 	 * Si el municipio ya existe en la BBDD devolverá una instancia del mismo
@@ -43,27 +43,6 @@ public class MunicipiosController extends JsonController {
      	return mun;
 	}
 
-	/**
-	 * Recibe el nombre de un municipio, busca sus códigos en el csv de Municipios, inserta el nuevo municipio en la BBDD y devuelve el objeto creado
-	 * TODO: controlar excepciones en este metodo, no válido para pueblos que no existen en el csv
-	 * @param nombre
-	 * @return
-	 */
-	protected Municipios createMunicipioFromName(String nombre) {
-		Session sesion = this.modelo.getDBController().getCurrentSession();
-		int codMunicipio = getMunicipioId(nombre);
-		int codProvincia = getProvinciaId(nombre);
-		Transaction transaction = sesion.beginTransaction();
-		
-		//Provincia provincia = sesion.get(Provincia.class, codProvincia);
-		MunicipiosId id = new MunicipiosId(codMunicipio, codProvincia);
-		Municipios newMunicipio = new Municipios(id, nombre);
-		
-		sesion.save(newMunicipio);
-		transaction.commit();
-		
-		return newMunicipio;
-	}
 	
 	/**
 	 * Recibe un objeto json de un pueblo y devuelve un objeto Provincia extrayendo sus datos
@@ -99,7 +78,7 @@ public class MunicipiosController extends JsonController {
         	Provincia pro = getProvincia(objetoJSON);        	
         	session.save(pro);
       
-        	Municipios mun =munController.getMunicipio(objetoJSON, pro.getCodProvincia());
+        	Municipios mun = this.getMunicipio(objetoJSON, pro.getCodProvincia());
         	System.out.println(mun.getId().getCodMunicipio());
         	System.out.println(mun.getNombre());
         	session.saveOrUpdate(mun);
