@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Generated 3 ene 2022 17:02:56 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 4 ene 2022 0:52:55 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
     <class catalog="euskalmet" dynamic-insert="false" dynamic-update="false" mutable="true" name="modelo.Estaciones" optimistic-lock="none" polymorphism="implicit" select-before-update="false" table="estaciones">
-        <id name="codEstacion" type="int">
-            <column name="CodEstacion"/>
+        <id name="nombre" type="string">
+            <column length="30" name="Nombre"/>
             <generator class="assigned"/>
         </id>
         <many-to-one class="modelo.Municipios" embed-xml="true" fetch="select" insert="true" name="municipios" not-found="exception" optimistic-lock="true" unique="false" update="true">
@@ -13,9 +13,6 @@
         <property generated="never" lazy="false" name="coordenadaX" optimistic-lock="true" type="double" unique="false">
             <column name="CoordenadaX" not-null="true" precision="22" scale="0"/>
         </property>
-        <property generated="never" lazy="false" name="nombre" optimistic-lock="true" type="string" unique="false">
-            <column name="Nombre" not-null="true"/>
-        </property>
         <property generated="never" lazy="false" name="direccion" optimistic-lock="true" type="string" unique="false">
             <column name="Direccion" not-null="true"/>
         </property>
@@ -24,7 +21,7 @@
         </property>
         <set embed-xml="true" fetch="select" inverse="true" lazy="true" mutable="true" name="datoses" optimistic-lock="true" sort="unsorted" table="datos">
             <key on-delete="noaction">
-                <column name="CodEstacion" not-null="true"/>
+                <column length="30" name="NombreEstacion" not-null="true"/>
             </key>
             <one-to-many class="modelo.Datos" embed-xml="true" not-found="exception"/>
         </set>

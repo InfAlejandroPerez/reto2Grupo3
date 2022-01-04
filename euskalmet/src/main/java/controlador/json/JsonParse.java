@@ -64,6 +64,12 @@ public class JsonParse {
         }
     }
     
+    /**
+     * Lee una URL y devuelve el contenido de su archivo
+     * @param path                 String    Url del archivo
+     * @param parseJSONCallback	   boolean   True si comienza con el callback, false si el json es valido
+     * @return                     String    Contenido del archivo
+     */
     public String readURL(String path, boolean parseJSONCallback) {
     	String[] commands =  {"curl", "-X", "GET", path};
     	Process process = null;
@@ -75,7 +81,7 @@ public class JsonParse {
 	    	
 	    	while ((line = reader.readLine()) != null) 
 	    	    ret += line;
-	    	
+	    	// Si el contenido es un jsonCallback eliminamos el principio y el final del mismo
 	    	if(parseJSONCallback)
 	    		ret = ret.replaceAll("(jsonCallback\\(|\\);)", "");
 	    	

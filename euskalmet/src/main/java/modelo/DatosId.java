@@ -1,5 +1,5 @@
 package modelo;
-// Generated 3 ene 2022 17:02:56 by Hibernate Tools 5.5.7.Final
+// Generated 4 ene 2022 0:52:55 by Hibernate Tools 5.5.7.Final
 
 import java.util.Date;
 
@@ -8,25 +8,25 @@ import java.util.Date;
  */
 public class DatosId implements java.io.Serializable {
 
-	private int codEstacion;
+	private String nombreEstacion;
 	private Date fecha;
 	private Date hora;
 
 	public DatosId() {
 	}
 
-	public DatosId(int codEstacion, Date fecha, Date hora) {
-		this.codEstacion = codEstacion;
+	public DatosId(String nombreEstacion, Date fecha, Date hora) {
+		this.nombreEstacion = nombreEstacion;
 		this.fecha = fecha;
 		this.hora = hora;
 	}
 
-	public int getCodEstacion() {
-		return this.codEstacion;
+	public String getNombreEstacion() {
+		return this.nombreEstacion;
 	}
 
-	public void setCodEstacion(int codEstacion) {
-		this.codEstacion = codEstacion;
+	public void setNombreEstacion(String nombreEstacion) {
+		this.nombreEstacion = nombreEstacion;
 	}
 
 	public Date getFecha() {
@@ -54,7 +54,9 @@ public class DatosId implements java.io.Serializable {
 			return false;
 		DatosId castOther = (DatosId) other;
 
-		return (this.getCodEstacion() == castOther.getCodEstacion())
+		return ((this.getNombreEstacion() == castOther.getNombreEstacion())
+				|| (this.getNombreEstacion() != null && castOther.getNombreEstacion() != null
+						&& this.getNombreEstacion().equals(castOther.getNombreEstacion())))
 				&& ((this.getFecha() == castOther.getFecha()) || (this.getFecha() != null
 						&& castOther.getFecha() != null && this.getFecha().equals(castOther.getFecha())))
 				&& ((this.getHora() == castOther.getHora()) || (this.getHora() != null && castOther.getHora() != null
@@ -64,7 +66,7 @@ public class DatosId implements java.io.Serializable {
 	public int hashCode() {
 		int result = 17;
 
-		result = 37 * result + this.getCodEstacion();
+		result = 37 * result + (getNombreEstacion() == null ? 0 : this.getNombreEstacion().hashCode());
 		result = 37 * result + (getFecha() == null ? 0 : this.getFecha().hashCode());
 		result = 37 * result + (getHora() == null ? 0 : this.getHora().hashCode());
 		return result;

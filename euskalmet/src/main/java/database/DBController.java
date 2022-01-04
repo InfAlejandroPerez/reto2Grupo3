@@ -137,20 +137,6 @@ public class DBController {
 		return lista;
 	}
 	
-	public int getLastEstacionId(Session sesion) {
-		int ret = 0;
-		String hql = "SELECT max(codEstacion) FROM modelo.Estaciones";
-		
-		Query query = sesion.createQuery(hql);
-		try {
-			ret = (int) query.uniqueResult();
-		} catch (Exception e) {
-			ret = 0;
-		}
-		
-		return ret;	 	
-	}
-	
 	// Geters and Setters
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

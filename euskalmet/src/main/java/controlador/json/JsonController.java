@@ -40,7 +40,6 @@ public class JsonController {
 	/**
 	 * Recibe un objeto json y devuelve un objeto Provincia extrayendo sus datos
 	 * Si la Provincia ya existe en la BBDD devolverá una instancia de la misma
-	 * 
 	 * @param objetoJSON    JSONObject  Objeto json del que se extrae la provincia
 	 * @return              Provincia   Objeto provincia resultante
 	 */
@@ -59,7 +58,6 @@ public class JsonController {
 	/**
 	 * Recibe un objeto json y devuelve un objeto Municipios extrayendo sus datos
 	 * Si el municipio ya existe en la BBDD devolverá una instancia del mismo
-	 *
 	 * @param objetoJSON
 	 * @param municipioKey
 	 * @param nombreKey
@@ -90,22 +88,26 @@ public class JsonController {
 	 * @return
 	 */
 	private Estaciones getEstacion(JSONObject objetoJSON, Municipios mun, Session sesion) {
-        Estaciones est = new Estaciones();
-     	int lastEstacionId = modelo.getDBController().getLastEstacionId(sesion);
-     	
-     	est.setCodEstacion(lastEstacionId + 1);
-     	est.setMunicipios(mun);
-     	est.setNombre((String) objetoJSON.get("Name"));
-     	est.setDireccion((String) objetoJSON.get("Address"));
-     	
-     	String latitude = (String) objetoJSON.get("Latitude");
-     	latitude = latitude.replace(',', '.');
-     	String longitude = (String) objetoJSON.get("Longitude");
-     	longitude = longitude.replace(',', '.');
-     	
-     	est.setCoordenadaX(Double.parseDouble(latitude));
-     	est.setCoordenadaY(Double.parseDouble(longitude));
-     	
+        String nombre = (String) objetoJSON.get("Name");
+		Estaciones est = null;
+		
+		est = sesion.get(Estaciones.class, nombre);
+		
+		if(est == null) {
+			est = new Estaciones();     	
+	     	est.setMunicipios(mun);
+	     	est.setNombre(nombre);
+	     	est.setDireccion((String) objetoJSON.get("Address"));
+	     	
+	     	String latitude = (String) objetoJSON.get("Latitude");
+	     	latitude = latitude.replace(',', '.');
+	     	String longitude = (String) objetoJSON.get("Longitude");
+	     	longitude = longitude.replace(',', '.');
+	     	
+	     	est.setCoordenadaX(Double.parseDouble(latitude));
+	     	est.setCoordenadaY(Double.parseDouble(longitude));
+		}
+		
      	return est;
 	}
 
@@ -115,15 +117,13 @@ public class JsonController {
 	 * @param est
 	 * @return
 	 */
-	private Datos getDatos(JSONObject objetoJSON, Estaciones est) {
+	private Datos getDatos(JSONObject objetoJSON, Estaciones estacion) {
 		LocalDate dia = LocalDate.of(2021, 12, 22);
 		LocalTime hora = LocalTime.of(17, 45, 19);
      	Datos dat = new Datos();
-     	//dat.setId(new DatosId(est.getCodEstacion(), dia, hora));
-     	dat.setId(new DatosId(est.getCodEstacion(), new Date(), new Date()));
-     	dat.setId(new DatosId(est.getCodEstacion(), new Date(), new Date()));
+     	dat.setId(new DatosId(estacion.getNombre(), new Date(), new Date()));
      	dat.setPrecipitaciones("dfdf");
-     	dat.setEstaciones(est);
+     	dat.setEstaciones(estacion);
      	dat.setComgm3(6.66);
      	dat.setCo8hmgm3(4.4);
      	dat.setNogm3(5.5);
@@ -138,15 +138,15 @@ public class JsonController {
 	/**
 	 * Recibe una ruta / contenido de un json y devuelve su JSONArray correspondiente
 	 * @param content        String    Ruta del archivo
-	 * @param isContent   boolean   True si es el contenido de un JSON, false si es su ruta
-	 * @return      JSONArray Array de objetos JSON resultante
+	 * @param isContent      boolean   True si es el contenido de un JSON, false si es su ruta
+	 * @return               JSONArray Array de objetos JSON resultante
 	 */
 	private JSONArray getJSONArray(String content, boolean isContent) {
-		String s = isContent ? content : JsonParse.readFile(content);
+		String text = isContent ? content : JsonParse.readFile(content);
       	JSONParser parser = new JSONParser();
       	JSONArray ret = null;
         try{
-            Object obj = parser.parse(s);
+            Object obj = parser.parse(text);
             JSONArray arrayObjetosJSON = (JSONArray)obj;
             return arrayObjetosJSON;
         } catch(Exception e) {
@@ -213,7 +213,6 @@ public class JsonController {
 	/**
 	 * Lee el archivo json de estaciones y las inserta en la BBDD
 	 * Si no existe el pueblo de una estación lo crea e inserta también
-	 * 
 	 * @param path  String  Ruta del archivo
 	 */
 	private void insertEstaciones(String path) {
@@ -292,8 +291,8 @@ public class JsonController {
 		
       	String pathPueblosBruto = FUENTES_PATH + "municipios/pueblos.json";
 		//controller.insertPueblos(pathPueblosBruto);
-      	//controller.insertEstaciones(JSON_PATH + "estaciones.json");
-      	controller.insertDatos(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
+      	controller.insertEstaciones(JSON_PATH + "estaciones.json");
+      	//controller.insertDatos(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
       	System.out.println("finished");
 	}
 	
