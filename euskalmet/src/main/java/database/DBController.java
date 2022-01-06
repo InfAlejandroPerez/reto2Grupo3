@@ -36,7 +36,7 @@ public class DBController {
 	
 	
 	public List<Datos> getDatos() {
-		String hql = "FROM modelo.Datos";
+		String hql = "FROM modelo.dbClasses.Datos";
 		Session sesion = this.openSession();
 		
 		Query query = sesion.createQuery(hql);
@@ -48,7 +48,7 @@ public class DBController {
 	
 	public List<Datos> getDatos(int codEstacion, LocalDate fecha, LocalTime hora) {
 		List<Datos> ret = null;
-		String hql = "FROM modelo.Datos as dat WHERE Fecha = :fecha AND Hora = :hora";
+		String hql = "FROM modelo.dbClasses.Datos as dat WHERE Fecha = :fecha AND Hora = :hora";
 					
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String dateStr = dateFormatter.format(fecha);
@@ -71,7 +71,7 @@ public class DBController {
 	
 	public Provincia getProvincia(int codProvincia) {
 		Provincia ret;
-		String hql = "FROM modelo.Provincia WHERE CodProvincia = :codProvincia";
+		String hql = "FROM modelo.dbClasses.Provincia WHERE CodProvincia = :codProvincia";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -86,7 +86,7 @@ public class DBController {
 	
 	public Municipios getMunicipio(int codMunicipio, int codProvincia) {
 		Municipios ret;
-		String hql = "FROM modelo.Municipios WHERE CodMunicipio = :codMunicipio and CodProvincia = :codProvincia";
+		String hql = "FROM modelo.dbClasses.Municipios WHERE CodMunicipio = :codMunicipio and CodProvincia = :codProvincia";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -102,7 +102,7 @@ public class DBController {
 	
 	public Municipios getMunicipio(String nameMunicipio) {
 		Municipios ret;
-		String hql = "FROM modelo.Municipios WHERE Nombre = :nameMunicipio";
+		String hql = "FROM modelo.dbClasses.Municipios WHERE Nombre = :nameMunicipio";
 		Session sesion = this.openSession();
 		
 		Query query = sesion.createQuery(hql);
@@ -115,7 +115,7 @@ public class DBController {
 	}
 	
 	public List<Provincia> getProvincias() {
-		String hql = "FROM modelo.Provincia";
+		String hql = "FROM modelo.dbClasses.Provincia";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -127,7 +127,7 @@ public class DBController {
 	}
 	
 	public List<Municipios> getMunicipios() {
-		String hql = "FROM modelo.Municipios";
+		String hql = "FROM modelo.dbClasses.Municipios";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -139,8 +139,8 @@ public class DBController {
 	}
 	
 	public Estaciones getEstacionContaining(String[] partes) {
-		String hql = "FROM modelo.Estaciones";
-		Session sesion = this.getCurrentSession();
+		String hql = "FROM modelo.dbClasses.Estaciones";
+		Session sesion = this.openSession();
 				
 		hql += " WHERE ";
 
@@ -158,9 +158,9 @@ public class DBController {
 			query.setParameter(paramName, paramValue);
 		}
 
-
-		
-		return (Estaciones) query.uniqueResult();
+		Estaciones ret = (Estaciones) query.uniqueResult();
+		sesion.close();
+		return ret;
 	}
 	
 	// Geters and Setters

@@ -67,6 +67,7 @@ public class JsonParse {
      * @return                     String    Contenido del archivo
      */
     public String readURL(String path, boolean parseJSONCallback) {
+    	System.out.println("Reading content from: " + path);
     	String[] commands =  {"curl", "-X", "GET", path};
     	Process process = null;
     	String ret = "";
