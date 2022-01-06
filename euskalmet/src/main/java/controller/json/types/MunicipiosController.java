@@ -9,9 +9,9 @@ import controller.json.JsonController;
 import controller.json.JsonParse;
 import database.DBController;
 import modelo.Modelo;
-import modelo.Municipios;
-import modelo.MunicipiosId;
-import modelo.Provincia;
+import modelo.dbClasses.Municipios;
+import modelo.dbClasses.MunicipiosId;
+import modelo.dbClasses.Provincia;
 
 public class MunicipiosController extends JsonController {
 

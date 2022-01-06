@@ -10,11 +10,11 @@ import org.hibernate.Session;
 
 import controller.json.JsonParse;
 import database.DBController;
-import modelo.Datos;
-import modelo.DatosId;
 import modelo.Modelo;
-import modelo.Municipios;
-import modelo.Provincia;
+import modelo.dbClasses.Datos;
+import modelo.dbClasses.DatosId;
+import modelo.dbClasses.Municipios;
+import modelo.dbClasses.Provincia;
 
 public class Main {
 	public static void main(String[] args) {

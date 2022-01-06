@@ -7,9 +7,9 @@ import org.json.simple.JSONObject;
 
 import controller.json.JsonController;
 import controller.json.JsonParse;
-import modelo.Estaciones;
 import modelo.Modelo;
-import modelo.Municipios;
+import modelo.dbClasses.Estaciones;
+import modelo.dbClasses.Municipios;
 
 public class EstacionesController extends JsonController {
 

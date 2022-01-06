@@ -17,13 +17,13 @@ import controller.json.types.DatosController;
 import controller.json.types.EstacionesController;
 import controller.json.types.MunicipiosController;
 import database.DBController;
-import modelo.Datos;
-import modelo.DatosId;
-import modelo.Estaciones;
 import modelo.Modelo;
-import modelo.Municipios;
-import modelo.MunicipiosId;
-import modelo.Provincia;
+import modelo.dbClasses.Datos;
+import modelo.dbClasses.DatosId;
+import modelo.dbClasses.Estaciones;
+import modelo.dbClasses.Municipios;
+import modelo.dbClasses.MunicipiosId;
+import modelo.dbClasses.Provincia;
 
 public class JsonController {
 	

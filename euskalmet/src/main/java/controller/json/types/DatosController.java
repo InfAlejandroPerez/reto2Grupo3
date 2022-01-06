@@ -11,10 +11,10 @@ import org.json.simple.JSONObject;
 
 import controller.json.JsonController;
 import controller.json.JsonParse;
-import modelo.Datos;
-import modelo.DatosId;
-import modelo.Estaciones;
 import modelo.Modelo;
+import modelo.dbClasses.Datos;
+import modelo.dbClasses.DatosId;
+import modelo.dbClasses.Estaciones;
 
 public class DatosController extends JsonController {
 

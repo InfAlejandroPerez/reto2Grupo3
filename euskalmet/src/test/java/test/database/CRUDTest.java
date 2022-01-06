@@ -17,9 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import database.HibernateUtil;
-import modelo.Municipios;
-import modelo.Provincia;
-import modelo.Usuarios;
+import modelo.dbClasses.Municipios;
+import modelo.dbClasses.Provincia;
+import modelo.dbClasses.Usuarios;
 
 @TestMethodOrder(OrderAnnotation.class)
 class CRUDTest {

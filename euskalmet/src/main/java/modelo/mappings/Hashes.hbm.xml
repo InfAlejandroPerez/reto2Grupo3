@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generated 4 ene 2022 0:52:55 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
-    <class catalog="euskalmet" dynamic-insert="false" dynamic-update="false" mutable="true" name="modelo.Hashes" optimistic-lock="none" polymorphism="implicit" select-before-update="false" table="hashes">
+    <class catalog="euskalmet" dynamic-insert="false" dynamic-update="false" mutable="true" name="modelo.dbClasses.Hashes" optimistic-lock="none" polymorphism="implicit" select-before-update="false" table="hashes">
         <id name="codHash" type="int">
             <column name="CodHash"/>
             <generator class="assigned"/>
