@@ -68,6 +68,19 @@ public class DBController {
 		return ret;
 	}
 	
+	public int getLastEspacioId(Session sesion) {
+		int ret = 0;
+		String hql = "SELECT max(codEspacio) FROM modelo.dbClasses.EspaciosNaturales";
+		
+		Query query = sesion.createQuery(hql);
+		try {
+			ret = (int) query.uniqueResult();
+		} catch (Exception e) {
+			ret = 0;
+		}
+
+		return ret;	 	
+	}
 	
 	public Provincia getProvincia(int codProvincia) {
 		Provincia ret;

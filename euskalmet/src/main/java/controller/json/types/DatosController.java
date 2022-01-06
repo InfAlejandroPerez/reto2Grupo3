@@ -95,7 +95,6 @@ public class DatosController extends JsonController {
         	
         	insertDatosEstacion(content, nombreEstacion);
         	System.out.println("Completado " + ( ++i ) + "/" + arrayIndice.size());
-        	break;
 		}
 				
 	}
