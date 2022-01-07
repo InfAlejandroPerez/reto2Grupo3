@@ -15,7 +15,6 @@ import controller.json.JsonParse;
 import modelo.Modelo;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Municipios;
-import modelo.dbClasses.MunicipiosId;
 
 public class EspaciosNaturalesController extends JsonController {
 
@@ -23,6 +22,12 @@ public class EspaciosNaturalesController extends JsonController {
 		super(parser, modelo);
 	}
 	
+	/**
+	 * Recibe un objeto JSON de un espacio natural y devuelve su lista municipios
+	 * Si no existe alguno de los municipios del espacio, lo crea y lo inserta a la BBDD
+	 * @param espacioJSON  JSONObject        Objeto JSON leído de espacios-naturales.json
+	 * @return ret		   List<Municipios>  Lista de municipios en los que se encuentra el espacio
+	 */
 	private List<Municipios> getMunicipios(JSONObject espacioJSON) {
 		String codMunicipiosBruto = (String) espacioJSON.get("municipalitycode");
 		String codProvinciasBruto = (String) espacioJSON.get("territorycode");
@@ -61,6 +66,12 @@ public class EspaciosNaturalesController extends JsonController {
 		return ret;
 	}
 	
+	/**
+	 * Recibe un objeto JSON de un espacio natural y devuelve un objeto EspacioNatural
+	 * @param espacioJSON
+	 * @param sesion
+	 * @return
+	 */
 	private EspaciosNaturales getEspacio(JSONObject espacioJSON, Session sesion) {
 		int codEspacio = this.modelo.getDBController().getLastEspacioId(sesion);
 		EspaciosNaturales esp = sesion.get(EspaciosNaturales.class, codEspacio);
@@ -77,6 +88,10 @@ public class EspaciosNaturalesController extends JsonController {
 		return esp;     	
 	}
 	
+	/**
+	 * Inserta todos los espacios naturales recogidos del json espacios-naturales.json
+	 * @param path
+	 */
 	public void insertEspaciosNaturales(String path) {
 		JSONArray arrayEspacios = getJSONArray(path, false);
         

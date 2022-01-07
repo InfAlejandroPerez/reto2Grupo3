@@ -103,6 +103,11 @@ public class Datos implements java.io.Serializable {
 		this.comgm3 = comgm3;
 	}
 	
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setComgm3(JSONObject datosJSON, String datoKey) {
      	String cOmgm3 = (String) datosJSON.get(datoKey);
      	if(cOmgm3 != null) {
@@ -121,6 +126,11 @@ public class Datos implements java.io.Serializable {
 		this.co8hmgm3 = co8hmgm3;
 	}
 	
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setCo8hmgm3(JSONObject datosJSON, String datoKey) {
      	String co8hmgm3 = (String) datosJSON.get(datoKey);
      	if(co8hmgm3 != null) {
@@ -139,6 +149,11 @@ public class Datos implements java.io.Serializable {
 		this.nogm3 = nogm3;
 	}
 	
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setNogm3(JSONObject datosJSON, String datoKey) {
      	String nogm3 = (String) datosJSON.get(datoKey);
      	if(nogm3 != null) {
@@ -158,6 +173,11 @@ public class Datos implements java.io.Serializable {
 		this.noxgm3 = noxgm3;
 	}
 	
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setNoxgm3(JSONObject datosJSON, String datoKey) {
      	String noxgm3 = (String) datosJSON.get(datoKey);
      	if(noxgm3 != null) {
@@ -177,6 +197,11 @@ public class Datos implements java.io.Serializable {
 		this.pm10gm3 = pm10gm3;
 	}
 
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setPm10gm3(JSONObject datosJSON, String datoKey) {
      	String pm10gm3 = (String) datosJSON.get(datoKey);
      	if(pm10gm3 != null) {
@@ -196,6 +221,11 @@ public class Datos implements java.io.Serializable {
 		this.pm25gm3 = pm25gm3;
 	}
 
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setPm25gm3(JSONObject datosJSON, String datoKey) {
      	String pm25gm3 = (String) datosJSON.get(datoKey);
      	if(pm25gm3 != null) {
@@ -214,6 +244,11 @@ public class Datos implements java.io.Serializable {
 		this.so2gm3 = so2gm3;
 	}
 	
+	/**
+	 * Setter diseñado para recoger el atributo desde una url del index.json
+	 * @param datosJSON
+	 * @param datoKey
+	 */
 	public void setSo2gm3(JSONObject datosJSON, String datoKey) {
      	String so2gm3 = (String) datosJSON.get(datoKey);
      	if(so2gm3 != null) {

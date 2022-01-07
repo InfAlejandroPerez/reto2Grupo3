@@ -2,7 +2,6 @@ package controller.json.types;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,16 +21,23 @@ public class DatosController extends JsonController {
 		super(parser, modelo);
 	}
 
+	/**
+	 * Recibe el nombre de una estación ubicada en el index.json y devuelve su respectivo objeto Estaciones
+	 * Dado que los nombres del index no son iguales este método busca la equivalencia con el nombre de la estación guardado en la BBDD
+	 * @param nombreIndex   String   Nombre de una estación ubicada en el índice
+	 * @return              Estacion Objeto Estaciones encontrada
+	 */
 	private Estaciones getEstacionFromIndexName(String nombreIndex) {
 		String[] partes = nombreIndex.split("_");
 		Estaciones est = this.modelo.getDBController().getEstacionContaining(partes);
 		return est;	
 	}
 
-	private Datos setCOmgm3(Datos datos, String datoKey) {
-		return null;	
-	}
-	
+	/**
+	 * Recibe el objeto JSON de un grupo de datos y devuelve un objeto LocalDate con su fecha
+	 * @param objetoJSON  JSONObject  Objeto JSON proveniente de estaciones.json
+	 * @return            LocalDate   Objeto LocalDate con la fecha correspondiente
+	 */
 	private LocalDate getDate(JSONObject objetoJSON) {
 		String fechaBruto = (String) objetoJSON.get("Date");
 		String[] fechaPartes = fechaBruto.split("\\/");
@@ -45,6 +51,11 @@ public class DatosController extends JsonController {
 		return fecha;
 	}
 	
+	/**
+	 * Recibe el objeto JSON de un grupo de datos y devuelve un objeto LocalTime con su hora
+	 * @param objetoJson  JSONObject  Objeto JSON proveniente de estaciones.json
+	 * @return            LocalDate   Objeto LocalTime con la hora correspondiente
+	 */
 	private LocalTime getTime(JSONObject objetoJson) {
 		String horaBruto = (String) objetoJson.get("HourGMT");
 		String[] horaPartes = horaBruto.split(":");
@@ -83,6 +94,10 @@ public class DatosController extends JsonController {
      	return dat; 	
 	}
 	
+	/**
+	 * Recibe el índice de los datos de todas las estaciones
+	 * @param path  String  Ruta del archivo index.json
+	 */
 	public void insertDatos(String path) {
 		JSONArray arrayIndice = getJSONArray(path, false);
 		
@@ -99,6 +114,11 @@ public class DatosController extends JsonController {
 				
 	}
 	
+	/**
+	 * Inserta los datos de una sola estación
+	 * @param content         String  Datos de una estación recibidos de la url indicada en un objeto del index.json
+	 * @param nombreEstacion  String  El nombre de la estación
+	 */
 	private void insertDatosEstacion(String content, String nombreEstacion) {
 		JSONArray arrayDatos = getJSONArray(content, true);
     	Session sesion = this.modelo.getDBController().openSession();

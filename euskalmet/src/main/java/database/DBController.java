@@ -151,6 +151,11 @@ public class DBController {
 		return lista;
 	}
 	
+	/**
+	 * Método que recoge los fragmentos de un nombre de estación hallado en el index y devuelve el objeto Estacion de la BBDD
+	 * @param partes String[] Resultado de un split separado por _ del nombre del índice
+	 * @return
+	 */
 	public Estaciones getEstacionContaining(String[] partes) {
 		String hql = "FROM modelo.dbClasses.Estaciones";
 		Session sesion = this.openSession();

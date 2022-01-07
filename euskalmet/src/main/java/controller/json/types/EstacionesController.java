@@ -20,7 +20,6 @@ public class EstacionesController extends JsonController {
 	/**
 	 * Recibe un objeto JSON y devuelve un objeto Estaciones extrayendo sus datos
 	 * Se le ha de pasar la sesión por parámetro ya que necesita buscar el último elemento insertado en la sesión local o dará error
-	 * TODO: sustituir atributos inherentes al json por parámetros de la función
 	 * @param objetoJSON
 	 * @param mun
 	 * @param sesion

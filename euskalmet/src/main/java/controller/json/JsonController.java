@@ -1,16 +1,11 @@
 package controller.json;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import controller.json.types.DatosController;
@@ -19,12 +14,8 @@ import controller.json.types.EstacionesController;
 import controller.json.types.MunicipiosController;
 import database.DBController;
 import modelo.Modelo;
-import modelo.dbClasses.Datos;
-import modelo.dbClasses.DatosId;
-import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.MunicipiosId;
-import modelo.dbClasses.Provincia;
 
 public class JsonController {
 	
@@ -35,18 +26,9 @@ public class JsonController {
 	protected static String CSV_PATH = FUENTES_PATH + "csv/";
 	protected Modelo modelo;
 	
-	//protected MunicipiosController munController;
-	//protected EstacionesController estController;
-	//protected DatosController      datController;
-	
 	public JsonController(JsonParse parser, Modelo modelo) {
-		//super();
 		this.parser = parser;
 		this.modelo = modelo;
-		
-		//munController = new MunicipiosController(parser, modelo);
-		//estController = new EstacionesController(parser, modelo);
-		//datController = new DatosController(parser, modelo);
 	}
 
 	/**
@@ -149,6 +131,7 @@ public class JsonController {
       	String jsonIndex = JSON_PATH + "index.json";
       	//datController.insertDatos(jsonIndex);
       	
+      	// Espacios Naturales
       	EspaciosNaturalesController espController = new EspaciosNaturalesController(parser, modelo);
       	String espacios_path = JSON_PATH + "espacios-naturales.json";
       	//espController.insertEspaciosNaturales(espacios_path);
