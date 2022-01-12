@@ -10,17 +10,19 @@ public class Datos implements java.io.Serializable {
 
 	private DatosId id;
 	private Estaciones estaciones;
-	private String precipitaciones;
-	private int temperatura;
-	private int velocidadViento;
 	private Double comgm3;
 	private Double co8hmgm3;
 	private Double nogm3;
+	private Double no2gm3;
+	private String no2ICA;
 	private Double noxgm3;
 	private Double pm10gm3;
+	private String pm10ICA;
 	private Double pm25gm3;
+	private String pm25ICA;
 	private Double so2gm3;
-
+	private String so2ICA;
+	private String estacionICA;
 	public Datos() {
 	}
 
@@ -28,22 +30,16 @@ public class Datos implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	public Datos(DatosId id, Estaciones estaciones, String precipitaciones, int temperatura, int velocidadViento) {
+	public Datos(DatosId id, Estaciones estaciones, int temperatura, int velocidadViento) {
 		this.id = id;
 		this.estaciones = estaciones;
-		this.precipitaciones = precipitaciones;
-		this.temperatura = temperatura;
-		this.velocidadViento = velocidadViento;
 	}
 
-	public Datos(DatosId id, Estaciones estaciones, String precipitaciones, int temperatura, int velocidadViento,
+	public Datos(DatosId id, Estaciones estaciones,
 			Double comgm3, Double co8hmgm3, Double nogm3, Double noxgm3, Double pm10gm3, Double pm25gm3,
 			Double so2gm3) {
 		this.id = id;
 		this.estaciones = estaciones;
-		this.precipitaciones = precipitaciones;
-		this.temperatura = temperatura;
-		this.velocidadViento = velocidadViento;
 		this.comgm3 = comgm3;
 		this.co8hmgm3 = co8hmgm3;
 		this.nogm3 = nogm3;
@@ -67,30 +63,6 @@ public class Datos implements java.io.Serializable {
 
 	public void setEstaciones(Estaciones estaciones) {
 		this.estaciones = estaciones;
-	}
-
-	public String getPrecipitaciones() {
-		return this.precipitaciones;
-	}
-
-	public void setPrecipitaciones(String precipitaciones) {
-		this.precipitaciones = precipitaciones;
-	}
-
-	public int getTemperatura() {
-		return this.temperatura;
-	}
-
-	public void setTemperatura(int temperatura) {
-		this.temperatura = temperatura;
-	}
-
-	public int getVelocidadViento() {
-		return this.velocidadViento;
-	}
-
-	public void setVelocidadViento(int velocidadViento) {
-		this.velocidadViento = velocidadViento;
 	}
 
 	// COmgm3
@@ -162,6 +134,21 @@ public class Datos implements java.io.Serializable {
 
      	}
 	}
+	
+	// NO2gm3	
+		/**
+		 * Setter diseñado para recoger el atributo desde una url del index.json
+		 * @param datosJSON
+		 * @param datoKey
+		 */
+		public void setNo2gm3(JSONObject datosJSON, String datoKey) {
+	     	String no2gm3 = (String) datosJSON.get(datoKey);
+	     	if(no2gm3 != null) {
+	     		no2gm3 = no2gm3.replaceAll(",", ".");     		
+	     		this.setNo2gm3( Double.parseDouble(no2gm3) );
+
+	     	}
+		}
 
 	// NOXgm3
 	
@@ -256,5 +243,56 @@ public class Datos implements java.io.Serializable {
      		this.setSo2gm3( Double.parseDouble(so2gm3) );
      	}
 	}
+
+	public Double getNo2gm3() {
+		return no2gm3;
+	}
+
+	public void setNo2gm3(Double no2gm3) {
+		this.no2gm3 = no2gm3;
+	}
+
+	public String getNo2ICA() {
+		return no2ICA;
+	}
+
+	public void setNo2ICA(String no2ica) {
+		no2ICA = no2ica;
+	}
+
+	
+	public String getPm10ICA() {
+		return pm10ICA;
+	}
+
+	public void setPm10ICA(String pm10ica) {
+		pm10ICA = pm10ica;
+	}
+
+
+	public String getPm25ICA() {
+		return pm25ICA;
+	}
+
+	public void setPm25ICA(String pm25ica) {
+		pm25ICA = pm25ica;
+	}
+
+	public String getSo2ICA() {
+		return so2ICA;
+	}
+
+	public void setSo2ICA(String so2ica) {
+		so2ICA = so2ica;
+	}
+
+	public String getEstacionICA() {
+		return estacionICA;
+	}
+
+	public void setEstacionICA(String estacionICA) {
+		this.estacionICA = estacionICA;
+	}
+
 
 }

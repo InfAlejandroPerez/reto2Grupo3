@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-01-2022 a las 19:50:18
+-- Tiempo de generación: 12-01-2022 a las 20:06:15
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -31,16 +31,19 @@ CREATE TABLE `datos` (
   `NombreEstacion` varchar(30) NOT NULL,
   `Fecha` date NOT NULL,
   `Hora` time NOT NULL,
-  `Precipitaciones` varchar(50) DEFAULT NULL,
-  `Temperatura` int(11) DEFAULT NULL,
-  `Velocidad viento` int(11) DEFAULT NULL,
   `COmgm3` double DEFAULT NULL,
   `CO8hmgm3` double DEFAULT NULL,
+  `NO2gm3` double DEFAULT NULL,
+  `NO2ICA` varchar(50) DEFAULT NULL,
   `NOgm3` double DEFAULT NULL,
   `NOXgm3` double DEFAULT NULL,
   `PM10gm3` double DEFAULT NULL,
+  `PM10ICA` varchar(50) DEFAULT NULL,
   `PM25gm3` double DEFAULT NULL,
-  `SO2gm3` double DEFAULT NULL
+  `PM25ICA` varchar(50) DEFAULT NULL,
+  `SO2gm3` double DEFAULT NULL,
+  `SO2ICA` varchar(50) DEFAULT NULL,
+  `ICAEstacion` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

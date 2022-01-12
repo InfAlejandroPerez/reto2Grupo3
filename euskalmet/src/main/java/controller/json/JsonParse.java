@@ -40,6 +40,7 @@ public class JsonParse {
 //	  Replace: $1$2
 //	  
 //	  
+//    TODO: Parsear dinámicamente los archivos en su primera lectura para cuando haya que leer desde la api
 //	  Para eliminar los espacios después de las entidades de tilde y ñ
 //	  
 //	  Search: (&.acute|&ntilde) ?

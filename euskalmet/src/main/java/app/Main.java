@@ -1,10 +1,7 @@
 package app;
 
-import java.net.URL;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import org.hibernate.Session;
 
@@ -13,8 +10,6 @@ import database.DBController;
 import modelo.Modelo;
 import modelo.dbClasses.Datos;
 import modelo.dbClasses.DatosId;
-import modelo.dbClasses.Municipios;
-import modelo.dbClasses.Provincia;
 
 public class Main {
 	public static void main(String[] args) {

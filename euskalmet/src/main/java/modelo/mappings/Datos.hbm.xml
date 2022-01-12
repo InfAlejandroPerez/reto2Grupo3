@@ -14,37 +14,57 @@
             </key-property>
         </composite-id>
         <many-to-one class="modelo.dbClasses.Estaciones" embed-xml="true" fetch="select" insert="false" name="estaciones" not-found="exception" optimistic-lock="true" unique="false" update="false">
-            <column length="30" name="NombreEstacion" not-null="true"/>
+            <column length="30" name="NombreEstacion" not-null="false"/>
         </many-to-one>
-        <property generated="never" lazy="false" name="precipitaciones" optimistic-lock="true" type="string" unique="false">
-            <column length="50" name="Precipitaciones" not-null="false"/>
-        </property>
-        <property generated="never" lazy="false" name="temperatura" optimistic-lock="true" type="int" unique="false">
-            <column name="Temperatura" not-null="false"/>
-        </property>
-        <property generated="never" lazy="false" name="velocidadViento" optimistic-lock="true" type="int" unique="false">
-            <column name="`Velocidad viento`" not-null="false"/>
-        </property>
+
         <property generated="never" lazy="false" name="comgm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="COmgm3" precision="22" scale="0"/>
+            <column name="COmgm3" precision="22" scale="0" not-null="false"/>
         </property>
         <property generated="never" lazy="false" name="co8hmgm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="CO8hmgm3" precision="22" scale="0"/>
+            <column name="CO8hmgm3" precision="22" scale="0" not-null="false"/>
         </property>
+        
         <property generated="never" lazy="false" name="nogm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="NOgm3" precision="22" scale="0"/>
+            <column name="NOgm3" precision="22" scale="0" not-null="false"/>
         </property>
+        
+        <property generated="never" lazy="false" name="no2gm3" optimistic-lock="true" type="java.lang.Double" unique="false">
+            <column name="NO2gm3" precision="22" scale="0" not-null="false"/>
+        </property>
+        <property generated="never" lazy="false" name="no2ICA" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="NO2ICA" not-null="false" />
+        </property>
+      
+      
         <property generated="never" lazy="false" name="noxgm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="NOXgm3" precision="22" scale="0"/>
+            <column name="NOXgm3" precision="22" scale="0" not-null="false"/>
         </property>
+        
         <property generated="never" lazy="false" name="pm10gm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="PM10gm3" precision="22" scale="0"/>
+            <column name="PM10gm3" precision="22" scale="0" not-null="false"/>
         </property>
+        <property generated="never" lazy="false" name="pm10ICA" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="PM10ICA" not-null="false"/>
+        </property>
+        
         <property generated="never" lazy="false" name="pm25gm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="PM25gm3" precision="22" scale="0"/>
+            <column name="PM25gm3" precision="22" scale="0" not-null="false"/>
         </property>
+        <property generated="never" lazy="false" name="pm25ICA" optimistic-lock="true" type="string" unique="false">
+            <column length="50" name="PM25ICA" not-null="false"/>
+        </property>
+        
+        
         <property generated="never" lazy="false" name="so2gm3" optimistic-lock="true" type="java.lang.Double" unique="false">
-            <column name="SO2gm3" precision="22" scale="0"/>
+            <column name="SO2gm3" precision="22" scale="0" not-null="false"/>
+        </property>
+        <property generated="never" lazy="false" name="so2ICA" optimistic-lock="true" type="string" unique="false">
+            <column name="SO2ICA" precision="22" scale="0" not-null="false"/>
+        </property>
+        
+        
+        <property generated="never" lazy="false" name="estacionICA" optimistic-lock="true" type="string" unique="false">
+            <column name="ICAEstacion" precision="22" scale="0" not-null="false"/>
         </property>
     </class>
 </hibernate-mapping>

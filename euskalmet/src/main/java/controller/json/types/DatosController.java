@@ -81,35 +81,53 @@ public class DatosController extends JsonController {
 
      	Datos dat = new Datos();
      	dat.setId(new DatosId(estacion.getNombre(), fecha, time));
-     	//dat.setPrecipitaciones("dfdf");
      	dat.setEstaciones(estacion);
      	dat.setComgm3(objetoJSON, "COmgm3");
      	dat.setCo8hmgm3(objetoJSON, "CO8hmgm3");
+     	
      	dat.setNogm3(objetoJSON, "NOgm3");
-     	dat.setPm25gm3(objetoJSON, "PM25gm3");
-     	dat.setPm10gm3(objetoJSON, "PM10gm3");
-     	dat.setSo2gm3(objetoJSON, "PM25gm3");
-     	dat.setNoxgm3(objetoJSON, "SO2gm3");
+     	
+     	dat.setNo2gm3(objetoJSON, "NO2");
+     	dat.setNo2ICA((String) objetoJSON.get("NO2ICA"));
+     	
+     	dat.setPm25gm3(objetoJSON, "PM25");
+     	dat.setPm25ICA((String) objetoJSON.get("PM25ICA"));
+     	
+     	dat.setPm10gm3(objetoJSON, "PM10");
+     	dat.setPm10ICA((String) objetoJSON.get("PM10ICA"));
+     	
+     	dat.setNoxgm3(objetoJSON, "NOXgm3");
+     	
+     	dat.setNo2gm3(objetoJSON, "NO2");
+     	dat.setNo2ICA((String) objetoJSON.get("NO2ICA"));
+     	
+     	dat.setSo2gm3(objetoJSON, "SO2");
+     	dat.setSo2ICA((String) objetoJSON.get("SO2ICA"));
+     	
+     	dat.setEstacionICA((String) objetoJSON.get("ICAEstacion"));
      	
      	return dat; 	
 	}
 	
 	/**
-	 * Recibe el índice de los datos de todas las estaciones
+	 * Recibe el index de los datos de todas las estaciones e inserta todos los datos en las URLs que encuentra
 	 * @param path  String  Ruta del archivo index.json
 	 */
-	public void insertDatos(String path) {
+	public void insertDatos(String path) { 
 		JSONArray arrayIndice = getJSONArray(path, false);
-		
+		int cont = 0;
 		for(int i = 0 ; i < arrayIndice.size() ; i++) {
-        	JSONObject indiceDato = (JSONObject) arrayIndice.get(i);
-        	
-        	String nombreEstacion = (String) indiceDato.get("name");
+    		JSONObject indiceDato = (JSONObject) arrayIndice.get(i);
         	String url = (String) indiceDato.get("url");
-        	String content = parser.readURL(url, true);
         	
-        	insertDatosEstacion(content, nombreEstacion);
-        	System.out.println("Completado " + ( ++i ) + "/" + arrayIndice.size());
+        	if(url.contains("/datos_indice")) {
+            	String content = parser.readURL(url, true);
+    			String nombreEstacion = (String) indiceDato.get("name");
+            	insertDatosEstacion(content, nombreEstacion);
+        	}
+        	
+        	System.out.println("Completado " + ( ++cont ) + "/" + arrayIndice.size());
+
 		}
 				
 	}

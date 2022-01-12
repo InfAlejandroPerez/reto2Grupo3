@@ -129,7 +129,7 @@ public class JsonController {
       	DatosController datController = new DatosController(parser, modelo);
 		//datController.insertDatosEstacion(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
       	String jsonIndex = JSON_PATH + "index.json";
-      	//datController.insertDatos(jsonIndex);
+      	datController.insertDatos(jsonIndex);
       	
       	// Espacios Naturales
       	EspaciosNaturalesController espController = new EspaciosNaturalesController(parser, modelo);
