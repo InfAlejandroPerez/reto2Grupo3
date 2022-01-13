@@ -1,37 +1,17 @@
 package controller.json;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
-
-import org.apache.commons.codec.binary.StringUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-
-import database.DBController;
-import modelo.Modelo;
 
 public class JsonParse {
 //	  Para parsear las provincias repetidas
@@ -111,85 +91,6 @@ public class JsonParse {
 		}
 	}
     
-    /**
-     * Elimina atributos de los objetos de un archivo JSON
-     * @param path   String   Ruta del archivo JSON a analizar
-     * @param atts	 Array	  Array de claves sobre las que se desea operar
-     * @param remove boolean  True si se desea eliminar las claves contenidas en atts, false si se eliminarán todas las que no aparecen en el mismo
-     */
-    public String removeAtts(String path, String[] atts, boolean remove) {
-    	String s = readFile(path);
-      	JSONParser parser = new JSONParser();
-        try{
-            Object obj = parser.parse(s);
-            JSONArray arrayObjetosJSON = (JSONArray)obj;
-
-            for(int i = 0 ; i < arrayObjetosJSON.size() ; i++) {
-              	boolean fixDescription = false;
-
-            	JSONObject objetoJSON = (JSONObject) arrayObjetosJSON.get(i);
-            	Iterator it = objetoJSON.entrySet().iterator();
-            	
-            	while(it.hasNext()) {
-            	    String key = ((Entry) it.next()).getKey().toString();
-            	    
-            	    boolean mantener = remove;
-            	    
-            	    for(int j = 0 ; j < atts.length ; j++) {
-            	    	boolean equals = key.equals(atts[j]);
-            	    	if(equals) {
-            	    		mantener = !remove;
-            	    		break;
-            	    	}
-            	    }
-            	    
-            	    if(!mantener) {
-            	    	it.remove();
-            	    } 
-            	    else if (key.equals("turismDescription")) {
-            	    	fixDescription = true;
-            	    }
-            	}
-            	if(fixDescription) {
-                	String content = (String) objetoJSON.get("turismDescription");
-        	    	objetoJSON.remove("turismDescription");
-        	    	objetoJSON.put("turismDescription", this.htmlToPlainText(content));
-                }
-            }
-            
-            
-            
-            String y = arrayObjetosJSON.toString();
-            System.out.println(y);
-            return arrayObjetosJSON.toString();
-          
-         }catch(ParseException pe) {
-             System.out.println("position: " + pe.getPosition());
-             System.out.println(pe);
-             return null;
-          }
-    }
-    
-    public String jsonToCSV(String jsonPath, String csvPath) {
-    	try {
-			JsonNode jsonTree = new ObjectMapper().readTree(new File(jsonPath));
-			
-			com.fasterxml.jackson.dataformat.csv.CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
-			JsonNode firstObject = jsonTree.elements().next();
-			firstObject.fieldNames().forEachRemaining(fieldName -> {csvSchemaBuilder.addColumn(fieldName);} );
-			CsvSchema csvSchema = csvSchemaBuilder.build().withHeader().withColumnSeparator(';').withEscapeChar('"');
-			
-			CsvMapper csvMapper = new CsvMapper();
-			csvMapper.writerFor(JsonNode.class)
-			  .with(csvSchema)
-			  .writeValue(new File(csvPath), jsonTree);
-			
-    	} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return jsonPath;
-    }
-    
     public String htmlToPlainText(String html) {
     	final StringBuilder sb = new StringBuilder();
       	HTMLEditorKit.ParserCallback parserCallback = new HTMLEditorKit.ParserCallback() {
@@ -226,29 +127,5 @@ public class JsonParse {
 		}    
       	
     }
-    
-	public static void main(String[] args) {
-			DBController bbddController = new DBController();	
-			Modelo modelo = new Modelo(bbddController);
-	      	JsonParse parser = new JsonParse();
-	      	
-	      	String[] atts = {"municipalitycode", "municipality", "territorycode", "turismDescription"};
-	      	String[] atts2 = {"municipality"};
-	      	
-	      	
-	      	String pathJsonBruto = JsonController.getJSON_PATH() + "pueblos.json";
-	      	String bruto = parser.removeAtts(pathJsonBruto, atts, false);;
-	      	byte[] parsedJsonPueblos = StringUtils.getBytesUtf8(bruto);
-	      	String parsedJsonPueblosUTF8 = StringUtils.newStringUtf8(parsedJsonPueblos);
-	      	
-	      	//String  pueblosJsonParsed = JsonController.getJSON_PARSED_PATH() + "parsed-pueblos.json";
-	      	//parser.printIntoFile(pueblosJsonParsed, parsedJsonPueblosUTF8);
-	      	String pueblosCSV = JsonController.getCSV_PATH() + "pueblos.csv";
 
-	      	//parser.jsonToCSV(pueblosJsonParsed, pueblosCSV);
-	      	
-	      	
-	      	
-	      	
-	}
 }
