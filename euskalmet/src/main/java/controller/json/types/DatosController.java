@@ -12,6 +12,8 @@ import controller.json.JsonController;
 import controller.json.JsonParse;
 import modelo.Modelo;
 import modelo.dbClasses.Datos;
+import modelo.dbClasses.DatosDiarios;
+import modelo.dbClasses.DatosDiariosId;
 import modelo.dbClasses.DatosId;
 import modelo.dbClasses.Estaciones;
 
@@ -98,15 +100,32 @@ public class DatosController extends JsonController {
      	
      	dat.setNoxgm3(objetoJSON, "NOXgm3");
      	
-     	dat.setNo2gm3(objetoJSON, "NO2");
-     	dat.setNo2ICA((String) objetoJSON.get("NO2ICA"));
-     	
      	dat.setSo2gm3(objetoJSON, "SO2");
      	dat.setSo2ICA((String) objetoJSON.get("SO2ICA"));
      	
      	dat.setEstacionICA((String) objetoJSON.get("ICAEstacion"));
      	
      	return dat; 	
+	}
+	
+	private DatosDiarios getDatosDiarios(JSONObject objetoJSON, Estaciones estacion) {
+		LocalDate fecha = getDate(objetoJSON);
+		DatosDiarios datDiario = new DatosDiarios();
+		datDiario.setId(new DatosDiariosId(estacion.getNombre(), fecha));
+		datDiario.setEstaciones(estacion);
+		
+		datDiario.setComgm3(objetoJSON, "COmgm3");
+		datDiario.setCo8hmgm3(objetoJSON, "CO8hmgm3");
+     	
+		datDiario.setNogm3(objetoJSON, "NOgm3");
+		datDiario.setNo2gm3(objetoJSON, "NO2gm3");
+		datDiario.setPm25gm3(objetoJSON, "PM25gm3");
+		datDiario.setPm10gm3(objetoJSON, "PM10gm3");     	
+		datDiario.setNoxgm3(objetoJSON, "NOXgm3");
+		datDiario.setSo2gm3(objetoJSON, "SO2gm3");
+
+		
+		return datDiario;
 	}
 	
 	/**
@@ -123,7 +142,12 @@ public class DatosController extends JsonController {
         	if(url.contains("/datos_indice")) {
             	String content = parser.readURL(url, true);
     			String nombreEstacion = (String) indiceDato.get("name");
-            	insertDatosEstacion(content, nombreEstacion);
+            	insertDatosEstacion(content, nombreEstacion, false);
+        	}
+        	else if (url.contains("/datos_diarios")) {
+        		String content = parser.readURL(url, true);
+    			String nombreEstacion = (String) indiceDato.get("name");
+            	insertDatosEstacion(content, nombreEstacion, true);
         	}
         	
         	System.out.println("Completado " + ( ++cont ) + "/" + arrayIndice.size());
@@ -137,7 +161,7 @@ public class DatosController extends JsonController {
 	 * @param content         String  Datos de una estación recibidos de la url indicada en un objeto del index.json
 	 * @param nombreEstacion  String  El nombre de la estación
 	 */
-	private void insertDatosEstacion(String content, String nombreEstacion) {
+	private void insertDatosEstacion(String content, String nombreEstacion, boolean sonDatosDiarios) {
 		JSONArray arrayDatos = getJSONArray(content, true);
     	Session sesion = this.modelo.getDBController().openSession();
     	Transaction transaction = sesion.beginTransaction();
@@ -146,8 +170,18 @@ public class DatosController extends JsonController {
         	JSONObject datosJson = (JSONObject) arrayDatos.get(i);
         	Estaciones estacion = getEstacionFromIndexName(nombreEstacion);
         	if (estacion == null) continue;
-        	Datos datos = getDatos(datosJson, estacion);
-        	sesion.save(datos);
+        	
+        	if(sonDatosDiarios) {
+        		DatosDiarios datosDiarios = getDatosDiarios(datosJson, estacion);
+        		sesion.save(datosDiarios);
+        	}
+        	else {
+        		
+        		Datos datos = getDatos(datosJson, estacion);
+        		sesion.save(datos);        		
+        	}
+        	
+        	
         }
         
         transaction.commit();

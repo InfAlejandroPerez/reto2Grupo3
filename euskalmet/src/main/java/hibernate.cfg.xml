@@ -26,5 +26,7 @@
         <mapping resource="modelo/mappings/Municipios.hbm.xml"/>
         <mapping resource="modelo/mappings/Hashes.hbm.xml"/>
         <mapping resource="modelo/mappings/Estaciones.hbm.xml"/>
+        <mapping resource="modelo/mappings/DatosDiarios.hbm.xml"/>
+        
     </session-factory>
 </hibernate-configuration>

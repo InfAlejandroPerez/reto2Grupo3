@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2022 a las 20:06:15
+-- Tiempo de generación: 13-01-2022 a las 19:25:47
 -- Versión del servidor: 10.4.21-MariaDB
 -- Versión de PHP: 7.3.31
 
@@ -44,6 +44,25 @@ CREATE TABLE `datos` (
   `SO2gm3` double DEFAULT NULL,
   `SO2ICA` varchar(50) DEFAULT NULL,
   `ICAEstacion` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datos_diarios`
+--
+
+CREATE TABLE `datos_diarios` (
+  `NombreEstacion` varchar(30) NOT NULL,
+  `Dia` date NOT NULL,
+  `COmgm3` double DEFAULT NULL,
+  `CO8hmgm3` double DEFAULT NULL,
+  `NOgm3` double DEFAULT NULL,
+  `NO2gm3` double DEFAULT NULL,
+  `NOXgm3` double DEFAULT NULL,
+  `PM10gm3` double DEFAULT NULL,
+  `PM25gm3` double DEFAULT NULL,
+  `SO2gm3` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -330,6 +349,12 @@ ALTER TABLE `datos`
   ADD PRIMARY KEY (`NombreEstacion`,`Fecha`,`Hora`);
 
 --
+-- Indices de la tabla `datos_diarios`
+--
+ALTER TABLE `datos_diarios`
+  ADD PRIMARY KEY (`NombreEstacion`,`Dia`);
+
+--
 -- Indices de la tabla `espacios_naturales`
 --
 ALTER TABLE `espacios_naturales`
@@ -397,6 +422,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `datos`
   ADD CONSTRAINT `fk_datos_estacion` FOREIGN KEY (`NombreEstacion`) REFERENCES `estaciones` (`Nombre`);
+
+--
+-- Filtros para la tabla `datos_diarios`
+--
+ALTER TABLE `datos_diarios`
+  ADD CONSTRAINT `fk_datos_diarios_estacion` FOREIGN KEY (`NombreEstacion`) REFERENCES `estaciones` (`Nombre`);
 
 --
 -- Filtros para la tabla `estaciones`
