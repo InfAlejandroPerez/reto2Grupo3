@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.UIManager;
 
 public class Register extends JFrame {
 
@@ -25,6 +26,11 @@ public class Register extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -55,7 +61,7 @@ public class Register extends JFrame {
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setText("Introduce un Usuario");
-		txtUsuario.setBounds(165, 162, 150, 20);
+		txtUsuario.setBounds(165, 159, 150, 23);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		txtUsuario.addMouseListener(new MouseAdapter() {
@@ -68,7 +74,7 @@ public class Register extends JFrame {
 		txtContrasenya = new JTextField();
 		txtContrasenya.setText("Introduce una contrase\u00F1a");
 		txtContrasenya.setColumns(10);
-		txtContrasenya.setBounds(165, 214, 150, 20);
+		txtContrasenya.setBounds(165, 211, 150, 23);
 		contentPane.add(txtContrasenya);
 		txtContrasenya.addMouseListener(new MouseAdapter() {
 			@Override
@@ -80,7 +86,7 @@ public class Register extends JFrame {
 		txtRepetirContrasenya = new JTextField();
 		txtRepetirContrasenya.setText("Repite la contrase\u00F1a");
 		txtRepetirContrasenya.setColumns(10);
-		txtRepetirContrasenya.setBounds(165, 264, 150, 20);
+		txtRepetirContrasenya.setBounds(165, 261, 150, 23);
 		contentPane.add(txtRepetirContrasenya);
 		txtRepetirContrasenya.addMouseListener(new MouseAdapter() {
 			@Override
@@ -90,11 +96,11 @@ public class Register extends JFrame {
 		});
 		
 		JButton btnRegister = new JButton("Registrarse");
-		btnRegister.setBounds(112, 359, 89, 23);
+		btnRegister.setBounds(112, 350, 99, 32);
 		contentPane.add(btnRegister);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(277, 359, 89, 23);
+		btnCancelar.setBounds(267, 350, 99, 32);
 		contentPane.add(btnCancelar);
 	}
 
