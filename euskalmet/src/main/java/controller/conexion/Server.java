@@ -39,18 +39,18 @@ public static void main(String[] args) {
             System.out.println("Te has conectado");
             
             // get the inputstream from socket, which will have 
-              // the message from the clients
+            // the message from the clients
             inputStreamReader = new InputStreamReader(clientSocket.getInputStream());
             bufferedReader = new BufferedReader(inputStreamReader);                     
              
-              // reading the message
+            // reading the message
             message = bufferedReader.readLine();
             
             // printing the message
             System.out.println(message);
               
             // finally it is very important
-              // that you close the sockets
+            // that you close the sockets
             inputStreamReader.close();
             clientSocket.close();
   

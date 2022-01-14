@@ -1,49 +1,32 @@
 package controller.conexion;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
-
 public class Cliente {
-	private final int PUERTO = 4444;
-	private final String IP = "127.0.0.1";
+
+	private Socket client;
+	private PrintWriter printwriter;
 	
 	public void iniciar() {
-		Socket cliente = null;
-		ObjectInputStream entrada = null;
-		ObjectOutputStream salida = null;
-		try {
-			cliente = new Socket(IP, PUERTO);
-			System.out.println("Conexión realizada con servidor");
+		
+		  try {
+              // the IP and port should be correct to have a connection established
+              // Creates a stream socket and connects it to the specified port number on the named host.
+              client = new Socket("192.168.56.1", 4444);  // connect to server
+              printwriter = new PrintWriter(client.getOutputStream(),true);
+              printwriter.write("Hola cliente");  // write the message to output stream
 
-			salida = new ObjectOutputStream(cliente.getOutputStream());
-			entrada = new ObjectInputStream(cliente.getInputStream());
+              printwriter.flush();
+              printwriter.close();
 
-			salida.writeObject("Hola soy el cliente");
-			String linea = (String) entrada.readObject();
-			System.out.println("Recibido: " + linea);
+              // closing the connection
+              client.close();
 
-		} catch (IOException e) {
-			System.out.println("Error: " + e.getMessage());
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error: " + e.getMessage());
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-			System.out.println("Error: " + e.getMessage());
-		} finally {
-			try {
-				if (cliente != null)
-					cliente.close();
-				if (entrada != null)
-					entrada.close();
-				if (salida != null)
-					salida.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
 	}
 	
 	public static void main(String[] args) {
