@@ -7,7 +7,7 @@ import java.net.Socket;
 
 
 public class Cliente {
-	private final int PUERTO = 5000;
+	private final int PUERTO = 4444;
 	private final String IP = "127.0.0.1";
 	
 	public void iniciar() {
