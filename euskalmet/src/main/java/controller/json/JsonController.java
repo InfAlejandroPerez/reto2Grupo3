@@ -6,7 +6,9 @@ import java.util.regex.Pattern;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import controller.json.types.DatosController;
 import controller.json.types.EspaciosNaturalesController;
@@ -31,13 +33,26 @@ public class JsonController {
 		this.modelo = modelo;
 	}
 
+	public static JSONObject getJSONObject(String str) {
+		JSONParser parser = new JSONParser();  
+		JSONObject ret; 
+		try {
+			ret = (JSONObject) parser.parse(str);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			ret = null;
+		}
+
+		return ret;	
+	}
+	
 	/**
 	 * Recibe una ruta / contenido de un json y devuelve su JSONArray correspondiente
 	 * @param content        String    Ruta del archivo
 	 * @param isContent      boolean   True si es el contenido de un JSON, false si es su ruta
 	 * @return               JSONArray Array de objetos JSON resultante
 	 */
-	protected JSONArray getJSONArray(String content, boolean isContent) {
+	protected static JSONArray getJSONArray(String content, boolean isContent) {
 		String text = isContent ? content : JsonParse.readFile(content);
       	JSONParser parser = new JSONParser();
       	JSONArray ret = null;

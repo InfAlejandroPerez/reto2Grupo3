@@ -13,6 +13,7 @@ import modelo.dbClasses.Datos;
 import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Provincia;
+import modelo.dbClasses.Usuarios;
 
 public class DBController {
 	private SessionFactory sessionFactory;	
@@ -178,6 +179,20 @@ public class DBController {
 
 		Estaciones ret = (Estaciones) query.uniqueResult();
 		sesion.close();
+		return ret;
+	}
+	
+	public Usuarios getUsuario(String userName) {
+		Usuarios ret = null;
+		Session sesion = this.openSession();
+		String hql = "FROM modelo.dbClasses.Usuarios WHERE Nombre :userName";
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("userName", userName);
+		
+		ret = (Usuarios) query.uniqueResult();
+		sesion.close();
+		
 		return ret;
 	}
 	
