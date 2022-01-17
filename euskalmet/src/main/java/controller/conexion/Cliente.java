@@ -1,32 +1,39 @@
 package controller.conexion;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Cliente {
 
-	private Socket client;
-	private PrintWriter printwriter;
+	private Socket cliente = null;
+	private ObjectInputStream entrada = null;
+	private ObjectOutputStream salida = null;
 	
 	public void iniciar() {
-		
+	
 		  try {
-              // the IP and port should be correct to have a connection established
-              // Creates a stream socket and connects it to the specified port number on the named host.
-              client = new Socket("192.168.56.1", 4444);  // connect to server
-              printwriter = new PrintWriter(client.getOutputStream(),true);
-              printwriter.write("Hola cliente");  // write the message to output stream
 
-              printwriter.flush();
-              printwriter.close();
+              cliente = new Socket("192.168.56.1", 4444);  // connect to server
+              System.out.println("Conexión realizada con servidor");
+              
+              salida = new ObjectOutputStream(cliente.getOutputStream());
+  			  entrada = new ObjectInputStream(cliente.getInputStream());
 
-              // closing the connection
-              client.close();
+  			  salida.writeObject("Hola soy el Cliente");
+  			  String linea = (String) entrada.readObject();
+			  System.out.println("Recibido: " + linea);
+
+	  		  // closing the connection
+              cliente.close();
 
           } catch (IOException e) {
               e.printStackTrace();
-          }
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void main(String[] args) {
