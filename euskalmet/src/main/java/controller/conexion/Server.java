@@ -13,7 +13,12 @@ public class Server {
 	private Socket clientSocket;
 	private ObjectInputStream entrada = null;
 	private ObjectOutputStream salida = null;
-
+	//public static Server servidor;
+	
+	public Server() {
+		//servidor = this;
+	}
+	
 	public void sendJson(String result) {
 		try {
 			salida.writeObject(result);
@@ -21,6 +26,7 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		String a = "";
 	}
 
 	public void iniciar() {

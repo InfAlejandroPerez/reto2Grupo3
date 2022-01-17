@@ -15,7 +15,7 @@ public class Cliente {
 	
 		  try {
 
-              cliente = new Socket("192.168.56.1", 4444);  // connect to server
+              cliente = new Socket("10.176.0.6", 4444);  // connect to server
               System.out.println("Conexión realizada con servidor");
               
               salida = new ObjectOutputStream(cliente.getOutputStream());

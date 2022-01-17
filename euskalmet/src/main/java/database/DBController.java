@@ -185,7 +185,7 @@ public class DBController {
 	public Usuarios getUsuario(String userName) {
 		Usuarios ret = null;
 		Session sesion = this.openSession();
-		String hql = "FROM modelo.dbClasses.Usuarios WHERE Nombre :userName";
+		String hql = "FROM modelo.dbClasses.Usuarios WHERE Nombre = :userName";
 		
 		Query query = sesion.createQuery(hql);
 		query.setParameter("userName", userName);

@@ -4,20 +4,26 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import controller.conexion.Server;
 import modelo.Modelo;
 import modelo.dbClasses.Usuarios;
 
 public class Pasarela {
 	private Modelo modelo;
+	private Server servidor;
 	
-	
-	public Pasarela(Modelo modelo) {
+	public Pasarela(Modelo modelo, Server servidor) {
 		super();
 		this.modelo = modelo;
+		this.servidor = servidor;
+	}
+
+	private void sendSuccess() {
+		String jsonSuccess = "{\"ressult\":\"true\"}";
+		this.servidor.sendJson(jsonSuccess);
 	}
 
 	private void validateLogin(String jsonString) {
-		boolean success = false;
 		JSONParser parser = new JSONParser();  
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
@@ -27,7 +33,7 @@ public class Pasarela {
 			
 			Usuarios usuario = modelo.getDBController().getUsuario(user);
 			if(usuario.getPassword().equals(tried_pass))
-				success = true;
+				sendSuccess();
 			
 			System.out.println(user);
 			
@@ -63,6 +69,16 @@ public class Pasarela {
 	public void setModelo(Modelo modelo) {
 		this.modelo = modelo;
 	}
+
+	public Server getServidor() {
+		return servidor;
+	}
+
+	public void setServidor(Server servidor) {
+		this.servidor = servidor;
+	}
+	
+	
 
 	
 	
