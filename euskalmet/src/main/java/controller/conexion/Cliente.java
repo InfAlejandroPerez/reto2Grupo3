@@ -5,44 +5,34 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-
 public class Cliente {
-	private final int PUERTO = 4444;
-	private final String IP = "127.0.0.1";
+
+	private Socket cliente = null;
+	private ObjectInputStream entrada = null;
+	private ObjectOutputStream salida = null;
 	
 	public void iniciar() {
-		Socket cliente = null;
-		ObjectInputStream entrada = null;
-		ObjectOutputStream salida = null;
-		try {
-			cliente = new Socket(IP, PUERTO);
-			System.out.println("Conexión realizada con servidor");
+	
+		  try {
 
-			salida = new ObjectOutputStream(cliente.getOutputStream());
-			entrada = new ObjectInputStream(cliente.getInputStream());
+              cliente = new Socket("192.168.56.1", 4444);  // connect to server
+              System.out.println("Conexión realizada con servidor");
+              
+              salida = new ObjectOutputStream(cliente.getOutputStream());
+  			  entrada = new ObjectInputStream(cliente.getInputStream());
 
-			salida.writeObject("Hola soy el cliente");
-			String linea = (String) entrada.readObject();
-			System.out.println("Recibido: " + linea);
+  			  salida.writeObject("Hola soy el Cliente");
+  			  String linea = (String) entrada.readObject();
+			  System.out.println("Recibido: " + linea);
 
-		} catch (IOException e) {
-			System.out.println("Error: " + e.getMessage());
+	  		  // closing the connection
+              cliente.close();
+
+          } catch (IOException e) {
+              e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			System.out.println("Error: " + e.getMessage());
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
-			System.out.println("Error: " + e.getMessage());
-		} finally {
-			try {
-				if (cliente != null)
-					cliente.close();
-				if (entrada != null)
-					entrada.close();
-				if (salida != null)
-					salida.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
