@@ -6,6 +6,15 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import app.Main;
+import controller.json.Pasarela;
+import database.DBController;
+import modelo.dbClasses.Usuarios;
+
 public class Server {
 
 // declaring required variables
@@ -51,17 +60,69 @@ public class Server {
 
 				String linea = (String) entrada.readObject();
 				System.out.println("Recibido: " + linea);
-
-				this.sendJson("Saludos desde el servidor. Soy Carmen");
+				
+				query(linea);
+				//this.sendJson("Saludos desde el servidor. Soy Carmen");
 
 			} catch (IOException ex) {
 				System.out.println("Problem in message reading");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			
+			Main.servidor = this;
+			System.out.println("d");
 		}
 	}
 
+	private void sendSuccess() {
+		String jsonSuccess = "{\"result\":true}";
+		sendJson(jsonSuccess);
+	}
+
+	private void sendFail() {
+		String jsonFail = "{\"result\":false}";
+		sendJson(jsonFail);
+	}
+	
+	
+	private void validateLogin(String jsonString) {
+		JSONParser parser = new JSONParser();  
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+			
+			String user = (String) jsonObject.get("username");
+			String tried_pass = (String) jsonObject.get("tried_pass");
+			
+			Usuarios usuario = (new DBController()).getUsuario(user);
+			if(usuario.getPassword().equals(tried_pass))
+				sendSuccess();
+			else
+				sendFail();
+			
+			System.out.println(user);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}   
+	}
+	
+	public void query(String jsonString) {
+		JSONParser parser = new JSONParser();  
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+			String operation = (String) jsonObject.get("operation");
+			
+			switch (operation) {
+				case "login":
+					validateLogin(jsonString);
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}   
+	}
+	
 	public static void main(String[] args) {
 		Server s = new Server();
 		s.iniciar();

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.simple.JSONObject;
 
 public class Cliente {
 
@@ -15,18 +19,26 @@ public class Cliente {
 	
 		  try {
 
-              cliente = new Socket("10.176.0.6", 4444);  // connect to server
+              cliente = new Socket("10.29.0.6", 4444);  // connect to server
               System.out.println("Conexión realizada con servidor");
               
               salida = new ObjectOutputStream(cliente.getOutputStream());
   			  entrada = new ObjectInputStream(cliente.getInputStream());
 
-  			  salida.writeObject("Hola soy el Cliente");
+  			Map<String,String> atts = new HashMap<String, String>();
+  			atts.put("operation", "login");
+  			atts.put("username", "admin");
+  			atts.put("tried_pass", "admin2");
+  			
+  			String str = new JSONObject(atts).toJSONString();
+  			//System.out.println(str);
+  			
+  			  salida.writeObject(str);
   			  String linea = (String) entrada.readObject();
 			  System.out.println("Recibido: " + linea);
 
 	  		  // closing the connection
-              cliente.close();
+              //cliente.close();
 
           } catch (IOException e) {
               e.printStackTrace();

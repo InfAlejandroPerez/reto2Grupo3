@@ -10,17 +10,17 @@ import modelo.dbClasses.Usuarios;
 
 public class Pasarela {
 	private Modelo modelo;
-	private Server servidor;
+	public static Server servidor;
 	
-	public Pasarela(Modelo modelo, Server servidor) {
+	public Pasarela(Modelo modelo, Server server) {
 		super();
 		this.modelo = modelo;
-		this.servidor = servidor;
+		servidor = server;
 	}
 
 	private void sendSuccess() {
 		String jsonSuccess = "{\"ressult\":\"true\"}";
-		this.servidor.sendJson(jsonSuccess);
+		servidor.sendJson(jsonSuccess);
 	}
 
 	private void validateLogin(String jsonString) {
