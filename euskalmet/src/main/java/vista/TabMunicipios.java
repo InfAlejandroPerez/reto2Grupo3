@@ -8,10 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JList;
-import javax.swing.JButton;
+import javax.swing.JComboBox;
 
-public class EspaciosNaturalesFavoritos extends JFrame {
+public class TabMunicipios extends JFrame {
 
 	private JPanel contentPane;
 
@@ -22,7 +21,7 @@ public class EspaciosNaturalesFavoritos extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EspaciosNaturalesFavoritos frame = new EspaciosNaturalesFavoritos();
+					TabMunicipios frame = new TabMunicipios();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,7 +33,7 @@ public class EspaciosNaturalesFavoritos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EspaciosNaturalesFavoritos() {
+	public TabMunicipios() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 500, 500);
 		contentPane = new JPanel();
@@ -42,17 +41,15 @@ public class EspaciosNaturalesFavoritos extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblEspaciosNaturales = new JLabel("Espacios Naturales Favoritos");
-		lblEspaciosNaturales.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblEspaciosNaturales.setBounds(115, 33, 254, 53);
-		contentPane.add(lblEspaciosNaturales);
+		JLabel lblProvincias = new JLabel("Provincias:");
+		lblProvincias.setToolTipText("");
+		lblProvincias.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblProvincias.setBounds(95, 76, 66, 20);
+		contentPane.add(lblProvincias);
 		
-		JList list = new JList();
-		list.setBounds(115, 351, 254, -217);
-		contentPane.add(list);
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(183, 387, 106, 33);
-		contentPane.add(btnVolver);
+		JComboBox comboBoxProvincias = new JComboBox();
+		comboBoxProvincias.setBounds(190, 77, 203, 22);
+		contentPane.add(comboBoxProvincias);
 	}
+
 }
