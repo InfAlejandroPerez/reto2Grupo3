@@ -5,12 +5,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import modelo.dbClasses.Datos;
+import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Provincia;
@@ -211,6 +213,19 @@ public class DBController {
 		Estaciones ret = (Estaciones) query.uniqueResult();
 		sesion.close();
 		return ret;
+	}
+	
+	public List<EspaciosNaturales> getEspacios(String nombreProvincia){
+		Session sesion = this.openSession();
+		List<Municipios> muns = getMunicipios(nombreProvincia);
+		List<EspaciosNaturales> espacios = new ArrayList();
+		for(int i = 0 ; i < muns.size() ; i ++) {
+			Set<EspaciosNaturales> espaciosSet = muns.get(i).getEspaciosNaturaleses();
+			List<EspaciosNaturales> espaciosMunicipio = new ArrayList( espaciosSet ) ;
+			espacios.addAll(espaciosMunicipio);	
+		}
+		sesion.close();
+		return espacios;
 	}
 	
 	public Usuarios getUsuario(String userName) {

@@ -22,6 +22,8 @@ import app.Main;
 import controller.json.Pasarela;
 import database.DBController;
 import database.HibernateUtil;
+import modelo.dbClasses.EspaciosNaturales;
+import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Usuarios;
 
@@ -215,6 +217,38 @@ public class Server {
 		
 	}
 	
+	private void getEspaciosProv(String query) {
+		System.out.println("estoy en espacios");
+		JSONParser parser = new JSONParser();  
+
+		JSONObject provinciaJSON;
+		try {
+			provinciaJSON = (JSONObject) parser.parse(query);
+			String nombreProvincia = (String) provinciaJSON.get("provincia");
+			List<EspaciosNaturales> muns = dbController.getEspacios(nombreProvincia);
+	        
+			String espaciosJSON = "[\n";
+			int cont = 0;
+			for(EspaciosNaturales esp : muns) { 
+				if(cont > 0)
+					espaciosJSON += ",\n";
+				espaciosJSON+="  "+esp.toJSON();	
+				System.out.println(espaciosJSON);
+				cont ++;
+			}
+			espaciosJSON += "\n]\n";
+			
+			String ret = "{\"operation\":\"getEstacionesProv\",\n"
+					+ "\"result\":" + espaciosJSON + "}";
+			
+			System.out.println(ret);
+			
+			this.sendJson(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void query(String jsonString) {
 		JSONParser parser = new JSONParser();  
 		try {
@@ -231,9 +265,11 @@ public class Server {
 				case "insertUser":
 					insertUser(jsonString);
 					break;
-				case "getMunicipios":
+				case "getMunicipiosProv":
 					getMunicipios(jsonString);
 					break;
+				case "getEspaciosProv":
+					getEspaciosProv(jsonString);
 				default:
 					sendFail("operationNotDefined");
 					
