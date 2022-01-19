@@ -3,9 +3,11 @@ package controller.conexion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.hibernate.Session;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,6 +15,7 @@ import org.json.simple.parser.ParseException;
 import app.Main;
 import controller.json.Pasarela;
 import database.DBController;
+import database.HibernateUtil;
 import modelo.dbClasses.Usuarios;
 
 public class Server {
@@ -22,6 +25,7 @@ public class Server {
 	private Socket clientSocket;
 	private ObjectInputStream entrada = null;
 	private ObjectOutputStream salida = null;
+	private DBController dbController = new DBController();
 	//public static Server servidor;
 	
 	public Server() {
@@ -113,6 +117,67 @@ public class Server {
 		}   
 	}
 	
+	private void comprobarUser(String jsonString) {
+		JSONParser parser = new JSONParser();  
+			JSONObject jsonObject;
+			try {
+				jsonObject = (JSONObject) parser.parse(jsonString);
+				String user = (String) jsonObject.get("username");
+				
+				Usuarios usuario = (new DBController()).getUsuario(user);
+				
+				if(usuario == null) {
+					sendFail("comprobarUsuario");
+					return;
+				}
+				
+				if(usuario.getNombre().equals(user))
+					sendSuccess("comprobarUsuario");
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+	}
+
+	
+	private void insertUser(String jsonString) {
+		JSONParser parser = new JSONParser();  
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+			
+			String user = (String) jsonObject.get("username");
+			String pass = (String) jsonObject.get("pass");
+		
+			
+			// don't need if you already got a session
+			Session session = dbController.openSession();
+
+			// start transaction
+			session.beginTransaction();
+
+			int codUser = (new DBController()).getLastUserId(session);
+			// create user
+			Usuarios usuario = new Usuarios();
+			usuario.setCodUsuario(codUser+1);
+			usuario.setNombre(user);
+			usuario.setPassword(pass);
+
+			// Save the invitation to database
+			session.save(usuario);
+
+			// Commit the transaction
+			session.getTransaction().commit();
+			session.close();
+			
+	        sendSuccess("insert");
+			System.out.println(user + " insert");
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}   
+	}
+	
 	public void query(String jsonString) {
 		JSONParser parser = new JSONParser();  
 		try {
@@ -122,6 +187,15 @@ public class Server {
 			switch (operation) {
 				case "login":
 					validateLogin(jsonString);
+					break;
+				case "comprobarUsuario":
+					comprobarUser(jsonString);
+					break;
+				case "insertUser":
+					insertUser(jsonString);
+					break;
+					
+					
 			}
 			
 		} catch (ParseException e) {

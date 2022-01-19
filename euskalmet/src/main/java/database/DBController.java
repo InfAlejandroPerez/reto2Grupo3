@@ -47,6 +47,20 @@ public class DBController {
 		return lista;
 	}
 	
+	public int getLastUserId(Session sesion) {
+		int ret = 0;
+		String hql = "SELECT max(codUsuario) FROM modelo.dbClasses.Usuarios";
+		
+		Query query = sesion.createQuery(hql);
+		try {
+			ret = (int) query.uniqueResult();
+		} catch (Exception e) {
+			ret = 0;
+		}
+
+		return ret;	 	
+	}
+	
 	public List<Datos> getDatos(int codEstacion, LocalDate fecha, LocalTime hora) {
 		List<Datos> ret = null;
 		String hql = "FROM modelo.dbClasses.Datos as dat WHERE Fecha = :fecha AND Hora = :hora";
