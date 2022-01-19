@@ -71,5 +71,10 @@ public class EspaciosNaturales implements java.io.Serializable {
 	public void setMunicipioses(Set municipioses) {
 		this.municipioses = municipioses;
 	}
+	
+	public String toJSON() {
+		return "{\"nombre\":\""+nombre+"\"}";
+		
+	}
 
 }
