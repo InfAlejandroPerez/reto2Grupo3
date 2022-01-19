@@ -93,4 +93,9 @@ public class Municipios implements java.io.Serializable {
 		this.estacioneses = estacioneses;
 	}
 
+	public String toJSON() {
+		return "{\"nombre\":"+"\""+nombre+"\"}";
+	}
+
+	
 }

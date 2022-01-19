@@ -6,16 +6,23 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 import org.hibernate.Session;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import app.Main;
 import controller.json.Pasarela;
 import database.DBController;
 import database.HibernateUtil;
+import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Usuarios;
 
 public class Server {
@@ -75,7 +82,6 @@ public class Server {
 			}
 			
 			Main.servidor = this;
-			System.out.println("d");
 		}
 	}
 
@@ -178,6 +184,37 @@ public class Server {
 		}   
 	}
 	
+	private void getMunicipios(String query) {
+		JSONParser parser = new JSONParser();  
+
+		JSONObject provinciaJSON;
+		try {
+			provinciaJSON = (JSONObject) parser.parse(query);
+			String nombreProvincia = (String) provinciaJSON.get("provincia");
+			List<Municipios> muns = dbController.getMunicipios(nombreProvincia);
+	        
+			String pueblosJSON = "[\n";
+			int cont = 0;
+			for(Municipios mun : muns) { 
+				if(cont > 0)
+					pueblosJSON += ",\n";
+				pueblosJSON+="  "+mun.toJSON();	
+				cont ++;
+			}
+			pueblosJSON += "\n]\n";
+			
+			String ret = "{\"operation\":\"getMunicipiosProv\",\n"
+					+ "\"result\":" + pueblosJSON + "}";
+			
+			System.out.println(ret);
+			
+			this.sendJson(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void query(String jsonString) {
 		JSONParser parser = new JSONParser();  
 		try {
@@ -194,6 +231,11 @@ public class Server {
 				case "insertUser":
 					insertUser(jsonString);
 					break;
+				case "getMunicipios":
+					getMunicipios(jsonString);
+					break;
+				default:
+					sendFail("operationNotDefined");
 					
 					
 			}

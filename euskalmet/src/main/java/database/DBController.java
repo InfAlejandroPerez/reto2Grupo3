@@ -3,6 +3,7 @@ package database;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -111,6 +112,7 @@ public class DBController {
 		sesion.close();
 		return ret;
 	}
+
 	
 	public Municipios getMunicipio(int codMunicipio, int codProvincia) {
 		Municipios ret;
@@ -161,6 +163,21 @@ public class DBController {
 		
 		Query query = sesion.createQuery(hql);
 		List<Municipios> lista = query.list();
+		
+		sesion.close();
+		return lista;
+	}
+	
+	public List<Municipios> getMunicipios(String nombreProvincia) {
+		String hql = "FROM modelo.dbClasses.Provincia WHERE Nombre = :nameProv";
+		Session sesion = this.openSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("nameProv", nombreProvincia);
+		Provincia prov = (Provincia) query.uniqueResult();
+		
+		List<Municipios>lista = new ArrayList( prov.getMunicipioses() );
 		
 		sesion.close();
 		return lista;
