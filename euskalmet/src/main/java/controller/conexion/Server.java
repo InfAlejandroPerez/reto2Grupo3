@@ -75,13 +75,15 @@ public class Server {
 		}
 	}
 
-	private void sendSuccess() {
-		String jsonSuccess = "{\"result\":true}";
+	private void sendSuccess(String operationName) {
+		String jsonSuccess = "{\"operation\":\""+operationName+"\","
+				+ "\"result\":true}";
 		sendJson(jsonSuccess);
 	}
 
-	private void sendFail() {
-		String jsonFail = "{\"result\":false}";
+	private void sendFail(String operationName) {
+		String jsonFail = "{\"operation\":\""+operationName+"\","
+				+ "\"result\":false}";
 		sendJson(jsonFail);
 	}
 	
@@ -95,10 +97,14 @@ public class Server {
 			String tried_pass = (String) jsonObject.get("tried_pass");
 			
 			Usuarios usuario = (new DBController()).getUsuario(user);
+			if(usuario == null) {
+				sendFail("login");
+				return;
+			}
 			if(usuario.getPassword().equals(tried_pass))
-				sendSuccess();
+				sendSuccess("login");
 			else
-				sendFail();
+				sendFail("login");
 			
 			System.out.println(user);
 			
