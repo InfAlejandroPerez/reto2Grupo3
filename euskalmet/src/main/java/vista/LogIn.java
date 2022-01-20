@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -103,9 +104,10 @@ public class LogIn extends JFrame {
 		btnRegistrarse.setBounds(192, 357, 89, 23);
 		contentPane.add(btnRegistrarse);
 		
+		//Panel de lista de Municipios
 		JPanel panelListaMunicipios = new JPanel();
 		panelListaMunicipios.setBounds(0, 0, 8, 7);
-		contentPane.add(panelListaMunicipios);
+		//contentPane.add(panelListaMunicipios);
 		panelListaMunicipios.setLayout(null);
 		
 		JLabel Lb_ListaMunicipios = new JLabel("Lista de Municipios");
@@ -125,9 +127,10 @@ public class LogIn extends JFrame {
 		listMunicipios.setBounds(111, 319, 270, -217);
 		panelListaMunicipios.add(listMunicipios);
 		
+		//Panel de lista de Estaciones
 		JPanel panelListaEstaciones = new JPanel();
 		panelListaEstaciones.setBounds(479, 0, 8, 7);
-		contentPane.add(panelListaEstaciones);
+		//contentPane.add(panelListaEstaciones);
 		panelListaEstaciones.setLayout(null);
 		
 		JButton btn_Volver_1 = new JButton("Volver");
@@ -142,5 +145,41 @@ public class LogIn extends JFrame {
 		JList listEstaciones = new JList();
 		listEstaciones.setBounds(83, 292, 331, -212);
 		panelListaEstaciones.add(listEstaciones);
+		
+		JLabel lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
+		lblError.setBounds(155, 422, 172, 14);
+		contentPane.add(lblError);
+		lblError.setVisible(false);
+		
+		//CardLayout
+		CardLayout c1 = new CardLayout();
+		JPanel cards = new JPanel(c1);
+		cards.add(panelListaMunicipios, "panelMunicipios");
+		cards.add(panelListaEstaciones, "panelEstaciones");
+		
+		//Login
+		btnAcceder.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String user = txtIntroduceNombre.getText();
+				String pw = txtIntroduceContrasenya.getText();
+				
+				Boolean loggeado = (new cliente.Query().logIn(user, pw));
+				
+				if (loggeado) {
+					lblError.setVisible(false);
+					c1.show(cards, "panelMunicipios");
+					System.out.println("Usuario válido");
+				}else {
+					lblError.setVisible(true);
+					System.out.println("Usuario no válido");
+				}
+				
+				
+			}
+		});
+		
 	}
 }
