@@ -77,28 +77,14 @@ public class Pasarela {
 	}
 	
 	public void getMunicipios() {
-		
 			List<Municipios> muns = dbController.getMunicipios();
 	        
-			String pueblosJSON = "[\n";
-			int cont = 0;
-			
-			for(Municipios mun : muns) { 
-				if(cont > 0)
-					pueblosJSON += ",\n";
-				pueblosJSON+="  "+mun.toJSON();	
-				cont ++;
-			}
-			pueblosJSON += "\n]\n";
-			
+			String pueblosJSON = listToJSON(muns);
 			String ret = "{\"operation\":\"getMunicipios\",\n"
 					+ "\"result\":" + pueblosJSON + "}";
 			
 			System.out.println(ret);
-			
 			Server.sendResponse(ret);
-		
-		
 	}
 	
 	public void getMunicipios(String query) {
@@ -108,15 +94,7 @@ public class Pasarela {
 			String nombreProvincia = (String) provinciaJSON.get("provincia");
 			List<Municipios> muns = dbController.getMunicipios(nombreProvincia);
 	        
-			String pueblosJSON = "[\n";
-			int cont = 0;
-			for(Municipios mun : muns) { 
-				if(cont > 0)
-					pueblosJSON += ",\n";
-				pueblosJSON+="  "+mun.toJSON();	
-				cont ++;
-			}
-			pueblosJSON += "\n]\n";
+			String pueblosJSON = listToJSON(muns);
 			
 			String ret = "{\"operation\":\"getMunicipiosProv\",\n"
 					+ "\"result\":" + pueblosJSON + "}";
