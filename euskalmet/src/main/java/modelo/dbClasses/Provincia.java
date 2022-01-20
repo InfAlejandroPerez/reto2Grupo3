@@ -61,4 +61,7 @@ public class Provincia implements java.io.Serializable {
 		this.municipioses_1 = municipioses_1;
 	}
 
+	public String toJSON() {
+		return "{\"nombre\":"+"\""+nombre+"\"}";
+	}
 }
