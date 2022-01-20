@@ -17,6 +17,8 @@ import java.awt.Rectangle;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LogIn extends JFrame {
 
@@ -101,26 +103,44 @@ public class LogIn extends JFrame {
 		btnRegistrarse.setBounds(192, 357, 89, 23);
 		contentPane.add(btnRegistrarse);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 487, 461);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel panelListaMunicipios = new JPanel();
+		panelListaMunicipios.setBounds(0, 0, 8, 7);
+		contentPane.add(panelListaMunicipios);
+		panelListaMunicipios.setLayout(null);
 		
 		JLabel Lb_ListaMunicipios = new JLabel("Lista de Municipios");
 		Lb_ListaMunicipios.setHorizontalAlignment(SwingConstants.CENTER);
 		Lb_ListaMunicipios.setBounds(91, 11, 280, 29);
-		panel.add(Lb_ListaMunicipios);
+		panelListaMunicipios.add(Lb_ListaMunicipios);
 		
 		JButton btn_Volver = new JButton("Volver");
 		btn_Volver.setBounds(183, 416, 118, 34);
-		panel.add(btn_Volver);
+		panelListaMunicipios.add(btn_Volver);
 		
 		JComboBox CB_Provincias = new JComboBox();
 		CB_Provincias.setBounds(101, 51, 280, 29);
-		panel.add(CB_Provincias);
+		panelListaMunicipios.add(CB_Provincias);
 		
 		JList listMunicipios = new JList();
 		listMunicipios.setBounds(111, 319, 270, -217);
-		panel.add(listMunicipios);
+		panelListaMunicipios.add(listMunicipios);
+		
+		JPanel panelListaEstaciones = new JPanel();
+		panelListaEstaciones.setBounds(479, 0, 8, 7);
+		contentPane.add(panelListaEstaciones);
+		panelListaEstaciones.setLayout(null);
+		
+		JButton btn_Volver_1 = new JButton("Volver");
+		btn_Volver_1.setBounds(187, 403, 108, 32);
+		panelListaEstaciones.add(btn_Volver_1);
+		
+		JLabel lb_ListaEstaciones = new JLabel("Lista de Estaciones");
+		lb_ListaEstaciones.setBounds(107, 11, 265, 38);
+		panelListaEstaciones.add(lb_ListaEstaciones);
+		lb_ListaEstaciones.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JList listEstaciones = new JList();
+		listEstaciones.setBounds(83, 292, 331, -212);
+		panelListaEstaciones.add(listEstaciones);
 	}
 }
