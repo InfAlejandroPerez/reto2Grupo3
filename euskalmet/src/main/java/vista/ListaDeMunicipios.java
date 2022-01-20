@@ -26,22 +26,14 @@ public class ListaDeMunicipios extends JPanel {
 		btn_Volver.setBounds(138, 408, 118, 34);
 		add(btn_Volver);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(58, 74, 280, 29);
-		add(comboBox);
+		JComboBox CB_Provincias = new JComboBox();
+		CB_Provincias.setBounds(58, 74, 280, 29);
+		add(CB_Provincias);
 		
-		JList list = new JList();
-		list.setModel(new AbstractListModel() {
-			String[] values = new String[] {"Getxo", "ALGORTA", "ERANDIO"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});
-		list.setBounds(343, 359, -287, -220);
-		add(list);
+		JList listMunicipios = new JList();
+		
+		listMunicipios.setBounds(343, 359, -287, -220);
+		add(listMunicipios);
 
 	}
 }
