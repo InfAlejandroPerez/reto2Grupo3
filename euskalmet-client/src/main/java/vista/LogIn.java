@@ -20,6 +20,9 @@ import javax.swing.JComboBox;
 import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import controller.conexion.*;
+import controller.Controller;
+import controller.conexion.Query;
 
 public class LogIn extends JFrame {
 
@@ -27,32 +30,14 @@ public class LogIn extends JFrame {
 	private JTextField txtIntroduceNombre;
 	private JTextField txtIntroduceContrasenya;
 	private JRadioButton rdbtnRememberMe;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LogIn frame = new LogIn();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private Controller controlador;
+	private JLabel lblError;
+	private CardLayout c1;
+	private JPanel cards;
 	/**
 	 * Create the frame.
 	 */
-	public LogIn() {
+	public LogIn(final Controller controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 503, 500);
 		contentPane = new JPanel();
@@ -146,27 +131,25 @@ public class LogIn extends JFrame {
 		listEstaciones.setBounds(83, 292, 331, -212);
 		panelListaEstaciones.add(listEstaciones);
 		
-		JLabel lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
+		lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
 		lblError.setBounds(155, 422, 172, 14);
 		contentPane.add(lblError);
 		lblError.setVisible(false);
 		
 		//CardLayout
-		CardLayout c1 = new CardLayout();
-		JPanel cards = new JPanel(c1);
+		c1 = new CardLayout();
+		cards = new JPanel(c1);
 		cards.add(panelListaMunicipios, "panelMunicipios");
 		cards.add(panelListaEstaciones, "panelEstaciones");
 		
 		//Login
 		btnAcceder.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				String user = txtIntroduceNombre.getText();
 				String pw = txtIntroduceContrasenya.getText();
-				
-				Boolean loggeado = (new cliente.Query().logIn(user, pw));
+								
+				Boolean loggeado = (new Query().logIn(user, pw));
 				
 				if (loggeado) {
 					lblError.setVisible(false);

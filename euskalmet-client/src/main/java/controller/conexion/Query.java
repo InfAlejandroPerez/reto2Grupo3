@@ -1,4 +1,4 @@
-package cliente;
+package controller.conexion;
 
 import org.json.JSONObject;
 
