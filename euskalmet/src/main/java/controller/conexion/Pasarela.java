@@ -11,6 +11,7 @@ import database.DBController;
 import modelo.jsonSerializable;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Municipios;
+import modelo.dbClasses.Provincia;
 import modelo.dbClasses.Usuarios;
 
 public class Pasarela {
@@ -75,6 +76,31 @@ public class Pasarela {
 			e.printStackTrace();
 		}   
 	}
+	
+	public void getProvincias() {
+		
+		List<Provincia> provs = dbController.getProvincias();
+        
+		String provincias = "[\n";
+		int cont = 0;
+		
+		for(Provincia prov : provs) { 
+			if(cont > 0)
+				provincias += ",\n";
+			provincias+="  "+prov.toJSON();	
+			cont ++;
+		}
+		provincias += "\n]\n";
+		
+		String ret = "{\"operation\":\"getProvincias\",\n"
+				+ "\"result\":" + provincias + "}";
+		
+		System.out.println(ret);
+		
+		Server.sendResponse(ret);
+	
+	
+}
 	
 	public void getMunicipios() {
 			List<Municipios> muns = dbController.getMunicipios();
