@@ -30,14 +30,15 @@ public class Pasarela {
 			String tried_pass = (String) jsonObject.get("tried_pass");
 			
 			Usuarios usuario = (new DBController()).getUsuario(user);
+			
 			if(usuario == null) {
-				Server.sendFail("login", "El usuario no existe");
+				Server.sendResponse(false);
 				return;
 			}
 			if(usuario.getPassword().equals(tried_pass))
-				Server.sendSuccess("login");
+				Server.sendResponse(true);
 			else
-				Server.sendFail("login", "La contraseña no es correcta.");
+				Server.sendResponse(false);
 			
 			System.out.println(user);
 			
@@ -51,15 +52,8 @@ public class Pasarela {
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
 			String user = (String) jsonObject.get("username");
 			
-			Usuarios usuario = (new DBController()).getUsuario(user);
-			
-			if(usuario == null) {
-				Server.sendFail("comprobarUsuario", "El usuario no existe");
-				return;
-			}
-			
-			if(usuario.getNombre().equals(user))
-				Server.sendSuccess("comprobarUsuario");
+			Usuarios usuario = dbController.getUsuario(user);
+			Server.sendResponse(null != usuario);
 			
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -76,7 +70,7 @@ public class Pasarela {
 		
 			dbController.insertUser(user, pass);
 
-	        Server.sendSuccess("insert");
+	        Server.sendResponse(true);
 			
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -105,7 +99,7 @@ public class Pasarela {
 			
 			System.out.println(ret);
 			
-			Server.sendJson(ret);
+			Server.sendResponse(ret);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -136,7 +130,7 @@ public class Pasarela {
 			
 			System.out.println(ret);
 			
-			Server.sendJson(ret);
+			Server.sendResponse(ret);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

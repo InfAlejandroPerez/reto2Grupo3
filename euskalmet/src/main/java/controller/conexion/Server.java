@@ -32,15 +32,23 @@ public class Server {
 		this.pasarela = pasarela;
 	}
 	
-	public static void sendJson(String result) {
+	public static void sendResponse(String result) {
 		try {
 			salida.writeObject(result);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String a = "";
 	}
 
+	public static void sendResponse(Boolean result) {
+		try {
+			salida.writeObject(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void iniciar() {
 		try {
 			serverSocket = new ServerSocket(4444);
@@ -72,20 +80,6 @@ public class Server {
 			Main.servidor = this;
 		}
 	}
-
-	
-	protected static void sendSuccess(String operationName) {
-		String jsonSuccess = "{\"operation\":\""+operationName+"\","
-				+ "\"result\":true}";
-		Server.sendJson(jsonSuccess);
-	}
-
-	protected static void sendFail(String operationName, String message) {
-		String jsonFail = "{\"operation\":\""+operationName+"\","
-				+ "\"result\":false,"
-				+ "\"errorMessage\":\""+message+"\"}";
-		Server.sendJson(jsonFail);
-	}
 	
 	public void query(String jsonString) {
 		JSONParser parser = new JSONParser();  
@@ -109,7 +103,7 @@ public class Server {
 				case "getEspaciosProv":
 					pasarela.getEspaciosProv(jsonString);
 				default:
-					sendFail("operationNotDefined", "Error - Operación no definida en la pasarela.");
+					sendResponse("Error - Operación no definida en el servidor.");
 					
 			}
 			
