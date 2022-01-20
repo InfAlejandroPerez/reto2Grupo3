@@ -14,6 +14,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.Rectangle;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import javax.swing.JList;
 
 public class LogIn extends JFrame {
 
@@ -48,7 +51,7 @@ public class LogIn extends JFrame {
 	 */
 	public LogIn() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 500, 500);
+		setBounds(100, 100, 503, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,5 +100,27 @@ public class LogIn extends JFrame {
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.setBounds(192, 357, 89, 23);
 		contentPane.add(btnRegistrarse);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 487, 461);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel Lb_ListaMunicipios = new JLabel("Lista de Municipios");
+		Lb_ListaMunicipios.setHorizontalAlignment(SwingConstants.CENTER);
+		Lb_ListaMunicipios.setBounds(91, 11, 280, 29);
+		panel.add(Lb_ListaMunicipios);
+		
+		JButton btn_Volver = new JButton("Volver");
+		btn_Volver.setBounds(183, 416, 118, 34);
+		panel.add(btn_Volver);
+		
+		JComboBox CB_Provincias = new JComboBox();
+		CB_Provincias.setBounds(101, 51, 280, 29);
+		panel.add(CB_Provincias);
+		
+		JList listMunicipios = new JList();
+		listMunicipios.setBounds(111, 319, 270, -217);
+		panel.add(listMunicipios);
 	}
 }
