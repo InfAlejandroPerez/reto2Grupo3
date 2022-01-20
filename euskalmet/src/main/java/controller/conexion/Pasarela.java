@@ -77,6 +77,31 @@ public class Pasarela {
 		}   
 	}
 	
+	public void getMunicipios() {
+		
+			List<Municipios> muns = dbController.getMunicipios();
+	        
+			String pueblosJSON = "[\n";
+			int cont = 0;
+			
+			for(Municipios mun : muns) { 
+				if(cont > 0)
+					pueblosJSON += ",\n";
+				pueblosJSON+="  "+mun.toJSON();	
+				cont ++;
+			}
+			pueblosJSON += "\n]\n";
+			
+			String ret = "{\"operation\":\"getMunicipios\",\n"
+					+ "\"result\":" + pueblosJSON + "}";
+			
+			System.out.println(ret);
+			
+			Server.sendResponse(ret);
+		
+		
+	}
+	
 	public void getMunicipios(String query) {
 		JSONObject provinciaJSON;
 		try {

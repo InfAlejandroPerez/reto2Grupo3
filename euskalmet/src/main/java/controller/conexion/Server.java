@@ -97,6 +97,9 @@ public class Server {
 				case "insertUser":
 					pasarela.insertUser(jsonString);
 					break;
+				case "getMunicipios":
+					pasarela.getMunicipios();
+					break;
 				case "getMunicipiosProv":
 					pasarela.getMunicipios(jsonString);
 					break;
