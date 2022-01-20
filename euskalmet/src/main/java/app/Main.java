@@ -10,9 +10,9 @@ import org.json.simple.JSONObject;
 
 import controller.Controller;
 import controller.conexion.Cliente;
+import controller.conexion.Pasarela;
 import controller.conexion.Server;
 import controller.json.JsonParse;
-import controller.json.Pasarela;
 import database.DBController;
 import modelo.Modelo;
 import modelo.dbClasses.Datos;
@@ -28,9 +28,7 @@ public class Main {
 		System.out.println("AAAAAAAAAAAAAAAAAAAAA");
 		
 		//Server servidor = new Server();
-		Pasarela pasarela = new Pasarela(modelo, servidor);
 		
-		Controller controlador = new Controller(modelo, pasarela);
 		
 		// Consulta login
 		

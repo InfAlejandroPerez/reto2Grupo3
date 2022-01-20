@@ -50,6 +50,27 @@ public class DBController {
 		return lista;
 	}
 	
+	public void insertUser(String username, String password) {
+		Session session = this.openSession();
+		
+		// start transaction
+		session.beginTransaction();
+
+		int codUser = (new DBController()).getLastUserId(session);
+		// create user
+		Usuarios usuario = new Usuarios();
+		usuario.setCodUsuario(codUser+1);
+		usuario.setNombre(username);
+		usuario.setPassword(password);
+
+		// Save the invitation to database
+		session.save(usuario);
+
+		// Commit the transaction
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 	public int getLastUserId(Session sesion) {
 		int ret = 0;
 		String hql = "SELECT max(codUsuario) FROM modelo.dbClasses.Usuarios";

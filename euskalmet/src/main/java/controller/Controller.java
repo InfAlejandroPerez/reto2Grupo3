@@ -1,6 +1,6 @@
 package controller;
 
-import controller.json.Pasarela;
+import controller.conexion.Pasarela;
 import modelo.Modelo;
 
 public class Controller {
