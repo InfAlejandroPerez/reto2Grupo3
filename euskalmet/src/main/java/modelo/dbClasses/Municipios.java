@@ -97,9 +97,7 @@ public class Municipios implements java.io.Serializable, jsonSerializable {
 
 	@Override
 	public String toJSON() {
-		return "{"
-				+ "\"nombre\":"+"\""+nombre+"\""
-				+ "}";
+		return "{\"nombre\":"+"\""+nombre+"\"}";
 	}
 
 	

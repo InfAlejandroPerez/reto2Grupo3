@@ -34,6 +34,7 @@ public class Server {
 	
 	public static void sendResponse(String result) {
 		try {
+			System.out.println(result);
 			salida.writeObject(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -117,11 +118,5 @@ public class Server {
 			e.printStackTrace();
 		}   
 	}
-	
-	public static void main(String[] args) {
-		DBController dbController = new DBController();
-		Pasarela pasarela = new Pasarela(dbController);
-		Server server = new Server(pasarela);
-		server.iniciar();
-	}
+
 }

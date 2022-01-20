@@ -21,28 +21,12 @@ import modelo.dbClasses.DatosId;
 public class Main {
 	public static Server servidor;
 	public static void main(String[] args) {
-		DBController bbddController = new DBController();
-		Modelo modelo = new Modelo(bbddController);
+		DBController dbController = new DBController();
 		
-				
-		System.out.println("AAAAAAAAAAAAAAAAAAAAA");
+		Pasarela pasarela = new Pasarela(dbController);
+		Server server = new Server(pasarela);
+		server.iniciar();
 		
-		//Server servidor = new Server();
-		
-		
-		// Consulta login
-		
-
-		
-		//parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true);
-		System.out.println("finish");
-		
-		
-		// vista
-		// controller
-		
-		
-		// Aplicacion
-		bbddController.closeSessionFactory();
+		dbController.closeSessionFactory();
 	}
 }

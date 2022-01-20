@@ -81,22 +81,11 @@ public class Pasarela {
 		
 		List<Provincia> provs = dbController.getProvincias();
         
-		String provincias = "[\n";
-		int cont = 0;
-		
-		for(Provincia prov : provs) { 
-			if(cont > 0)
-				provincias += ",\n";
-			provincias+="  "+prov.toJSON();	
-			cont ++;
-		}
-		provincias += "\n]\n";
+		String provincias = listToJSON(provs);
 		
 		String ret = "{\"operation\":\"getProvincias\",\n"
 				+ "\"result\":" + provincias + "}";
-		
-		System.out.println(ret);
-		
+				
 		Server.sendResponse(ret);
 	
 	
@@ -109,7 +98,6 @@ public class Pasarela {
 			String ret = "{\"operation\":\"getMunicipios\",\n"
 					+ "\"result\":" + pueblosJSON + "}";
 			
-			System.out.println(ret);
 			Server.sendResponse(ret);
 	}
 	
