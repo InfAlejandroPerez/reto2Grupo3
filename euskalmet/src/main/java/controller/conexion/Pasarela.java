@@ -8,6 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import database.DBController;
+import modelo.jsonSerializable;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Usuarios;
@@ -39,9 +40,7 @@ public class Pasarela {
 				Server.sendResponse(true);
 			else
 				Server.sendResponse(false);
-			
-			System.out.println(user);
-			
+						
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}   
@@ -96,9 +95,7 @@ public class Pasarela {
 			
 			String ret = "{\"operation\":\"getMunicipiosProv\",\n"
 					+ "\"result\":" + pueblosJSON + "}";
-			
-			System.out.println(ret);
-			
+						
 			Server.sendResponse(ret);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -106,30 +103,31 @@ public class Pasarela {
 		
 	}
 	
+	private String listToJSON(List<? extends jsonSerializable> lista) {
+		String ret = "[";
+		int cont = 0;
+		for(jsonSerializable obj : lista) { 
+			if(cont > 0)
+				ret += ",";
+			ret+="  "+obj.toJSON();	
+			cont ++;
+		}
+		ret += "]";
+		return ret;
+	}
+	
 	protected void getEspaciosProv(String query) {
-		System.out.println("estoy en espacios");
 		JSONObject provinciaJSON;
 		try {
 			provinciaJSON = (JSONObject) parser.parse(query);
 			String nombreProvincia = (String) provinciaJSON.get("provincia");
-			List<EspaciosNaturales> muns = dbController.getEspacios(nombreProvincia);
-	        
-			String espaciosJSON = "[\n";
-			int cont = 0;
-			for(EspaciosNaturales esp : muns) { 
-				if(cont > 0)
-					espaciosJSON += ",\n";
-				espaciosJSON+="  "+esp.toJSON();	
-				System.out.println(espaciosJSON);
-				cont ++;
-			}
-			espaciosJSON += "\n]\n";
+			List<EspaciosNaturales> espacios = dbController.getEspacios(nombreProvincia);
+			
+			String espaciosJSON = listToJSON(espacios);
 			
 			String ret = "{\"operation\":\"getEstacionesProv\",\n"
 					+ "\"result\":" + espaciosJSON + "}";
-			
-			System.out.println(ret);
-			
+						
 			Server.sendResponse(ret);
 		} catch (ParseException e) {
 			e.printStackTrace();
