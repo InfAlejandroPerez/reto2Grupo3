@@ -236,9 +236,28 @@ public class DBController {
 		return ret;
 	}
 	
-	public List<EspaciosNaturales> getEspacios(String nombreProvincia){
+	
+	public List<EspaciosNaturales> getEspacios() {
+		String hql = "FROM modelo.dbClasses.EspaciosNaturales";
 		Session sesion = this.openSession();
-		List<Municipios> muns = getMunicipios(nombreProvincia);
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		List<EspaciosNaturales> lista = query.list();
+		
+		sesion.close();
+		return lista;
+	}
+	
+	public List<EspaciosNaturales> getEspacios(String nombreMunicipio){
+		Municipios mun = getMunicipio(nombreMunicipio);
+		List<EspaciosNaturales> espacios = new ArrayList<>( mun.getEspaciosNaturaleses() );
+		return espacios;
+	}
+	
+	public List<EspaciosNaturales> getEspaciosProv(String prov){
+		Session sesion = this.openSession();
+		List<Municipios> muns = getMunicipios(prov);
 		List<EspaciosNaturales> espacios = new ArrayList();
 		for(int i = 0 ; i < muns.size() ; i ++) {
 			Set<EspaciosNaturales> espaciosSet = muns.get(i).getEspaciosNaturaleses();

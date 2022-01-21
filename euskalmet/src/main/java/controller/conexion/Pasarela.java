@@ -133,12 +133,40 @@ public class Pasarela {
 		return ret;
 	}
 	
-	protected void getEspaciosProv(String query) {
-		JSONObject provinciaJSON;
+	public void getEspacios() {
+		List<EspaciosNaturales> espacios = dbController.getEspacios();
+        
+		String espaciosJSON = listToJSON(espacios);
+		String ret = "{\"operation\":\"getEspacios\",\n"
+				+ "\"result\":" + espaciosJSON + "}";
+		
+		Server.sendResponse(ret);
+	}
+	
+	protected void getEspaciosMun(String query) {
+		JSONObject espacioJSON;
 		try {
-			provinciaJSON = (JSONObject) parser.parse(query);
-			String nombreProvincia = (String) provinciaJSON.get("provincia");
-			List<EspaciosNaturales> espacios = dbController.getEspacios(nombreProvincia);
+			espacioJSON = (JSONObject) parser.parse(query);
+			String nombreMunicipio = (String) espacioJSON.get("municipio");
+			List<EspaciosNaturales> espacios = dbController.getEspacios(nombreMunicipio);
+			
+			String espaciosJSON = listToJSON(espacios);
+			
+			String ret = "{\"operation\":\"getEstacionesMun\",\n"
+					+ "\"result\":" + espaciosJSON + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected void getEspaciosProv(String query) {
+		JSONObject espacioJSON;
+		try {
+			espacioJSON = (JSONObject) parser.parse(query);
+			String nombreProvincia = (String) espacioJSON.get("provincia");
+			List<EspaciosNaturales> espacios = dbController.getEspaciosProv(nombreProvincia);
 			
 			String espaciosJSON = listToJSON(espacios);
 			
@@ -150,8 +178,6 @@ public class Pasarela {
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 
 	
