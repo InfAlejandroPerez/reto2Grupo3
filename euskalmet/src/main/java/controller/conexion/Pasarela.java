@@ -10,6 +10,7 @@ import org.json.simple.parser.ParseException;
 import database.DBController;
 import modelo.jsonSerializable;
 import modelo.dbClasses.EspaciosNaturales;
+import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Provincia;
 import modelo.dbClasses.Usuarios;
@@ -142,7 +143,25 @@ public class Pasarela {
 			
 			String espaciosJSON = listToJSON(espacios);
 			
-			String ret = "{\"operation\":\"getEstacionesProv\",\n"
+			String ret = "{\"operation\":\"getEspaciosProv\",\n"
+					+ "\"result\":" + espaciosJSON + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getEstacionesMun(String query) {
+		JSONObject provinciaJSON;
+		try {
+			provinciaJSON = (JSONObject) parser.parse(query);
+			String nombreMunicipio = (String) provinciaJSON.get("municipio");
+			List<Estaciones> estaciones = dbController.getEstacionesMun(nombreMunicipio);
+			
+			String espaciosJSON = listToJSON(estaciones);
+			
+			String ret = "{\"operation\":\"getEstacionesMun\",\n"
 					+ "\"result\":" + espaciosJSON + "}";
 						
 			Server.sendResponse(ret);

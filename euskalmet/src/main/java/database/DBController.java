@@ -121,6 +121,25 @@ public class DBController {
 		return ret;	 	
 	}
 	
+	public List<Estaciones> getEstacionesMun(String nombreMunicipio) {
+		List<Estaciones> ret = null;
+		Municipios mun = null;
+		String hql = "FROM modelo.dbClasses.Municipios WHERE Nombre = :nombreMun";
+		Session sesion = this.openSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("nombreMun", nombreMunicipio);
+		
+		mun = (Municipios) query.uniqueResult();
+		
+		ret = new ArrayList<>( mun.getEstacioneses() );
+		
+		sesion.close();
+		
+		return ret;
+	}
+	
 	public Provincia getProvincia(int codProvincia) {
 		Provincia ret;
 		String hql = "FROM modelo.dbClasses.Provincia WHERE CodProvincia = :codProvincia";
