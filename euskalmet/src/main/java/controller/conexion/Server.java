@@ -115,6 +115,12 @@ public class Server {
 					break;	
 				case "getEspaciosMun":
 					pasarela.getEspaciosMun(jsonString);
+				case "getEstaciones":
+					break;
+				case "getEstacionesMun":
+					pasarela.getEstacionesMun(jsonString);
+					break;
+					
 				default:
 					sendResponse("Error - Operación no definida en el servidor.");
 					
