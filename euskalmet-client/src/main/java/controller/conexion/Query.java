@@ -16,6 +16,13 @@ public class Query {
         String query = new JSONObject(atts).toString();
         return queryBoolean(query);
     }
+    
+    public String getEstacionesMun(String nombreMunicipio) {
+    	String queryEstaciones = "{\"operation\":\"getEstacionesMun\"," +
+                "\"municipio\":\""+nombreMunicipio+"\"}";
+
+        return queryString(queryEstaciones);    	
+    }
 
     public Boolean insertarUsuario(String username, String password) {
         Map<String, String> atts2 = new HashMap<String, String>();
