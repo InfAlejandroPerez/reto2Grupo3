@@ -151,7 +151,7 @@ public class LogIn extends JFrame {
 		panelLogIn.add(lblError);
 		
 		JLabel lb_Logo = new JLabel("");
-		lb_Logo.setIcon(new ImageIcon("C:\\Users\\in2dam-b\\Downloads\\logo.jpg"));
+		lb_Logo.setIcon(new ImageIcon(LogIn.class.getResource("/vista/imagenes/logo.jpg")));
 		lb_Logo.setBounds(83, 11, 277, 77);
 		panelLogIn.add(lb_Logo);
 		lblError.setVisible(false);
