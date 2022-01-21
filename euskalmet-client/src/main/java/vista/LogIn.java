@@ -23,17 +23,16 @@ import java.awt.event.ActionEvent;
 import controller.conexion.*;
 import controller.Controller;
 import controller.conexion.Query;
+import java.awt.Font;
 
 public class LogIn extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField txtIntroduceNombre;
-	private JTextField txtIntroduceContrasenya;
-	private JRadioButton rdbtnRememberMe;
 	private Controller controlador;
 	private JLabel lblError;
-	private CardLayout c1;
-	private JPanel cards;
+	private CardLayout c1 = new CardLayout();
+	private JPanel contentPane;
+	private JPanel panelLogIn = new JPanel();
+	private JPanel panelListaMunicipios = new JPanel();
+	private JPanel panelListaEstaciones = new JPanel();
 	/**
 	 * Create the frame.
 	 */
@@ -43,16 +42,29 @@ public class LogIn extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(c1);
+		
+		//CardLayout
+		contentPane.add(panelLogIn, "panelLogIn");
+		contentPane.add(panelListaMunicipios, "panelMunicipios");
+		contentPane.add(panelListaEstaciones, "panelEstaciones");
+		
+		c1.show(contentPane, "panelLogIn");
+		
+		panelLogIn.setBounds(0, 0, 8, 7);
+		//contentPane.add(panelListaMunicipios);
+		panelLogIn.setLayout(null);
 
 		JLabel lblUsuario = new JLabel("Ususario");
-		lblUsuario.setBounds(155, 134, 46, 14);
-		contentPane.add(lblUsuario);
+		lblUsuario.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		lblUsuario.setBounds(142, 116, 89, 31);
+		panelLogIn.add(lblUsuario);
 
-		txtIntroduceNombre = new JTextField();
+		final JTextField txtIntroduceNombre = new JTextField();
+		txtIntroduceNombre.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		txtIntroduceNombre.setText("Introduce tu nombre");
-		txtIntroduceNombre.setBounds(155, 159, 172, 20);
-		contentPane.add(txtIntroduceNombre);
+		txtIntroduceNombre.setBounds(142, 158, 185, 31);
+		panelLogIn.add(txtIntroduceNombre);
 		txtIntroduceNombre.setColumns(10);
 		txtIntroduceNombre.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,13 +74,15 @@ public class LogIn extends JFrame {
 		});
 
 		JLabel lblContrasenya = new JLabel("Contrase\u00F1a");
-		lblContrasenya.setBounds(155, 202, 65, 14);
-		contentPane.add(lblContrasenya);
+		lblContrasenya.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		lblContrasenya.setBounds(142, 215, 137, 31);
+		panelLogIn.add(lblContrasenya);
 
-		txtIntroduceContrasenya = new JTextField();
+		final JTextField txtIntroduceContrasenya = new JTextField();
+		txtIntroduceContrasenya.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		txtIntroduceContrasenya.setText("Introduce tu contrase\u00F1a");
-		txtIntroduceContrasenya.setBounds(155, 227, 172, 20);
-		contentPane.add(txtIntroduceContrasenya);
+		txtIntroduceContrasenya.setBounds(142, 255, 185, 33);
+		panelLogIn.add(txtIntroduceContrasenya);
 		txtIntroduceContrasenya.setColumns(10);
 		txtIntroduceContrasenya.addMouseListener(new MouseAdapter() {
 			@Override
@@ -77,34 +91,25 @@ public class LogIn extends JFrame {
 			}
 		});
 
-		rdbtnRememberMe = new JRadioButton("Recu\u00E9rdame");
-		rdbtnRememberMe.setBounds(155, 254, 109, 23);
-		contentPane.add(rdbtnRememberMe);
-
 		JButton btnAcceder = new JButton("Acceder");
-		btnAcceder.setBounds(192, 311, 89, 23);
-		contentPane.add(btnAcceder);
-
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(192, 357, 89, 23);
-		contentPane.add(btnRegistrarse);
+		btnAcceder.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnAcceder.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnAcceder.setBounds(180, 340, 99, 39);
+		panelLogIn.add(btnAcceder);
 		
 		//Panel de lista de Municipios
-		JPanel panelListaMunicipios = new JPanel();
 		panelListaMunicipios.setBounds(0, 0, 8, 7);
 		//contentPane.add(panelListaMunicipios);
 		panelListaMunicipios.setLayout(null);
 		
 		JLabel Lb_ListaMunicipios = new JLabel("Lista de Municipios");
+		Lb_ListaMunicipios.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
 		Lb_ListaMunicipios.setHorizontalAlignment(SwingConstants.CENTER);
-		Lb_ListaMunicipios.setBounds(91, 11, 280, 29);
+		Lb_ListaMunicipios.setBounds(101, 11, 280, 29);
 		panelListaMunicipios.add(Lb_ListaMunicipios);
 		
-		JButton btn_Volver = new JButton("Volver");
-		btn_Volver.setBounds(183, 416, 118, 34);
-		panelListaMunicipios.add(btn_Volver);
-		
 		JComboBox CB_Provincias = new JComboBox();
+		CB_Provincias.setBorder(UIManager.getBorder("Button.border"));
 		CB_Provincias.setBounds(101, 51, 280, 29);
 		panelListaMunicipios.add(CB_Provincias);
 		
@@ -112,35 +117,38 @@ public class LogIn extends JFrame {
 		listMunicipios.setBounds(111, 319, 270, -217);
 		panelListaMunicipios.add(listMunicipios);
 		
+		JButton btnVolverMunicipios = new JButton("Volver");
+		btnVolverMunicipios.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnVolverMunicipios.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnVolverMunicipios.setBounds(188, 378, 99, 39);
+		panelListaMunicipios.add(btnVolverMunicipios);
+		
 		//Panel de lista de Estaciones
-		JPanel panelListaEstaciones = new JPanel();
 		panelListaEstaciones.setBounds(479, 0, 8, 7);
 		//contentPane.add(panelListaEstaciones);
 		panelListaEstaciones.setLayout(null);
-		
-		JButton btn_Volver_1 = new JButton("Volver");
-		btn_Volver_1.setBounds(187, 403, 108, 32);
-		panelListaEstaciones.add(btn_Volver_1);
-		
-		JLabel lb_ListaEstaciones = new JLabel("Lista de Estaciones");
-		lb_ListaEstaciones.setBounds(107, 11, 265, 38);
-		panelListaEstaciones.add(lb_ListaEstaciones);
-		lb_ListaEstaciones.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JList listEstaciones = new JList();
 		listEstaciones.setBounds(83, 292, 331, -212);
 		panelListaEstaciones.add(listEstaciones);
 		
-		lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
-		lblError.setBounds(155, 422, 172, 14);
-		contentPane.add(lblError);
-		lblError.setVisible(false);
+		JButton btnVolverEstaciones = new JButton("Volver");
+		btnVolverEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnVolverEstaciones.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnVolverEstaciones.setBounds(185, 384, 99, 39);
+		panelListaEstaciones.add(btnVolverEstaciones);
 		
-		//CardLayout
-		c1 = new CardLayout();
-		cards = new JPanel(c1);
-		cards.add(panelListaMunicipios, "panelMunicipios");
-		cards.add(panelListaEstaciones, "panelEstaciones");
+		JLabel Lb_ListaEstaciones = new JLabel("Lista de Estaciones");
+		Lb_ListaEstaciones.setHorizontalAlignment(SwingConstants.CENTER);
+		Lb_ListaEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		Lb_ListaEstaciones.setBounds(93, 11, 280, 29);
+		panelListaEstaciones.add(Lb_ListaEstaciones);
+		
+		lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
+		lblError.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
+		lblError.setBounds(142, 390, 197, 24);
+		panelLogIn.add(lblError);
+		lblError.setVisible(false);
 		
 		//Login
 		btnAcceder.addActionListener(new ActionListener() {
@@ -153,7 +161,7 @@ public class LogIn extends JFrame {
 				
 				if (loggeado) {
 					lblError.setVisible(false);
-					c1.show(cards, "panelMunicipios");
+					c1.show(contentPane, "panelMunicipios");
 					System.out.println("Usuario válido");
 				}else {
 					lblError.setVisible(true);
@@ -162,6 +170,22 @@ public class LogIn extends JFrame {
 				
 				
 			}
+		});
+		
+		btnVolverMunicipios.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				c1.show(contentPane, "panelLogIn");
+			}
+			
+		});
+		
+		btnVolverEstaciones.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				c1.show(contentPane, "panelMunicipios");				
+			}
+			
 		});
 		
 	}
