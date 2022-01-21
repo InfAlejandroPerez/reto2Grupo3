@@ -24,6 +24,7 @@ import controller.conexion.*;
 import controller.Controller;
 import controller.conexion.Query;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 
 public class LogIn extends JFrame {
 	private Controller controlador;
@@ -148,6 +149,11 @@ public class LogIn extends JFrame {
 		lblError.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
 		lblError.setBounds(142, 390, 197, 24);
 		panelLogIn.add(lblError);
+		
+		JLabel lb_Logo = new JLabel("");
+		lb_Logo.setIcon(new ImageIcon("C:\\Users\\in2dam-b\\Downloads\\logo.jpg"));
+		lb_Logo.setBounds(83, 11, 277, 77);
+		panelLogIn.add(lb_Logo);
 		lblError.setVisible(false);
 		
 		//Login
