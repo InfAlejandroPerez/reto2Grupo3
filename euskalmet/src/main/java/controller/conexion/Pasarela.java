@@ -224,7 +224,7 @@ public class Pasarela {
 			dbController.setFotoEspacio(codEstacion, nameFoto);
 			
 			System.out.println("read estacion:  " + codEstacion);
-	        byte[] sizeAr = new byte[4];
+        byte[] sizeAr = new byte[4];
 	        inputStream.read(sizeAr);
 	        int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
 
