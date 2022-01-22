@@ -23,11 +23,10 @@ public class Send {
         ImageIO.write(image, "jpg", byteArrayOutputStream);
 
         byte[] size = ByteBuffer.allocate(4).putInt(byteArrayOutputStream.size()).array();
-        String json = "{\"operation\":\"sendFotoEstacion\", \"estacionId\":5}";
+        String json = "{\"operation\":\"sendFotoEstacion\", \"codEstacion\":2}";
         oos.writeObject(json);
         outputStream.write(size);
         outputStream.write(byteArrayOutputStream.toByteArray());
-        outputStream.flush();
         System.out.println("Flushed: " + System.currentTimeMillis());
 
         socket.close();

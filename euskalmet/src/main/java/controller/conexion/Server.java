@@ -1,11 +1,14 @@
 package controller.conexion;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 
 import org.hibernate.Session;
 import org.json.simple.JSONObject;
@@ -25,6 +28,7 @@ public class Server {
 	private Socket clientSocket;
 	private static ObjectInputStream entrada = null;
 	private static ObjectOutputStream salida = null;
+	private InputStream inputStream;
 	private DBController dbController = new DBController();
 	private Pasarela pasarela;
 	
@@ -39,6 +43,15 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void sendResponse(ImageIcon result) {
+		try {
+			System.out.println(result);
+			salida.writeObject(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	public static void sendResponse(Boolean result) {
@@ -63,8 +76,8 @@ public class Server {
 			try {
 				clientSocket = serverSocket.accept();
 				System.out.println("Te has conectado");
-
-				entrada = new ObjectInputStream(clientSocket.getInputStream());
+				this.inputStream = clientSocket.getInputStream();
+				entrada = new ObjectInputStream(inputStream);
 				salida = new ObjectOutputStream(clientSocket.getOutputStream());
 
 				String linea = (String) entrada.readObject();
@@ -121,14 +134,11 @@ public class Server {
 					pasarela.getEstacionesMun(jsonString);
 					break;
 				case "sendFotoEstacion":
-				try {
-					pasarela.readFotoEstacion(clientSocket.getInputStream());
-					System.out.println("hi");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+					pasarela.readFotoEstacion(inputStream, jsonString);
 					break;
-					
+				case "getFotoEstacion":
+					pasarela.getFotoEstacion(jsonString);
+					break;
 				default:
 					sendResponse("Error - Operación no definida en el servidor.");
 					

@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 public class Query {
 
     public Boolean logIn(String username, String password) {
@@ -69,6 +71,11 @@ public class Query {
     private Boolean queryBoolean(String jsonQuery) {
         QueryThread hiloQuery = query(jsonQuery);
         return hiloQuery.responseBool;
+    }
+    
+    public ImageIcon getFotoEspacio(String query) {
+        QueryThread hiloQuery = query(query);
+        return (ImageIcon) hiloQuery.respuesta;
     }
 
     private QueryThread query(String query) {

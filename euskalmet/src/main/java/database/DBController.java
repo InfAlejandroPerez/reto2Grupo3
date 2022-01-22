@@ -40,6 +40,25 @@ public class DBController {
 		return this.sessionFactory.openSession();
 	}
 	
+	public void setFotoEspacio(long id, String name) {
+		Session session = this.openSession();
+		session.beginTransaction();
+		EspaciosNaturales esp = session.get(EspaciosNaturales.class, (int)id);
+		esp.setImagen(name);
+		session.save(esp);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public String getFotoEspacio(long id) {
+		String ret = "";
+		Session session = this.openSession();
+		EspaciosNaturales esp = session.get(EspaciosNaturales.class, (int)id);
+		ret = esp.getImagen();
+		session.close();
+		
+		return ret;
+	}
 	
 	public List<Datos> getDatos() {
 		String hql = "FROM modelo.dbClasses.Datos";

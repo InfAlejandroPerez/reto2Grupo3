@@ -3,6 +3,8 @@ package modelo;
 import database.DBController;
 
 public class Modelo {
+	
+	public static final String PATH_IMG = "src/main/resources/img/";
 
 	private DBController dbController;
 

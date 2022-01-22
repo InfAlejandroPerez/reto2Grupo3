@@ -2,16 +2,19 @@ package controller.conexion;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.hibernate.Session;
 import org.json.simple.JSONObject;
@@ -19,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import database.DBController;
+import modelo.Modelo;
 import modelo.jsonSerializable;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Estaciones;
@@ -208,21 +212,51 @@ public class Pasarela {
 			e.printStackTrace();
 		}
 	}
+
 	
-	public void readFotoEstacion(InputStream inputStream) throws IOException {
-		System.out.println("dentro de readFotoEstacion");
+	public void readFotoEstacion(InputStream inputStream, String query) {
+		try {
+			JSONObject obj = (JSONObject) parser.parse(query);
+			long codEstacion = (long) obj.get("codEstacion");
+			
+			System.out.println("dentro de readFotoEstacion");
+			String nameFoto = "EstacionNatural" + codEstacion + ".jpg";
+			dbController.setFotoEspacio(codEstacion, nameFoto);
+			
+			System.out.println("read estacion:  " + codEstacion);
+	        byte[] sizeAr = new byte[4];
+	        inputStream.read(sizeAr);
+	        int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
 
-        byte[] sizeAr = new byte[4];
-        inputStream.read(sizeAr);
-        int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+	        byte[] imageAr = new byte[size];
+	        inputStream.read(imageAr);
 
-        byte[] imageAr = new byte[size];
-        inputStream.read(imageAr);
+	        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
-        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
+	        System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
+	        ImageIO.write(image, "jpg", new File("src/main/resources/img/" + nameFoto));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
-        ImageIO.write(image, "jpg", new File("src/main/resources/img/new.jpg"));
+	}
+	
+	public void getFotoEstacion(String query) {
+		try {
+			JSONObject obj = (JSONObject) parser.parse(query);
+			long codEstacion = (long) obj.get("codEstacion");
+			String img = dbController.getFotoEspacio(codEstacion);
+						
+			ImageIcon icon = new ImageIcon(Modelo.PATH_IMG + img);
+			
+			Server.sendResponse(icon);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+        
 	}
 
 	
