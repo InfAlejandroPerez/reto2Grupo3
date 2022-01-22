@@ -17,6 +17,11 @@ public class Query {
         return queryBoolean(query);
     }
     
+    public String getMunicipios() {
+    	String queryEstaciones = "{\"operation\":\"getMunicipios\"}";
+        return queryString(queryEstaciones);    	
+    }
+    
     public String getEstacionesMun(String nombreMunicipio) {
     	String queryEstaciones = "{\"operation\":\"getEstacionesMun\"," +
                 "\"municipio\":\""+nombreMunicipio+"\"}";
