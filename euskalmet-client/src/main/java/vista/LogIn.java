@@ -6,10 +6,14 @@ import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
@@ -29,7 +33,10 @@ import java.awt.event.ActionEvent;
 import controller.conexion.*;
 import controller.Controller;
 import controller.conexion.Query;
+import controller.utilities.Utils;
+
 import java.awt.Font;
+import javax.swing.JScrollPane;
 
 public class LogIn extends JFrame {
 	private Controller controlador;
@@ -39,6 +46,7 @@ public class LogIn extends JFrame {
 	private JPanel panelLogIn = new JPanel();
 	private JPanel panelListaMunicipios = new JPanel();
 	private JPanel panelListaEstaciones = new JPanel();
+	private String estaciones;
 	/**
 	 * Create the frame.
 	 */
@@ -67,19 +75,16 @@ public class LogIn extends JFrame {
 
 		final JTextField txtIntroduceNombre = new JTextField();
 		txtIntroduceNombre.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
-		txtIntroduceNombre.setText("Introduce tu nombre");
 		txtIntroduceNombre.setBounds(142, 158, 185, 31);
 		panelLogIn.add(txtIntroduceNombre);
 		txtIntroduceNombre.setColumns(10);
-		txtIntroduceNombre.addFocusListener(new FocusListener() {
-			
-			public void focusLost(FocusEvent e) {
-				
-			}
-			
-			public void focusGained(FocusEvent e) {
+		txtIntroduceNombre.addMouseListener(new MouseAdapter() {
+
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				txtIntroduceNombre.setText("");
 			}
+			
 		});
 
 		JLabel lblContrasenya = new JLabel("Contrase\u00F1a");
@@ -87,23 +92,18 @@ public class LogIn extends JFrame {
 		lblContrasenya.setBounds(142, 215, 137, 31);
 		panelLogIn.add(lblContrasenya);
 
-		final JTextField txtIntroduceContrasenya = new JTextField();
+		final JPasswordField txtIntroduceContrasenya = new JPasswordField();
 		txtIntroduceContrasenya.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
-		txtIntroduceContrasenya.setText("Introduce tu contrase\u00F1a");
 		txtIntroduceContrasenya.setBounds(142, 255, 185, 33);
 		panelLogIn.add(txtIntroduceContrasenya);
 		txtIntroduceContrasenya.setColumns(10);
-		txtIntroduceContrasenya.addFocusListener(new FocusListener() {
-			
-			public void focusLost(FocusEvent e) {
-				
-			}
-			
-			public void focusGained(FocusEvent e) {
+		txtIntroduceContrasenya.addMouseListener(new MouseAdapter() {			
+			@Override
+            public void mouseClicked(MouseEvent e){
 				txtIntroduceContrasenya.setText("");
-			}
+            }
 		});
-
+		
 		JButton btnAcceder = new JButton("Acceder");
 		btnAcceder.setBorder(UIManager.getBorder("ToggleButton.border"));
 		btnAcceder.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
@@ -127,33 +127,69 @@ public class LogIn extends JFrame {
 		
 		//Lista de Municipios
 		DefaultListModel<String> modelMunicipios = new DefaultListModel<String>();
-		JList<String> listMunicipios = new JList<String>(modelMunicipios);
-		listMunicipios.setBounds(101, 358, 280, -248);
-		panelListaMunicipios.add(listMunicipios);
-		
-		for (int i = 0; i < 10; i++) {
-			//modelMunicipios.addElement();
+		String muns = (new Query()).getMunicipios();
+		List<String> munsList = Utils.getListFromJSON("nombre", "result", muns);
+		for (String munis : munsList) {
+			modelMunicipios.addElement(munis);
 		}
+		final JList<String> listMunicipios = new JList<String>();
+		listMunicipios.setModel(modelMunicipios);
+		panelListaMunicipios.add(listMunicipios);
 		
 		JButton btnVolverMunicipios = new JButton("Volver");
 		btnVolverMunicipios.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		btnVolverMunicipios.setBorder(UIManager.getBorder("ToggleButton.border"));
-		btnVolverMunicipios.setBounds(188, 378, 99, 39);
+		btnVolverMunicipios.setBounds(120, 382, 113, 39);
 		panelListaMunicipios.add(btnVolverMunicipios);
+		
+		JScrollPane scrollPaneMunicipios = new JScrollPane(listMunicipios);
+		scrollPaneMunicipios.setBounds(87, 99, 306, 268);
+		panelListaMunicipios.add(scrollPaneMunicipios);
+		
+		JButton btnAccederEstaciones = new JButton("Estaciones");
+		btnAccederEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnAccederEstaciones.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnAccederEstaciones.setBounds(256, 382, 113, 39);
+		panelListaMunicipios.add(btnAccederEstaciones);
+		
+		btnAccederEstaciones.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				listMunicipios.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+					public void valueChanged(ListSelectionEvent e) {
+						String estacion = listMunicipios.getSelectedValue();
+						
+						if (estacion != null) {
+							estaciones = (new Query()).getEstacionesMun(estacion);
+							
+							//Lista de Estaciones
+							DefaultListModel<String> modelEstaciones = new DefaultListModel<String>();
+							List<String> estacionesList = Utils.getListFromJSON("nombre", "result", estaciones);
+							for (String estaciones : estacionesList) {
+								modelEstaciones.addElement(estaciones);
+							}
+							JList<String> listEstaciones = new JList<String>();
+							listEstaciones.setModel(modelEstaciones);
+							panelListaEstaciones.add(listEstaciones);
+							
+							JScrollPane scrollPaneEstaciones = new JScrollPane(listEstaciones);
+							scrollPaneEstaciones.setBounds(87, 99, 306, 268);
+							panelListaEstaciones.add(scrollPaneEstaciones);
+							
+							c1.show(contentPane, "panelEstaciones");
+						}
+						
+					}
+					
+				});
+				
+			}
+			
+		});
 		
 		//Panel de lista de Estaciones
 		panelListaEstaciones.setBounds(479, 0, 8, 7);
 		panelListaEstaciones.setLayout(null);
-		
-		//Lista de Estaciones
-		DefaultListModel<String> modelEstaciones = new DefaultListModel<String>();
-		JList<String> listEstaciones = new JList<String>(modelEstaciones);
-		listEstaciones.setBounds(83, 292, 331, -212);
-		panelListaEstaciones.add(listEstaciones);
-		
-		for (int i = 0; i < 10; i++) {
-			//modelEstaciones.addElement();
-		}
 		
 		JButton btnVolverEstaciones = new JButton("Volver");
 		btnVolverEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
@@ -184,7 +220,7 @@ public class LogIn extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				String user = txtIntroduceNombre.getText();
-				String pw = txtIntroduceContrasenya.getText();
+				String pw = String.valueOf(txtIntroduceContrasenya.getPassword());
 								
 				Boolean loggeado = (new Query().logIn(user, pw));
 				
@@ -197,9 +233,10 @@ public class LogIn extends JFrame {
 					System.out.println("Usuario no válido");
 				}
 				
-				
 			}
 		});
+		
+		
 		
 		btnVolverMunicipios.addActionListener(new ActionListener() {
 
