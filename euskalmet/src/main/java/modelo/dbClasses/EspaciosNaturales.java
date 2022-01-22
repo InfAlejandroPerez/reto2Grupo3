@@ -13,6 +13,7 @@ public class EspaciosNaturales implements java.io.Serializable, jsonSerializable
 
 	private int codEspacio;
 	private String nombre;
+	private String imagen;
 	private String descripcion;
 	private Set usuarioses = new HashSet(0);
 	private Set municipioses = new HashSet(0);
@@ -78,6 +79,14 @@ public class EspaciosNaturales implements java.io.Serializable, jsonSerializable
 	public String toJSON() {
 		return "{\"nombre\":\""+nombre+"\"}";
 		
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 }

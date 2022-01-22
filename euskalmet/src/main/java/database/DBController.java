@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -281,6 +283,7 @@ public class DBController {
 		
 		return ret;
 	}
+	
 	
 	// Geters and Setters
 	public SessionFactory getSessionFactory() {

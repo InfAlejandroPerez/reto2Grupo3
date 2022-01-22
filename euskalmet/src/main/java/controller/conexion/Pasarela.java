@@ -1,6 +1,17 @@
 package controller.conexion;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.hibernate.Session;
 import org.json.simple.JSONObject;
@@ -168,6 +179,22 @@ public class Pasarela {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void readFotoEstacion(InputStream inputStream) throws IOException {
+		System.out.println("dentro de readFotoEstacion");
+
+        byte[] sizeAr = new byte[4];
+        inputStream.read(sizeAr);
+        int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+
+        byte[] imageAr = new byte[size];
+        inputStream.read(imageAr);
+
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
+
+        System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
+        ImageIO.write(image, "jpg", new File("src/main/resources/img/new.jpg"));
 	}
 	
 	

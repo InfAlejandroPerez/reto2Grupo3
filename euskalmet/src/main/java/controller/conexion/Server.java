@@ -73,7 +73,7 @@ public class Server {
 				query(linea);
 
 			} catch (IOException ex) {
-				System.out.println("Problem in message reading");
+				ex.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -113,6 +113,14 @@ public class Server {
 					break;
 				case "getEstacionesMun":
 					pasarela.getEstacionesMun(jsonString);
+					break;
+				case "sendFotoEstacion":
+				try {
+					pasarela.readFotoEstacion(clientSocket.getInputStream());
+					System.out.println("hi");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 					break;
 					
 				default:
