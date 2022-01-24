@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -243,21 +244,37 @@ public class Pasarela {
 
 	}
 	
-	public void getFotoEstacion(String query) {
-		try {
-			JSONObject obj = (JSONObject) parser.parse(query);
-			long codEstacion = (long) obj.get("codEstacion");
-			String img = dbController.getFotoEspacio(codEstacion);
-						
-			ImageIcon icon = new ImageIcon(Modelo.PATH_IMG + img);
-			
-			Server.sendResponse(icon);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-        
-	}
+//	public  void getEspacioImage(int codEstacion) {
+//        Socket socket = null;
+//        try {
+//            socket = new Socket("192.168.68.101", 4444);
+//            OutputStream outputStream = socket.getOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+//
+//            dbController.getFotoEspacio(codEstacion)fo
+//            
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            image.compress(Bitmap.CompressFormat.JPEG,80,stream);
+//
+//            byte[] size = ByteBuffer.allocate(4).putInt(stream.size()).array();
+//            String json = "{\"operation\":\"sendFotoEstacion\", \"codEstacion\":"+codEstacion+"}";
+//            oos.writeObject(json);
+//            for(int i = 0 ; i <= 1000000000 ; i++){}
+//            outputStream.write(size);
+//            for(int i = 0 ; i <= 1000000000 ; i++){}
+//            byte[] b = stream.toByteArray();
+//            outputStream.write(b);
+//            System.out.println("Flushed: " + System.currentTimeMillis());
+//            for(int i = 0 ; i <= 1000000000 ; i++){}
+//
+//            socket.close();
+//        } catch (UnknownHostException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//
+//        }
+  //  }
 
 	
 	// Getters and Setters
