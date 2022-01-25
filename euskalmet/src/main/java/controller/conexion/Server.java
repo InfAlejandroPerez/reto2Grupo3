@@ -145,6 +145,8 @@ public class Server {
 				case "getFotoEstacion":
 					//pasarela.getFotoEstacion(jsonString);
 					break;
+				case "getDireccionEstacion":
+					pasarela.getDireccionEstacion(jsonString);
 				default:
 					sendResponse("Error - Operación no definida en el servidor.");
 					

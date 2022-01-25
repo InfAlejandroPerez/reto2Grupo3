@@ -89,7 +89,10 @@ public class Estaciones implements java.io.Serializable, jsonSerializable {
 
 	@Override
 	public String toJSON() {
-		return "{\"nombre\":"+"\""+nombre+"\"}";
+		return "{\"nombre\":"+"\""+nombre+"\", \"municipios\":"+"\""+municipios+"\",\n"
+				+ "\"coordenadaX\":"+"\""+coordenadaX+"\",\n"
+				+ "\"coordenadaY\":"+"\""+coordenadaY+"\",\n"
+				+ "\"direccion\":"+"\""+direccion+"\"}";
 	}
 
 }

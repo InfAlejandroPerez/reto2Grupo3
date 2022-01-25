@@ -282,6 +282,37 @@ public class Pasarela {
 
 	}
 	
+	public void getFotoEstacion(String query) {
+		try {
+			JSONObject obj = (JSONObject) parser.parse(query);
+			long codEstacion = (long) obj.get("codEstacion");
+			String img = dbController.getFotoEspacio(codEstacion);
+						
+			ImageIcon icon = new ImageIcon(Modelo.PATH_IMG + img);
+			
+			Server.sendResponse(icon);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+        
+	}
+	
+	protected void getDireccionEstacion(String query) {
+		JSONObject direccionJSON;
+		try {
+			direccionJSON = (JSONObject) parser.parse(query);
+			String nombreEstacion = (String) direccionJSON.get("estacion");
+			String direccion = dbController.getEstacion(nombreEstacion).getDireccion();
+			
+			String ret = "{\"operation\":\"getDireccionEstacion\",\n"
+					+ "\"result\":\"" + direccion + "\"}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
 //	public  void getEspacioImage(int codEstacion) {
 //        Socket socket = null;
 //        try {
@@ -313,6 +344,7 @@ public class Pasarela {
 //
 //        }
   //  }
+
 
 	
 	// Getters and Setters
