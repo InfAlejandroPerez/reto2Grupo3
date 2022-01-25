@@ -118,6 +118,26 @@ public class Pasarela {
 			Server.sendResponse(ret);
 	}
 	
+
+	public void getMunicipio(String query) {
+		JSONObject municipioJSON;
+		try {
+			municipioJSON = (JSONObject) parser.parse(query);
+			String nombreMunicipio = (String) municipioJSON.get("municipio");
+			Municipios mun = dbController.getMunicipio(nombreMunicipio);
+	        
+			String pueblosJSON = mun.toJSON();
+			
+			String ret = "{\"operation\":\"getMunicipio\",\n"
+					+ "\"result\":" + pueblosJSON + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void getMunicipios(String query) {
 		JSONObject provinciaJSON;
 		try {
@@ -135,6 +155,24 @@ public class Pasarela {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void getDescripcionMunicipio(String query) {
+		JSONObject municipioJSON;
+		try {
+			municipioJSON = (JSONObject) parser.parse(query);
+			String nombreMunicipio = (String) municipioJSON.get("municipio");
+			Municipios mun = dbController.getMunicipio(nombreMunicipio);
+	        
+			String descripcion = mun.getDescripcion();
+			
+			String ret = "{\"operation\":\"getDescrcipionMun\",\n"
+					+ "\"result\":\"" + descripcion + "\"}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private String listToJSON(List<? extends jsonSerializable> lista) {

@@ -38,7 +38,7 @@ public class Server {
 	
 	public static void sendResponse(String result) {
 		try {
-			System.out.println(result);
+			System.out.println("Enviando: " + result);
 			salida.writeObject(result);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -114,6 +114,9 @@ public class Server {
 				case "getProvincias":
 					pasarela.getProvincias();
 					break;
+				case "getMunicipio":
+					pasarela.getMunicipio(jsonString);
+					break;	
 				case "getMunicipios":
 					pasarela.getMunicipios();
 					break;
@@ -132,6 +135,9 @@ public class Server {
 					break;
 				case "getEstacionesMun":
 					pasarela.getEstacionesMun(jsonString);
+					break;
+				case "getDescripcionMunicipio":
+					pasarela.getDescripcionMunicipio(jsonString);
 					break;
 				case "sendFotoEstacion":
 					pasarela.readFotoEstacion(inputStream, jsonString);

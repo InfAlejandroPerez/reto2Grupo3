@@ -231,6 +231,7 @@ public class DBController {
 		return lista;
 	}
 	
+	
 	public List<Municipios> getMunicipios(String nombreProvincia) {
 		String hql = "FROM modelo.dbClasses.Provincia WHERE Nombre = :nameProv";
 		Session sesion = this.openSession();
@@ -245,6 +246,8 @@ public class DBController {
 		sesion.close();
 		return lista;
 	}
+	
+	
 	
 	/**
 	 * Método que recoge los fragmentos de un nombre de estación hallado en el index y devuelve el objeto Estacion de la BBDD
