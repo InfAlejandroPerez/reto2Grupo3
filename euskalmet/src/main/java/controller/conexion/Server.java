@@ -137,7 +137,7 @@ public class Server {
 					pasarela.readFotoEstacion(inputStream, jsonString);
 					break;
 				case "getFotoEstacion":
-					pasarela.getFotoEstacion(jsonString);
+					//pasarela.getFotoEstacion(jsonString);
 					break;
 				case "getDireccionEstacion":
 					pasarela.getDireccionEstacion(jsonString);
