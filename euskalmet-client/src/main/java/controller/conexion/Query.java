@@ -30,6 +30,13 @@ public class Query {
 
         return queryString(queryEstaciones);    	
     }
+    
+    public String getDireccionEstacion(String nombreEstacion) {
+    	String queryDireccion = "{\"operation\":\"getDireccionEstacion\"," +
+                "\"estacion\":\""+nombreEstacion+"\"}";
+    	
+    	return queryString(queryDireccion);
+    }
 
     public Boolean insertarUsuario(String username, String password) {
         Map<String, String> atts2 = new HashMap<String, String>();

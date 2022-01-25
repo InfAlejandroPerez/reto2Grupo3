@@ -231,6 +231,18 @@ public class DBController {
 		return lista;
 	}
 	
+	public List<Estaciones> getEstaciones() {
+		String hql = "FROM modelo.dbClasses.Estaciones";
+		Session sesion = this.openSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		List<Estaciones> lista = query.list();
+		
+		sesion.close();
+		return lista;
+	}
+	
 	public List<Municipios> getMunicipios(String nombreProvincia) {
 		String hql = "FROM modelo.dbClasses.Provincia WHERE Nombre = :nameProv";
 		Session sesion = this.openSession();
@@ -320,6 +332,19 @@ public class DBController {
 		sesion.close();
 		
 		return ret;
+	}
+	
+	public Estaciones getEstacion(String nombreEstacion) {
+		String hql = "FROM modelo.dbClasses.Estaciones WHERE Nombre = :nameEstacion";
+		Session sesion = this.openSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("nameEstacion", nombreEstacion);
+		Estaciones estacion = (Estaciones) query.uniqueResult();
+		
+		sesion.close();
+		return estacion;
 	}
 	
 	

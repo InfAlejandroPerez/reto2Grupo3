@@ -14,6 +14,10 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
@@ -46,9 +50,13 @@ public class LogIn extends JFrame {
 	private JPanel panelLogIn = new JPanel();
 	private JPanel panelListaMunicipios = new JPanel();
 	private JPanel panelListaEstaciones = new JPanel();
+	private JPanel panelInfoEstaciones = new JPanel();
 	private DefaultListModel<String> modelEstaciones = new DefaultListModel<String>();
 	private DefaultListModel<String> modelMunicipios = new DefaultListModel<String>();
 	private String estaciones;
+	private JTextField txtNombreEstacion;
+	private JTextField txtDireccionEstacion;
+	private JList<String> listEstaciones;
 
 	/**
 	 * Create the frame.
@@ -65,6 +73,38 @@ public class LogIn extends JFrame {
 		contentPane.add(panelLogIn, "panelLogIn");
 		contentPane.add(panelListaMunicipios, "panelMunicipios");
 		contentPane.add(panelListaEstaciones, "panelEstaciones");
+		contentPane.add(panelInfoEstaciones, "panelInfoEstaciones");
+		panelInfoEstaciones.setLayout(null);
+		
+		JLabel lblNombreEstaciones = new JLabel("Estaci\u00F3n");
+		lblNombreEstaciones.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNombreEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		lblNombreEstaciones.setBounds(61, 121, 280, 29);
+		panelInfoEstaciones.add(lblNombreEstaciones);
+		
+		txtNombreEstacion = new JTextField();
+		txtNombreEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		txtNombreEstacion.setColumns(10);
+		txtNombreEstacion.setBounds(61, 161, 280, 31);
+		panelInfoEstaciones.add(txtNombreEstacion);
+		
+		JLabel lblDireccionEstaciones = new JLabel("Direcci\u00F3n");
+		lblDireccionEstaciones.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDireccionEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		lblDireccionEstaciones.setBounds(61, 228, 280, 29);
+		panelInfoEstaciones.add(lblDireccionEstaciones);
+		
+		txtDireccionEstacion = new JTextField();
+		txtDireccionEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		txtDireccionEstacion.setColumns(10);
+		txtDireccionEstacion.setBounds(61, 268, 280, 31);
+		panelInfoEstaciones.add(txtDireccionEstacion);
+		
+		JButton btnVolverEstacion = new JButton("Volver");
+		btnVolverEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnVolverEstacion.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnVolverEstacion.setBounds(180, 360, 99, 39);
+		panelInfoEstaciones.add(btnVolverEstacion);
 
 		c1.show(contentPane, "panelLogIn");
 
@@ -181,14 +221,14 @@ public class LogIn extends JFrame {
 		btnAccederEstaciones.setBorder(UIManager.getBorder("ToggleButton.border"));
 		btnAccederEstaciones.setBounds(256, 382, 113, 39);
 		panelListaMunicipios.add(btnAccederEstaciones);
-
+		
 		btnAccederEstaciones.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				String estacion = listMunicipios.getSelectedValue();
+				String municipio = listMunicipios.getSelectedValue();
 
-				if (estacion != null) {
-					estaciones = (new Query()).getEstacionesMun(estacion);
+				if (municipio != null) {
+					estaciones = (new Query()).getEstacionesMun(municipio);
 
 					// Lista de Estaciones
 					List<String> estacionesList = Utils.getListFromJSON("nombre", "result", estaciones);
@@ -197,7 +237,7 @@ public class LogIn extends JFrame {
 						modelEstaciones.addElement(estaciones);
 					}
 					
-					JList<String> listEstaciones = new JList<String>();
+					listEstaciones = new JList<String>();
 					listEstaciones.setModel(modelEstaciones);
 					panelListaEstaciones.add(listEstaciones);
 
@@ -219,7 +259,7 @@ public class LogIn extends JFrame {
 		JButton btnVolverEstaciones = new JButton("Volver");
 		btnVolverEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		btnVolverEstaciones.setBorder(UIManager.getBorder("ToggleButton.border"));
-		btnVolverEstaciones.setBounds(185, 384, 99, 39);
+		btnVolverEstaciones.setBounds(113, 380, 99, 39);
 		panelListaEstaciones.add(btnVolverEstaciones);
 
 		JLabel Lb_ListaEstaciones = new JLabel("Lista de Estaciones");
@@ -227,6 +267,33 @@ public class LogIn extends JFrame {
 		Lb_ListaEstaciones.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
 		Lb_ListaEstaciones.setBounds(97, 25, 280, 29);
 		panelListaEstaciones.add(Lb_ListaEstaciones);
+		
+		JButton btnAccederEstacion = new JButton("Acceder");
+		btnAccederEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnAccederEstacion.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnAccederEstacion.setBounds(255, 380, 113, 39);
+		panelListaEstaciones.add(btnAccederEstacion);
+		
+		btnAccederEstacion.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				c1.show(contentPane, "panelInfoEstaciones");
+				
+				String estacion = listEstaciones.getSelectedValue();
+				String direccion = (new Query()).getDireccionEstacion(estacion);
+				try {
+					JSONObject obj = new JSONObject(direccion);
+					direccion = (String) obj.get("result");
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				txtNombreEstacion.setText(estacion);
+				txtDireccionEstacion.setText(direccion);
+			}
+			
+		});
 
 		lblError = new JLabel("Usuario o Contrase\u00F1a incorrectos");
 		lblError.setFont(new Font("Palatino Linotype", Font.PLAIN, 12));
@@ -274,6 +341,14 @@ public class LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				c1.show(contentPane, "panelMunicipios");
 				modelEstaciones.removeAllElements();
+			}
+
+		});
+		
+		btnVolverEstacion.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				c1.show(contentPane, "panelEstaciones");
 			}
 
 		});
