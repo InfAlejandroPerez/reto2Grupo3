@@ -123,6 +123,9 @@ public class Server {
 				case "getMunicipiosProv":
 					pasarela.getMunicipios(jsonString);
 					break;
+				case "getEspacio":
+					pasarela.getEspacio(jsonString);
+					break;	
 				case "getEspacios":
 					pasarela.getEspacios();
 					break;	

@@ -188,6 +188,25 @@ public class Pasarela {
 		return ret;
 	}
 	
+	public void getEspacio(String query) {
+		JSONObject espacioJSON;
+		try {
+			espacioJSON = (JSONObject) parser.parse(query);
+			String nombreEspacio = (String) espacioJSON.get("espacio");
+			EspaciosNaturales esp = dbController.getEspacio(nombreEspacio);
+	        
+			String espaciosJSON = esp.toJSON();
+			
+			String ret = "{\"operation\":\"getMunicipio\",\n"
+					+ "\"result\":" + espaciosJSON + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void getEspacios() {
 		List<EspaciosNaturales> espacios = dbController.getEspacios();
         

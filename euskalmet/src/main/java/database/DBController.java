@@ -292,6 +292,19 @@ public class DBController {
 		return ret;
 	}
 	
+	public EspaciosNaturales getEspacio(String nameEspacio) {
+		EspaciosNaturales ret;
+		String hql = "FROM modelo.dbClasses.EspaciosNaturales WHERE Nombre = :nameEspacio";
+		Session sesion = this.openSession();
+		
+		Query query = sesion.createQuery(hql);
+		query.setParameter("nameEspacio", nameEspacio);
+		
+		ret = (EspaciosNaturales) query.uniqueResult();
+		
+		sesion.close();
+		return ret;		
+	}
 	
 	public List<EspaciosNaturales> getEspacios() {
 		String hql = "FROM modelo.dbClasses.EspaciosNaturales";

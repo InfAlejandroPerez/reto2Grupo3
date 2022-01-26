@@ -77,7 +77,8 @@ public class EspaciosNaturales implements java.io.Serializable, jsonSerializable
 	
 	@Override
 	public String toJSON() {
-		return "{\"nombre\":\""+nombre+"\"}";
+		return "{\"nombre\":"+"\""+nombre+"\","
+				+ "\"descripcion\":\""+descripcion+"\"}";
 		
 	}
 
