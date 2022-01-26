@@ -318,6 +318,13 @@ public class DBController {
 		return lista;
 	}
 	
+
+	public List<EspaciosNaturales> getEspaciosFavoritos(Usuarios user) {
+		List<EspaciosNaturales> ret = new ArrayList<>( user.getEspaciosNaturaleses() );
+		return ret;
+		
+	}
+	
 	public List<EspaciosNaturales> getEspacios(String nombreMunicipio){
 		Municipios mun = getMunicipio(nombreMunicipio);
 		List<EspaciosNaturales> espacios = new ArrayList<>( mun.getEspaciosNaturaleses() );

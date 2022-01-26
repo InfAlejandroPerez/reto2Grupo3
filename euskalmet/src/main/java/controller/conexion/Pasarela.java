@@ -272,6 +272,19 @@ public class Pasarela {
 	}
 
 	
+	public void getEspaciosFavoritos() {
+		Session ses =  dbController.openSession();
+		Usuarios us = ses.get(Usuarios.class, 1);
+		List<EspaciosNaturales> espacios = dbController.getEspaciosFavoritos(us);
+        
+		String espaciosJSON = listToJSON(espacios);
+		String ret = "{\"operation\":\"getFavoritos\",\n"
+				+ "\"result\":" + espaciosJSON + "}";
+		
+		Server.sendResponse(ret);
+		ses.close();
+	}
+	
 	public void readFotoEstacion(InputStream inputStream, String query) {
 		try {
 			JSONObject obj = (JSONObject) parser.parse(query);

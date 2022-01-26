@@ -145,6 +145,9 @@ public class Server {
 				case "sendFotoEstacion":
 					pasarela.readFotoEstacion(inputStream, jsonString);
 					break;
+				case "getFavoritos":
+					pasarela.getEspaciosFavoritos();
+					break;
 				case "getFotoEstacion":
 					//pasarela.getFotoEstacion(jsonString);
 					break;
