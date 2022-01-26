@@ -64,6 +64,22 @@ public class Pasarela {
 		}   
 	}
 	
+	public void getIDUsuario(String jsonString) {		
+		try {
+			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+			String user = (String) jsonObject.get("username");
+			
+			Usuarios usuario = dbController.getUsuario(user);
+			String ret = "{\"operation\":\"getIDUser\",\n"
+					+ "\"result\":" + usuario.getCodUsuario() + "}";
+			Server.sendResponse(ret);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	protected void comprobarUser(String jsonString) {
 		try {
 			JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
@@ -272,17 +288,27 @@ public class Pasarela {
 	}
 
 	
-	public void getEspaciosFavoritos() {
-		Session ses =  dbController.openSession();
-		Usuarios us = ses.get(Usuarios.class, 1);
-		List<EspaciosNaturales> espacios = dbController.getEspaciosFavoritos(us);
-        
-		String espaciosJSON = listToJSON(espacios);
-		String ret = "{\"operation\":\"getFavoritos\",\n"
-				+ "\"result\":" + espaciosJSON + "}";
+	public void getEspaciosFavoritos(String query) {
+		JSONObject userJSON;
+		try {
+			userJSON = (JSONObject) parser.parse(query);
+			int idUser = Integer.parseInt((String)userJSON.get("IDUser"));
+			Session ses =  dbController.openSession();
+			Usuarios us = ses.get(Usuarios.class, idUser);
+			List<EspaciosNaturales> espacios = dbController.getEspaciosFavoritos(us);
+	        
+			String espaciosJSON = listToJSON(espacios);
+			String ret = "{\"operation\":\"getFavoritos\",\n"
+					+ "\"result\":" + espaciosJSON + "}";
+			
+			Server.sendResponse(ret);
+			ses.close();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		Server.sendResponse(ret);
-		ses.close();
+
 	}
 	
 	public void readFotoEstacion(InputStream inputStream, String query) {

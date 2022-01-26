@@ -105,6 +105,9 @@ public class Server {
 				case "login":
 					pasarela.validateLogin(jsonString);
 					break;
+				case "getIDUsuario":
+					pasarela.getIDUsuario(jsonString);
+					break;
 				case "comprobarUsuario":
 					pasarela.comprobarUser(jsonString);
 					break;
@@ -146,7 +149,7 @@ public class Server {
 					pasarela.readFotoEstacion(inputStream, jsonString);
 					break;
 				case "getFavoritos":
-					pasarela.getEspaciosFavoritos();
+					pasarela.getEspaciosFavoritos(jsonString);
 					break;
 				case "getFotoEstacion":
 					//pasarela.getFotoEstacion(jsonString);
