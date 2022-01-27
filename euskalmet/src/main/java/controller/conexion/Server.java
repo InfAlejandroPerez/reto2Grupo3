@@ -148,8 +148,14 @@ public class Server {
 				case "sendFotoEstacion":
 					pasarela.readFotoEstacion(inputStream, jsonString);
 					break;
+				case "setFavorito":
+					pasarela.setEspacioFavorito(jsonString);
+					break;
 				case "getFavoritos":
 					pasarela.getEspaciosFavoritos(jsonString);
+					break;
+				case "quitarFavorito":
+					pasarela.quitarEspacioFavorito(jsonString);
 					break;
 				case "getFotoEstacion":
 					//pasarela.getFotoEstacion(jsonString);

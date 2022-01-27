@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -287,6 +288,52 @@ public class Pasarela {
 		}
 	}
 
+	public void setEspacioFavorito(String query) {
+		JSONObject userJSON;
+		try {
+			userJSON = (JSONObject) parser.parse(query);
+			int idUser = Integer.parseInt((String)userJSON.get("IDUser"));
+			String espacioNatural = (String)userJSON.get("espacio");
+			
+			Session ses =  dbController.openSession();
+			Usuarios us = ses.get(Usuarios.class, idUser);
+			ses.close();
+			
+			dbController.setEspacioFavorito(us, espacioNatural);
+	        
+			Server.sendResponse(true);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+	
+	public void quitarEspacioFavorito(String query) {
+		JSONObject userJSON;
+		try {
+			userJSON = (JSONObject) parser.parse(query);
+			int idUser = Integer.parseInt((String)userJSON.get("IDUser"));
+			String espacioNatural = (String)userJSON.get("espacio");
+			
+			Session ses =  dbController.openSession();
+			Usuarios us = ses.get(Usuarios.class, idUser);
+			ses.close();
+			
+			dbController.quitarEspacioFavorito(us, espacioNatural);
+	        
+			Server.sendResponse(true);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+	
 	
 	public void getEspaciosFavoritos(String query) {
 		JSONObject userJSON;
@@ -310,6 +357,9 @@ public class Pasarela {
 		
 
 	}
+	
+	
+	
 	
 	public void readFotoEstacion(InputStream inputStream, String query) {
 		try {
