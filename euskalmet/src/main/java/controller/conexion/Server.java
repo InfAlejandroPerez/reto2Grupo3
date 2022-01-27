@@ -134,6 +134,7 @@ public class Server {
 					break;	
 				case "getEspaciosMun":
 					pasarela.getEspaciosMun(jsonString);
+					break;
 				case "getEstaciones":
 					break;
 				case "getEstacionesMun":

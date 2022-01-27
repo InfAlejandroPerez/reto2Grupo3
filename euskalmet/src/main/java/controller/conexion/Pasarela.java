@@ -226,7 +226,7 @@ public class Pasarela {
 			
 			String espaciosJSON = listToJSON(espacios);
 			
-			String ret = "{\"operation\":\"getEstacionesMun\",\n"
+			String ret = "{\"operation\":\"getEspaciosMun\",\n"
 					+ "\"result\":" + espaciosJSON + "}";
 						
 			Server.sendResponse(ret);
@@ -345,6 +345,7 @@ public class Pasarela {
 			e.printStackTrace();
 		}
 	}
+	
 //	public  void getEspacioImage(int codEstacion) {
 //        Socket socket = null;
 //        try {

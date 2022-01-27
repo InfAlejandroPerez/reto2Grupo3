@@ -371,7 +371,6 @@ public class DBController {
 		return estacion;
 	}
 	
-	
 	// Geters and Setters
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
