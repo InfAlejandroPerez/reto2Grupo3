@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -25,6 +26,7 @@ import org.json.simple.parser.ParseException;
 import database.DBController;
 import modelo.Modelo;
 import modelo.jsonSerializable;
+import modelo.dbClasses.Datos;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Estaciones;
 import modelo.dbClasses.Municipios;
@@ -235,6 +237,25 @@ public class Pasarela {
 		}
 	}
 	
+	public void getDatosEstacion(String query) {
+		JSONObject obj;
+		try {
+			obj = (JSONObject) parser.parse(query);
+			String nombreEstacion = (String) obj.get("nombreEstacion");
+			Estaciones estacion = dbController.getEstacion(nombreEstacion);
+			List<Datos> datos = new ArrayList<Datos>( estacion.getDatoses() );
+			String datosStr = this.listToJSON(datos);
+			
+			String ret = "{\"operation\":\"getDatosEstacion\",\n"
+					+ "\"result\":" + datosStr + "}";
+			
+			Server.sendResponse(ret);
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	protected void getEspaciosProv(String query) {
 		JSONObject espacioJSON;
 		try {
@@ -328,6 +349,13 @@ public class Pasarela {
 		}
 
         
+	}
+	
+	protected void getEstaciones() {
+		List<Estaciones> estaciones =  this.dbController.getEstaciones();
+		String estacionesJson = this.listToJSON(estaciones);
+		String ret = "{\"operation\":\"getEstaciones\", \"result\":"+estacionesJson+"}";
+		Server.sendResponse(ret);
 	}
 	
 	protected void getDireccionEstacion(String query) {

@@ -144,11 +144,11 @@ public class DatosController extends JsonController {
     			String nombreEstacion = (String) indiceDato.get("name");
             	insertDatosEstacion(content, nombreEstacion, false);
         	}
-        	else if (url.contains("/datos_diarios")) {
-        		String content = parser.readURL(url, true);
-    			String nombreEstacion = (String) indiceDato.get("name");
-            	insertDatosEstacion(content, nombreEstacion, true);
-        	}
+        	//else if (url.contains("/datos_diarios")) {
+        		//String content = parser.readURL(url, true);
+    			//String nombreEstacion = (String) indiceDato.get("name");
+            	//insertDatosEstacion(content, nombreEstacion, true);
+        	//}
         	
         	System.out.println("Completado " + ( ++cont ) + "/" + arrayIndice.size());
 
@@ -166,9 +166,11 @@ public class DatosController extends JsonController {
     	Session sesion = this.modelo.getDBController().openSession();
     	Transaction transaction = sesion.beginTransaction();
     	
+    	int count = 0;
         for(int i = 0 ; i < arrayDatos.size() ; i++) {
         	JSONObject datosJson = (JSONObject) arrayDatos.get(i);
         	Estaciones estacion = getEstacionFromIndexName(nombreEstacion);
+        	if(count == 20) break;
         	if (estacion == null) continue;
         	
         	if(sonDatosDiarios) {
@@ -180,6 +182,8 @@ public class DatosController extends JsonController {
         		Datos datos = getDatos(datosJson, estacion);
         		sesion.save(datos);        		
         	}
+        	
+        	count++;
         	
         	
         }
