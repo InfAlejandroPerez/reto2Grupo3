@@ -261,7 +261,6 @@ public class DBController {
 	}
 	
 	
-	
 	/**
 	 * Método que recoge los fragmentos de un nombre de estación hallado en el index y devuelve el objeto Estacion de la BBDD
 	 * @param partes String[] Resultado de un split separado por _ del nombre del índice
@@ -334,14 +333,23 @@ public class DBController {
 		session.close();
 	}
 	
+	public EspaciosNaturales tieneEspacio(Set<EspaciosNaturales> espacios, String nombreEspacio) {
+		for(EspaciosNaturales espacio : espacios) {
+			if(espacio.getNombre().equals(nombreEspacio))
+				return espacio;
+		}
+		return null;
+	}
+	
 	public void quitarEspacioFavorito(Usuarios user, String espacioNatural) {
 
 		Session session = this.openSession();
 		session.beginTransaction();
 		
 		Set espacios = user.getEspaciosNaturaleses();
-		EspaciosNaturales espacio = getEspacio(espacioNatural);
-		espacios.remove(espacio);
+		EspaciosNaturales espacioFavorito = tieneEspacio(espacios, espacioNatural);
+		if(espacioFavorito != null)
+			espacios.remove(espacioFavorito);
 		
 		user.setEspaciosNaturaleses(espacios);
 
@@ -375,6 +383,34 @@ public class DBController {
 		sesion.close();
 		return espacios;
 	}
+	
+	public List<EspaciosNaturales> getEspaciosRanking(String prov){
+		
+		Session sesion = this.openSession();
+		List<Municipios> muns = getMunicipios(prov);
+		List<EspaciosNaturales> espacios = new ArrayList();
+		for(int i = 0 ; i < muns.size() ; i ++) {
+			Set<EspaciosNaturales> espaciosSet = muns.get(i).getEspaciosNaturaleses();
+			List<EspaciosNaturales> espaciosMunicipio = new ArrayList( espaciosSet ) ;
+			espacios.addAll(espaciosMunicipio);	
+		}
+		sesion.close();
+		return espacios;
+	}
+	
+	public List<EspaciosNaturales> getEspaciosRanking() {
+		String hql = "FROM modelo.dbClasses.EspaciosNaturales";
+		Session sesion = this.openSession();
+		sesion.beginTransaction();
+		
+		Query query = sesion.createQuery(hql);
+		List<EspaciosNaturales> lista = query.list();
+		
+		sesion.close();
+		return lista;
+	}
+	
+	
 	
 	public Usuarios getUsuario(String userName) {
 		Usuarios ret = null;
