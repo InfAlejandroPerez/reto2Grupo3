@@ -24,35 +24,7 @@ public class Controller {
 		this.modelo = modelo;
 		this.pasarela = pasarela;
 	}
-
-	public void imgToFile2(ImageIcon icon) {
-		BufferedImage image;
-		try {
-			image = ImageIO.read(new File("C:/Users/cuest/OneDrive/Desktop/descarga.png"));
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	        ImageIO.write(image, "jpg", byteArrayOutputStream);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-        
-	}
 	
-	public void imgToFile(ImageIcon icon) {
-		Image img = icon.getImage();
-
-		BufferedImage bi = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_BYTE_BINARY);
-
-		Graphics2D g2 = bi.createGraphics();
-		g2.drawImage(img, 0, 0, null);
-		g2.dispose();
-		try {
-			ImageIO.write(bi, "png", new File("img.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public Modelo getModelo() {
 		return modelo;

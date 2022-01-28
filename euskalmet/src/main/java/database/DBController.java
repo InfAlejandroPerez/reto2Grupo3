@@ -243,6 +243,13 @@ public class DBController {
 		sesion.close();
 		return lista;
 	}
+	
+	public Estaciones getEstacionFromName(String nombre) {
+		Session sesion = this.openSession();
+		Estaciones estacion = sesion.get(Estaciones.class, nombre);
+		sesion.close();
+		return estacion;
+	}
 
 	
 	public List<Municipios> getMunicipios(String nombreProvincia) {
@@ -439,7 +446,6 @@ public class DBController {
 		sesion.close();
 		return estacion;
 	}
-	
 	
 	// Geters and Setters
 	public SessionFactory getSessionFactory() {

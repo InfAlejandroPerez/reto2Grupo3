@@ -137,7 +137,9 @@ public class Server {
 					break;	
 				case "getEspaciosMun":
 					pasarela.getEspaciosMun(jsonString);
+					break;
 				case "getEstaciones":
+					pasarela.getEstaciones();
 					break;
 				case "getEstacionesMun":
 					pasarela.getEstacionesMun(jsonString);
@@ -161,10 +163,15 @@ public class Server {
 					pasarela.getEspaciosRanking(jsonString);
 					break;
 				case "getFotoEstacion":
+
 					//pasarela.getFotoEstacion(jsonString);
-					break;
+					//break;
 				case "getDireccionEstacion":
 					pasarela.getDireccionEstacion(jsonString);
+					break;
+				case "getDatosEstacion":
+					pasarela.getDatosEstacion(jsonString);
+					break;
 				default:
 					sendResponse("Error - Operación no definida en el servidor.");
 					

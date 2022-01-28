@@ -63,12 +63,27 @@ public class Query {
         return queryString(queryMunicipios);
     }
 
-    public String getEspaciosNaturales(String nombreProvincia) {
+    public String getEspaciosNaturalesProv(String nombreProvincia) {
         String query = "{\"operation\":\"getEspaciosProv\"," +
                 "\"provincia\":\""+nombreProvincia+"\"}";
 
         return queryString(query);
     }
+    
+    public String getEspaciosNaturalesMun(String nombreMunicipio) {
+        String query = "{\"operation\":\"getEspaciosMun\"," +
+                "\"municipio\":\""+nombreMunicipio+"\"}";
+
+        return queryString(query);
+    }
+    
+    public String getDescripcionMunicipio(String nombreMunicipio) {
+    	String queryDireccion = "{\"operation\":\"getDescripcionMunicipio\"," +
+                "\"municipio\":\""+nombreMunicipio+"\"}";
+    	
+    	return queryString(queryDireccion);
+    }
+        
 
     private String queryString(String jsonQuery) {
         QueryThread hiloQuery = query(jsonQuery);
