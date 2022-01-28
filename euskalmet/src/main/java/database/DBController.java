@@ -325,6 +325,38 @@ public class DBController {
 		return lista;
 	}
 	
+	public void setEspacioFavorito(Usuarios user, String espacioNatural) {
+
+		Session session = this.openSession();
+		session.beginTransaction();
+		
+		Set espacios = user.getEspaciosNaturaleses();
+		EspaciosNaturales espacio = getEspacio(espacioNatural);
+		espacios.add(espacio);
+		
+		user.setEspaciosNaturaleses(espacios);
+
+		session.update(user);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	public void quitarEspacioFavorito(Usuarios user, String espacioNatural) {
+
+		Session session = this.openSession();
+		session.beginTransaction();
+		
+		Set espacios = user.getEspaciosNaturaleses();
+		EspaciosNaturales espacio = getEspacio(espacioNatural);
+		espacios.remove(espacio);
+		
+		user.setEspaciosNaturaleses(espacios);
+
+		session.update(user);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
 
 	public List<EspaciosNaturales> getEspaciosFavoritos(Usuarios user) {
 		List<EspaciosNaturales> ret = new ArrayList<>( user.getEspaciosNaturaleses() );
@@ -365,6 +397,7 @@ public class DBController {
 		return ret;
 	}
 	
+	
 	public Estaciones getEstacion(String nombreEstacion) {
 		String hql = "FROM modelo.dbClasses.Estaciones WHERE Nombre = :nameEstacion";
 		Session sesion = this.openSession();
@@ -377,7 +410,6 @@ public class DBController {
 		sesion.close();
 		return estacion;
 	}
-	
 	
 	// Geters and Setters
 	public SessionFactory getSessionFactory() {
