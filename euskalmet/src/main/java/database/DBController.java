@@ -12,10 +12,12 @@ import javax.swing.ImageIcon;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import modelo.dbClasses.Datos;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Estaciones;
+import modelo.dbClasses.Hashes;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Provincia;
 import modelo.dbClasses.Usuarios;
@@ -38,6 +40,32 @@ public class DBController {
 	
 	public Session openSession() {
 		return this.sessionFactory.openSession();
+	}
+	
+	public Hashes getHash(String url) {
+		Session sesion = this.openSession();
+		String hql = "FROM modelo.dbClasses.Hashes WHERE Url = :urlHash";
+		Hashes hash = null;
+		Query query = sesion.createQuery(hql);
+		query.setParameter("urlHash", url);
+		
+		hash = (Hashes) query.uniqueResult();
+		
+		sesion.close();
+		return hash;
+	}
+	
+	public void setHash(String url, String hashStr) {
+		Session sesion = this.openSession();
+		Transaction transaction = sesion.getTransaction();
+		transaction.begin();
+		Hashes hash = new Hashes();
+		hash.setCodHash(hashStr);
+		hash.setUrl(url);
+		sesion.save(hash);
+		
+		transaction.commit();
+		sesion.close();
 	}
 	
 	public void setFotoEspacio(long id, String name) {
