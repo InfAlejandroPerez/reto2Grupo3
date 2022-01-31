@@ -291,6 +291,31 @@ public class Pasarela {
 		}
 	}
 	
+	protected void getEspaciosRanking(String query) {
+		JSONObject espacioJSON;
+		try {
+			espacioJSON = (JSONObject) parser.parse(query);
+			String nombreProvincia = (String) espacioJSON.get("provincia");
+			List<String> espacios = dbController.getEspaciosRanking(nombreProvincia);
+			
+			String espaciosJSONStr = "[";
+			for(int i = 0 ; i < espacios.size() ; i++) {
+				if(i > 0) espaciosJSONStr += ",";
+				espaciosJSONStr +="{\"nombre\":\""+espacios.get(i)+"\"}" ;
+			}
+			
+			espaciosJSONStr += "]";
+			
+			
+			String ret = "{\"operation\":\"getEspaciosRanking\",\n"
+					+ "\"result\":" + espaciosJSONStr + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void getEstacionesMun(String query) {
 		JSONObject provinciaJSON;
 		try {

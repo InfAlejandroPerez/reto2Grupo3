@@ -12,10 +12,12 @@ import javax.swing.ImageIcon;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import modelo.dbClasses.Datos;
 import modelo.dbClasses.EspaciosNaturales;
 import modelo.dbClasses.Estaciones;
+import modelo.dbClasses.Hashes;
 import modelo.dbClasses.Municipios;
 import modelo.dbClasses.Provincia;
 import modelo.dbClasses.Usuarios;
@@ -38,6 +40,32 @@ public class DBController {
 	
 	public Session openSession() {
 		return this.sessionFactory.openSession();
+	}
+	
+	public Hashes getHash(String url) {
+		Session sesion = this.openSession();
+		String hql = "FROM modelo.dbClasses.Hashes WHERE Url = :urlHash";
+		Hashes hash = null;
+		Query query = sesion.createQuery(hql);
+		query.setParameter("urlHash", url);
+		
+		hash = (Hashes) query.uniqueResult();
+		
+		sesion.close();
+		return hash;
+	}
+	
+	public void setHash(String url, String hashStr) {
+		Session sesion = this.openSession();
+		Transaction transaction = sesion.getTransaction();
+		transaction.begin();
+		Hashes hash = new Hashes();
+		hash.setCodHash(hashStr);
+		hash.setUrl(url);
+		sesion.save(hash);
+		
+		transaction.commit();
+		sesion.close();
 	}
 	
 	public void setFotoEspacio(long id, String name) {
@@ -90,6 +118,19 @@ public class DBController {
 		// Commit the transaction
 		session.getTransaction().commit();
 		session.close();
+	}
+	
+	public Provincia getProvincia(String nombre) {
+		Provincia ret = null;
+		Session session = this.openSession();
+
+		String hql = "FROM modelo.dbClasses.Provincia WHERE Nombre = :nombreProv";
+		
+		Query query = session.createQuery(hql);
+		query.setParameter("nombreProv", nombre);
+		ret = (Provincia) query.uniqueResult();
+		session.close();
+		return ret;	 	
 	}
 	
 	public int getLastUserId(Session sesion) {
@@ -268,7 +309,6 @@ public class DBController {
 	}
 	
 	
-	
 	/**
 	 * Método que recoge los fragmentos de un nombre de estación hallado en el index y devuelve el objeto Estacion de la BBDD
 	 * @param partes String[] Resultado de un split separado por _ del nombre del índice
@@ -341,14 +381,23 @@ public class DBController {
 		session.close();
 	}
 	
+	public EspaciosNaturales tieneEspacio(Set<EspaciosNaturales> espacios, String nombreEspacio) {
+		for(EspaciosNaturales espacio : espacios) {
+			if(espacio.getNombre().equals(nombreEspacio))
+				return espacio;
+		}
+		return null;
+	}
+	
 	public void quitarEspacioFavorito(Usuarios user, String espacioNatural) {
 
 		Session session = this.openSession();
 		session.beginTransaction();
 		
 		Set espacios = user.getEspaciosNaturaleses();
-		EspaciosNaturales espacio = getEspacio(espacioNatural);
-		espacios.remove(espacio);
+		EspaciosNaturales espacioFavorito = tieneEspacio(espacios, espacioNatural);
+		if(espacioFavorito != null)
+			espacios.remove(espacioFavorito);
 		
 		user.setEspaciosNaturaleses(espacios);
 
@@ -382,6 +431,34 @@ public class DBController {
 		sesion.close();
 		return espacios;
 	}
+	
+	public List<String> getEspaciosRanking(String prov){
+		
+		Provincia p = getProvincia(prov);
+		int idProv = p.getCodProvincia();
+		
+		String hql = "SELECT es.nombre "
+				+ "FROM favoritos_espacios "
+				+ "JOIN espacios_naturales es ON es.CodEspacio=favoritos_espacios.CodEspacio "
+				+ "JOIN esta_en esta ON esta.CodEspacio = es.CodEspacio "
+				+ "WHERE esta.CodProvincia = "+idProv
+				+ " GROUP BY es.CodEspacio "
+				+ "ORDER BY COUNT(es.CodEspacio) "
+				+ "DESC LIMIT 5";
+
+		SessionFactory sessionFac = HibernateUtil.getSessionFactory();
+		Session session = sessionFac.openSession();
+
+		Query query = session.createSQLQuery(hql);
+
+		
+		List<String> lista = query.list();
+		session.close();
+
+		return lista;
+	}
+	
+
 	
 	public Usuarios getUsuario(String userName) {
 		Usuarios ret = null;

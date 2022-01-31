@@ -1,21 +1,31 @@
 package controller.json.types;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.google.common.hash.Hashing;
+
 import controller.json.JsonController;
 import controller.json.JsonParse;
+import database.DBController;
 import modelo.Modelo;
 import modelo.dbClasses.Datos;
 import modelo.dbClasses.DatosDiarios;
 import modelo.dbClasses.DatosDiariosId;
 import modelo.dbClasses.DatosId;
 import modelo.dbClasses.Estaciones;
+import modelo.dbClasses.Hashes;
 
 public class DatosController extends JsonController {
 
@@ -128,19 +138,82 @@ public class DatosController extends JsonController {
 		return datDiario;
 	}
 	
+	private boolean isCached(String url) {
+		Hashes hash = this.modelo.getDBController().getHash(url);
+		return hash != null;
+	}
+	
+	public String getLastUpdatedDate(String content) {
+		String regex = "\"lastUpdateDate\": \"(.*?)\"";
+		String ret = null;
+		Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+        
+        if (matcher.find()) 
+        	ret = matcher.group(1);
+            
+     return ret;       
+	}
+	
+	private String searchLastUpdatedDate(String path) {
+		System.out.println("Reading content from: " + path);
+    	String[] commands =  {"curl", "-X", "GET", path};
+    	Process process = null;
+    	String ret = "";
+		try {
+			process = Runtime.getRuntime().exec(commands);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()) );
+	    	String line;
+	    	
+	    	String date;
+	    	while ((line = reader.readLine()) != null) 
+	    	    if((date = getLastUpdatedDate(line)) != null) return date;
+	    	
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+    	return ret;	
+	}
+	
+	private void storeInCache(String indexContent, String path, String datosDateTime, String parsed) {
+		this.parser.printIntoFile(JSON_PATH + "cached/datos-"+parsed+".json", indexContent);
+		
+		String sha256hex = Hashing.sha256()
+				.hashString(datosDateTime, StandardCharsets.UTF_8)
+				.toString();	
+		System.out.println("Saved " + path + " in cached folder.");
+		this.modelo.getDBController().setHash(path, sha256hex);
+	}
+	
 	/**
 	 * Recibe el index de los datos de todas las estaciones e inserta todos los datos en las URLs que encuentra
 	 * @param path  String  Ruta del archivo index.json
 	 */
 	public void insertDatos(String path) { 
-		JSONArray arrayIndice = getJSONArray(path, false);
+		String indexContent;
+    	boolean cached = isCached(path);
+    	
+    	String datosDateTime = searchLastUpdatedDate(path);
+    	String parsed = datosDateTime.replaceAll(" ", "_").replaceAll(":", "-");
+    	
+    	if(cached) {
+    		indexContent = this.parser.readFile(JSON_PATH + "cached/datos-"+parsed+".json");
+    	}
+    	else {
+    		indexContent = parser.readURL(path, true);
+    		storeInCache(indexContent, path, datosDateTime, parsed);
+    	}
+    	
+    	JSONObject obj = getJSONObject(indexContent, true);
+		JSONArray arrayIndice = (JSONArray) obj.get("aggregated");
 		int cont = 0;
+    	
 		for(int i = 0 ; i < arrayIndice.size() ; i++) {
     		JSONObject indiceDato = (JSONObject) arrayIndice.get(i);
         	String url = (String) indiceDato.get("url");
         	
         	if(url.contains("/datos_indice")) {
-            	String content = parser.readURL(url, true);
+        		String content = this.parser.readURL(url, true);
     			String nombreEstacion = (String) indiceDato.get("name");
             	insertDatosEstacion(content, nombreEstacion, false);
         	}

@@ -159,7 +159,11 @@ public class Server {
 				case "quitarFavorito":
 					pasarela.quitarEspacioFavorito(jsonString);
 					break;
-				//case "getFotoEstacion":
+				case "getEspaciosRanking":
+					pasarela.getEspaciosRanking(jsonString);
+					break;
+				case "getFotoEstacion":
+
 					//pasarela.getFotoEstacion(jsonString);
 					//break;
 				case "getDireccionEstacion":
