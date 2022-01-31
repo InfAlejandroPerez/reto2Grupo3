@@ -296,12 +296,19 @@ public class Pasarela {
 		try {
 			espacioJSON = (JSONObject) parser.parse(query);
 			String nombreProvincia = (String) espacioJSON.get("provincia");
-			List<EspaciosNaturales> espacios = dbController.getEspaciosRanking(nombreProvincia);
+			List<String> espacios = dbController.getEspaciosRanking(nombreProvincia);
 			
-			String espaciosJSON = listToJSON(espacios);
+			String espaciosJSONStr = "[";
+			for(int i = 0 ; i < espacios.size() ; i++) {
+				if(i > 0) espaciosJSONStr += ",";
+				espaciosJSONStr +="{\"nombre\":\""+espacios.get(i)+"\"}" ;
+			}
+			
+			espaciosJSONStr += "]";
+			
 			
 			String ret = "{\"operation\":\"getEspaciosRanking\",\n"
-					+ "\"result\":" + espaciosJSON + "}";
+					+ "\"result\":" + espaciosJSONStr + "}";
 						
 			Server.sendResponse(ret);
 		} catch (ParseException e) {

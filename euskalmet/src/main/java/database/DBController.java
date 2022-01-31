@@ -120,6 +120,19 @@ public class DBController {
 		session.close();
 	}
 	
+	public Provincia getProvincia(String nombre) {
+		Provincia ret = null;
+		Session session = this.openSession();
+
+		String hql = "FROM modelo.dbClasses.Provincia WHERE Nombre = :nombreProv";
+		
+		Query query = session.createQuery(hql);
+		query.setParameter("nombreProv", nombre);
+		ret = (Provincia) query.uniqueResult();
+		session.close();
+		return ret;	 	
+	}
+	
 	public int getLastUserId(Session sesion) {
 		int ret = 0;
 		String hql = "SELECT max(codUsuario) FROM modelo.dbClasses.Usuarios";
@@ -419,34 +432,33 @@ public class DBController {
 		return espacios;
 	}
 	
-	public List<EspaciosNaturales> getEspaciosRanking(String prov){
+	public List<String> getEspaciosRanking(String prov){
 		
-		String hql = "SELECT Nombre FROM favoritos_espacios";
+		Provincia p = getProvincia(prov);
+		int idProv = p.getCodProvincia();
+		
+		String hql = "SELECT es.nombre "
+				+ "FROM favoritos_espacios "
+				+ "JOIN espacios_naturales es ON es.CodEspacio=favoritos_espacios.CodEspacio "
+				+ "JOIN esta_en esta ON esta.CodEspacio = es.CodEspacio "
+				+ "WHERE esta.CodProvincia = "+idProv
+				+ " GROUP BY es.CodEspacio "
+				+ "ORDER BY COUNT(es.CodEspacio) "
+				+ "DESC LIMIT 5";
 
 		SessionFactory sessionFac = HibernateUtil.getSessionFactory();
 		Session session = sessionFac.openSession();
 
 		Query query = session.createSQLQuery(hql);
 
-		List<EspaciosNaturales> lista = query.list();
+		
+		List<String> lista = query.list();
 		session.close();
 
 		return lista;
 	}
 	
-	public List<EspaciosNaturales> getEspaciosRanking() {
-		String hql = "FROM modelo.dbClasses.EspaciosNaturales";
-		Session sesion = this.openSession();
-		sesion.beginTransaction();
-		
-		Query query = sesion.createQuery(hql);
-		List<EspaciosNaturales> lista = query.list();
-		
-		sesion.close();
-		return lista;
-	}
-	
-	
+
 	
 	public Usuarios getUsuario(String userName) {
 		Usuarios ret = null;
