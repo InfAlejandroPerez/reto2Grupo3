@@ -230,7 +230,7 @@ public class Pasarela {
 		List<EspaciosNaturales> espacios = dbController.getEspacios();
         
 		String espaciosJSON = listToJSON(espacios);
-		String ret = "{\"operation\":\"getEspacios\",\n"
+		String ret = "{\"operation\":\"getEspacios\","
 				+ "\"result\":" + espaciosJSON + "}";
 		
 		Server.sendResponse(ret);
@@ -245,7 +245,7 @@ public class Pasarela {
 			
 			String espaciosJSON = listToJSON(espacios);
 			
-			String ret = "{\"operation\":\"getEspaciosMun\",\n"
+			String ret = "{\"operation\":\"getEspaciosMun\","
 					+ "\"result\":" + espaciosJSON + "}";
 						
 			Server.sendResponse(ret);
@@ -263,7 +263,7 @@ public class Pasarela {
 			List<Datos> datos = new ArrayList<Datos>( estacion.getDatoses() );
 			String datosStr = this.listToJSON(datos);
 			
-			String ret = "{\"operation\":\"getDatosEstacion\",\n"
+			String ret = "{\"operation\":\"getDatosEstacion\","
 					+ "\"result\":" + datosStr + "}";
 			
 			Server.sendResponse(ret);
