@@ -393,16 +393,17 @@ public class DBController {
 	
 	public List<EspaciosNaturales> getEspaciosRanking(String prov){
 		
-		Session sesion = this.openSession();
-		List<Municipios> muns = getMunicipios(prov);
-		List<EspaciosNaturales> espacios = new ArrayList();
-		for(int i = 0 ; i < muns.size() ; i ++) {
-			Set<EspaciosNaturales> espaciosSet = muns.get(i).getEspaciosNaturaleses();
-			List<EspaciosNaturales> espaciosMunicipio = new ArrayList( espaciosSet ) ;
-			espacios.addAll(espaciosMunicipio);	
-		}
-		sesion.close();
-		return espacios;
+		String hql = "SELECT Nombre FROM favoritos_espacios";
+
+		SessionFactory sessionFac = HibernateUtil.getSessionFactory();
+		Session session = sessionFac.openSession();
+
+		Query query = session.createSQLQuery(hql);
+
+		List<EspaciosNaturales> lista = query.list();
+		session.close();
+
+		return lista;
 	}
 	
 	public List<EspaciosNaturales> getEspaciosRanking() {
