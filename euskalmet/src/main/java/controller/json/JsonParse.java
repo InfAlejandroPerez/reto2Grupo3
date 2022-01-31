@@ -69,6 +69,7 @@ public class JsonParse {
     	return ret;
     }
 
+
 	/**
      * Lee un fichero y devuelve su contenido como String
      * @param path  String  Ruta del archivo a leer

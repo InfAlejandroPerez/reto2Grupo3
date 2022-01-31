@@ -6,22 +6,22 @@ package modelo.dbClasses;
  */
 public class Hashes implements java.io.Serializable {
 
-	private int codHash;
+	private String codHash;
 	private String url;
 
 	public Hashes() {
 	}
 
-	public Hashes(int codHash, String url) {
+	public Hashes(String codHash, String url) {
 		this.codHash = codHash;
 		this.url = url;
 	}
 
-	public int getCodHash() {
+	public String getCodHash() {
 		return this.codHash;
 	}
 
-	public void setCodHash(int codHash) {
+	public void setCodHash(String codHash) {
 		this.codHash = codHash;
 	}
 

@@ -33,11 +33,12 @@ public class JsonController {
 		this.modelo = modelo;
 	}
 
-	public static JSONObject getJSONObject(String str) {
+	public static JSONObject getJSONObject(String str, boolean isContent) {
+		String text = isContent ? str : JsonParse.readFile(str);
 		JSONParser parser = new JSONParser();  
 		JSONObject ret; 
 		try {
-			ret = (JSONObject) parser.parse(str);
+			ret = (JSONObject) parser.parse(text);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			ret = null;
@@ -143,8 +144,9 @@ public class JsonController {
       	//Datos
       	DatosController datController = new DatosController(parser, modelo);
 		//datController.insertDatosEstacion(parser.readURL("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/datos_horarios/3_DE_MARZO.json", true));
-      	String jsonIndex = JSON_PATH + "index.json";
-      	datController.insertDatos(jsonIndex);
+      	//String jsonIndex = JSON_PATH + "index.json";
+      	String datosUrl = "https://opendata.euskadi.eus/contenidos/ds_informes_estudios/calidad_aire_2021/es_def/adjuntos/index.json";
+      	datController.insertDatos(datosUrl);
       	
       	// Espacios Naturales
       	EspaciosNaturalesController espController = new EspaciosNaturalesController(parser, modelo);
