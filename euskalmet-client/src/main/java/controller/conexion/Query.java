@@ -37,6 +37,20 @@ public class Query {
     	
     	return queryString(queryDireccion);
     }
+    
+    public String getEspaciosNaturalesRankingProv(String nombreProvincia) {
+        String query = "{\"operation\":\"getEspaciosRanking\"," +
+                "\"provincia\":\""+nombreProvincia+"\"}";
+
+        return queryString(query);
+    }
+    
+    public String getEspaciosNaturalesRankingMun(String nombreMunicipio) {
+        String query = "{\"operation\":\"getEspaciosRanking\"," +
+                "\"municipio\":\""+nombreMunicipio+"\"}";
+
+        return queryString(query);
+    }
 
     public Boolean insertarUsuario(String username, String password) {
         Map<String, String> atts2 = new HashMap<String, String>();
