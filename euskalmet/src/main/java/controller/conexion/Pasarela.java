@@ -232,7 +232,7 @@ public class Pasarela {
 		List<EspaciosNaturales> espacios = dbController.getEspacios();
         
 		String espaciosJSON = listToJSON(espacios);
-		String ret = "{\"operation\":\"getEspacios\",\n"
+		String ret = "{\"operation\":\"getEspacios\","
 				+ "\"result\":" + espaciosJSON + "}";
 		
 		Server.sendResponse(ret);
@@ -247,7 +247,7 @@ public class Pasarela {
 			
 			String espaciosJSON = listToJSON(espacios);
 			
-			String ret = "{\"operation\":\"getEspaciosMun\",\n"
+			String ret = "{\"operation\":\"getEspaciosMun\","
 					+ "\"result\":" + espaciosJSON + "}";
 						
 			Server.sendResponse(ret);
@@ -268,7 +268,7 @@ public class Pasarela {
 			    
 			String datosStr = this.listToJSON(datos);
 			
-			String ret = "{\"operation\":\"getDatosEstacion\",\n"
+			String ret = "{\"operation\":\"getDatosEstacion\","
 					+ "\"result\":" + datosStr + "}";
 			
 			Server.sendResponse(ret);
@@ -301,12 +301,19 @@ public class Pasarela {
 		try {
 			espacioJSON = (JSONObject) parser.parse(query);
 			String nombreProvincia = (String) espacioJSON.get("provincia");
-			List<EspaciosNaturales> espacios = dbController.getEspaciosRanking(nombreProvincia);
+			List<String> espacios = dbController.getEspaciosRanking(nombreProvincia);
 			
-			String espaciosJSON = listToJSON(espacios);
+			String espaciosJSONStr = "[";
+			for(int i = 0 ; i < espacios.size() ; i++) {
+				if(i > 0) espaciosJSONStr += ",";
+				espaciosJSONStr +="{\"nombre\":\""+espacios.get(i)+"\"}" ;
+			}
+			
+			espaciosJSONStr += "]";
+			
 			
 			String ret = "{\"operation\":\"getEspaciosRanking\",\n"
-					+ "\"result\":" + espaciosJSON + "}";
+					+ "\"result\":" + espaciosJSONStr + "}";
 						
 			Server.sendResponse(ret);
 		} catch (ParseException e) {
