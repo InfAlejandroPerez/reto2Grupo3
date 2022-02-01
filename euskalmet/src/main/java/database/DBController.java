@@ -249,7 +249,7 @@ public class DBController {
 	}
 	
 	public List<Provincia> getProvincias() {
-		String hql = "FROM modelo.dbClasses.Provincia";
+		String hql = "FROM modelo.dbClasses.Provincia ORDER BY Nombre";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -261,7 +261,7 @@ public class DBController {
 	}
 	
 	public List<Municipios> getMunicipios() {
-		String hql = "FROM modelo.dbClasses.Municipios";
+		String hql = "FROM modelo.dbClasses.Municipios ORDER BY Nombre";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
@@ -377,7 +377,7 @@ public class DBController {
 	}
 	
 	public List<EspaciosNaturales> getEspacios() {
-		String hql = "FROM modelo.dbClasses.EspaciosNaturales";
+		String hql = "FROM modelo.dbClasses.EspaciosNaturales ORDER BY Nombre";
 		Session sesion = this.openSession();
 		sesion.beginTransaction();
 		
