@@ -1,6 +1,9 @@
 package modelo.dbClasses;
 // Generated 4 ene 2022 0:52:55 by Hibernate Tools 5.5.7.Final
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.json.simple.JSONObject;
 
 import modelo.jsonSerializable;
@@ -246,6 +249,14 @@ public class Datos implements java.io.Serializable, jsonSerializable {
      	}
 	}
 
+	public LocalDate getFecha() {
+		return this.id.getFecha();
+	}
+	
+	public LocalTime getHora() {
+		return this.id.getHora();
+	}
+	
 	public Double getNo2gm3() {
 		return no2gm3;
 	}
@@ -299,7 +310,9 @@ public class Datos implements java.io.Serializable, jsonSerializable {
 	@Override
 	public String toJSON() {
 		return "{\"estacionICA\":\""+estacionICA+"\","
-				+ "\"comgm3\":\""+comgm3+"\"}";
+				+ "\"comgm3\":\""+comgm3+"\","
+				+ "\"fecha\":\""+id.getFecha()+"\","
+				+ "\"hora\":\""+id.getHora()+"\"}";
 	}
 
 
