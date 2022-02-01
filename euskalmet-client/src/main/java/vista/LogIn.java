@@ -202,7 +202,7 @@ public class LogIn extends JFrame {
 		JButton btnTopEspaciosNaturales = new JButton("Top Espacios Naturales");
 		btnTopEspaciosNaturales.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		btnTopEspaciosNaturales.setBorder(UIManager.getBorder("ToggleButton.border"));
-		btnTopEspaciosNaturales.setBounds(228, 384, 191, 39);
+		btnTopEspaciosNaturales.setBounds(228, 384, 209, 39);
 		panelInfoEspaciosNaturales.add(btnTopEspaciosNaturales);
 		
 		JButton btnVolverInfoEN = new JButton("Volver");
@@ -217,10 +217,11 @@ public class LogIn extends JFrame {
 		lblCalidadAire.setBounds(69, 315, 161, 29);
 		panelInfoEspaciosNaturales.add(lblCalidadAire);
 		
-		JLabel lblResultCalidadAire = new JLabel("Resultado");
+		
+		final JLabel lblResultCalidadAire = new JLabel("");
 		lblResultCalidadAire.setHorizontalAlignment(SwingConstants.LEFT);
 		lblResultCalidadAire.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
-		lblResultCalidadAire.setBounds(258, 315, 161, 29);
+		lblResultCalidadAire.setBounds(258, 315, 219, 29);
 		panelInfoEspaciosNaturales.add(lblResultCalidadAire);
 		panelTopEspaciosNaturalesMunicipio.setLayout(null);
 		
@@ -637,6 +638,7 @@ public class LogIn extends JFrame {
 					scrollPaneEspacios.setBounds(87, 99, 306, 268);
 					panelListaEspaciosNaturales.add(scrollPaneEspacios);
 					
+								
 					c1.show(contentPane, "panelEspaciosNaturales");
 				}
 				
@@ -674,6 +676,15 @@ public class LogIn extends JFrame {
 				
 				txtEspacioNatural.setText(espacio);
 				textAreaDescEN.setText(desc);
+				
+				String calidadAire = (new Query()).getCalidad(espacio);
+				
+				List<String> calidad = Utils.getListFromJSON("nombre","result", calidadAire);
+		        if(calidad.size()>0){
+		        	lblResultCalidadAire.setText(calidad.get(0));
+		        }else{
+		        	lblResultCalidadAire.setText("No hay datos");
+		        }
 				
 				c1.show(contentPane, "panelInfoEspaciosNaturales");
 			}
