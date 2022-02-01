@@ -109,6 +109,13 @@ public class Query {
         return hiloQuery.responseBool;
     }
     
+    public String getCalidad(String nombreEspacio){
+        String queryMunicipio = "{\"operation\":\"getCalidad\"," +
+                "\"espacio\":\""+nombreEspacio+"\"}";
+
+        return queryString(queryMunicipio);
+    }
+    
     public ImageIcon getFotoEspacio(String query) {
         QueryThread hiloQuery = query(query);
         return (ImageIcon) hiloQuery.respuesta;

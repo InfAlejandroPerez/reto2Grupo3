@@ -24,7 +24,7 @@ public class QueryThread extends Thread {
     @Override
     public void run() {
         try {
-            cliente = new Socket("10.5.7.19", 4444);  // connect to server
+            cliente = new Socket("10.5.7.18", 4444);  // connect to server
 
             salida = new ObjectOutputStream(cliente.getOutputStream());
             entrada = new ObjectInputStream(cliente.getInputStream());
