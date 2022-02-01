@@ -196,6 +196,32 @@ public class Pasarela {
 		}
 	}
 	
+	public void getCalidad(String query) {
+		JSONObject espacioJSON;
+		try {
+			espacioJSON = (JSONObject) parser.parse(query);
+			String nombreEspacio = (String) espacioJSON.get("espacio");
+			List<String> espacios = dbController.getCalidad(nombreEspacio);
+	        
+			String espaciosJSONStr = "[";
+			for(int i = 0 ; i < espacios.size() ; i++) {
+				if(i > 0) espaciosJSONStr += ",";
+				espaciosJSONStr +="{\"nombre\":\""+espacios.get(i)+"\"}" ;
+			}
+			
+			espaciosJSONStr += "]";
+			
+			
+			String ret = "{\"operation\":\"getEspaciosRanking\",\n"
+					+ "\"result\":" + espaciosJSONStr + "}";
+						
+			Server.sendResponse(ret);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private String listToJSON(List<? extends jsonSerializable> lista) {
 		String ret = "[";
 		int cont = 0;
