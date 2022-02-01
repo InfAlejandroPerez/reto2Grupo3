@@ -162,6 +162,9 @@ public class Server {
 				case "getEspaciosRanking":
 					pasarela.getEspaciosRanking(jsonString);
 					break;
+				case "getCalidad":
+					pasarela.getCalidad(jsonString);
+					break;
 				case "getFotoEstacion":
 
 					//pasarela.getFotoEstacion(jsonString);

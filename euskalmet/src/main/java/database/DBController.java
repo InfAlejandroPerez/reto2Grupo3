@@ -353,6 +353,29 @@ public class DBController {
 		return ret;		
 	}
 	
+	public List<String> getCalidad(String nameEspacio) {
+		EspaciosNaturales e = getEspacio(nameEspacio);
+		int idEspacio = e.getCodEspacio();
+		
+		String hql = "SELECT NO2ICA "
+				+ "FROM datos "
+				+ "LEFT JOIN estaciones ON estaciones.Nombre=datos.NombreEstacion "
+				+ "LEFT JOIN esta_en ON esta_en.CodMunicipio = estaciones.CodMunicipio  "
+				+ "WHERE esta_en.CodEspacio = "+idEspacio
+				+ " LIMIT 1";
+
+		SessionFactory sessionFac = HibernateUtil.getSessionFactory();
+		Session session = sessionFac.openSession();
+
+		Query query = session.createSQLQuery(hql);
+
+		
+		List<String> lista = query.list();
+		session.close();
+
+		return lista;	
+	}
+	
 	public List<EspaciosNaturales> getEspacios() {
 		String hql = "FROM modelo.dbClasses.EspaciosNaturales";
 		Session sesion = this.openSession();
