@@ -46,6 +46,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import java.awt.Component;
+import javax.swing.JCheckBox;
 
 public class LogIn extends JFrame {
 	private Controller controlador;
@@ -237,6 +238,10 @@ public class LogIn extends JFrame {
 		lblResultCalidadAire.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
 		lblResultCalidadAire.setBounds(258, 315, 219, 29);
 		panelInfoEspaciosNaturales.add(lblResultCalidadAire);
+		
+		JCheckBox chckbxENFavoritos = new JCheckBox("Favorito");
+		chckbxENFavoritos.setBounds(239, 351, 97, 23);
+		panelInfoEspaciosNaturales.add(chckbxENFavoritos);
 		panelTopEspaciosNaturalesMunicipio.setLayout(null);
 		
 		JLabel lblTopEspaciosNaturalesMunicipio = new JLabel("Top Espacios Naturales por Municipio");
