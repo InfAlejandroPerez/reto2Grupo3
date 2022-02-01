@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-01-2022 a las 14:58:28
+-- Tiempo de generación: 01-02-2022 a las 16:52:39
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 7.4.27
 
@@ -71,6 +71,7 @@ INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `N
 ('3 DE MARZO', '2021-12-31', '21:00:00', 0.75, 0.26, 70, 'Bueno / Ona', 99, 222, 13, 'Muy bueno / Oso ona', NULL, 'Sin datos / Daturik gabe', 5, 'Muy bueno / Oso ona', 'Bueno / Ona'),
 ('3 DE MARZO', '2021-12-31', '22:00:00', 0.65, 0.32, 52, 'Bueno / Ona', 42, 116, 12.79, 'Muy bueno / Oso ona', NULL, 'Sin datos / Daturik gabe', 4, 'Muy bueno / Oso ona', 'Bueno / Ona'),
 ('3 DE MARZO', '2021-12-31', '23:00:00', 0.61, 0.36, 50, 'Bueno / Ona', 35, 103, 13.15, 'Muy bueno / Oso ona', 11.05, 'Bueno / Ona', 4, 'Muy bueno / Oso ona', 'Bueno / Ona'),
+('3 DE MARZO', '2022-01-04', '05:16:41', 1, 1, 1, '1', 1, 1, 1, '1', 1, '1', 1, '', 'Bastante nais'),
 ('ABANTO', '2021-12-31', '00:00:00', NULL, NULL, 0, 'Muy bueno / Oso ona', 1, 2, 5.08, 'Muy bueno / Oso ona', NULL, NULL, 2, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('ABANTO', '2021-12-31', '05:00:00', NULL, NULL, 3, 'Muy bueno / Oso ona', 0, 3, 5.91, 'Muy bueno / Oso ona', NULL, NULL, 1, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('ABANTO', '2021-12-31', '06:00:00', NULL, NULL, 4, 'Muy bueno / Oso ona', 0, 4, 5.87, 'Muy bueno / Oso ona', NULL, NULL, 1, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
@@ -333,9 +334,9 @@ INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `N
 ('BARAKALDO', '2021-12-31', '23:00:00', 0.16, 0.17, NULL, 'Sin datos / Daturik gabe', 0, NULL, 7.29, 'Muy bueno / Oso ona', 5, 'Muy bueno / Oso ona', 6, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('BASAURI', '2021-12-31', '00:00:00', NULL, NULL, 13, 'Muy bueno / Oso ona', 0, 13, 7.33, 'Muy bueno / Oso ona', NULL, NULL, 6, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('BASAURI', '2021-12-31', '05:00:00', NULL, NULL, 12, 'Muy bueno / Oso ona', 1, 12, 7.25, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
-('BASAURI', '2021-12-31', '06:00:00', NULL, NULL, 13, 'Muy bueno / Oso ona', 1, 14, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
-('BASAURI', '2021-12-31', '07:00:00', NULL, NULL, 20, 'Muy bueno / Oso ona', 1, 21, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona');
+('BASAURI', '2021-12-31', '06:00:00', NULL, NULL, 13, 'Muy bueno / Oso ona', 1, 14, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona');
 INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `NO2gm3`, `NO2ICA`, `NOgm3`, `NOXgm3`, `PM10gm3`, `PM10ICA`, `PM25gm3`, `PM25ICA`, `SO2gm3`, `SO2ICA`, `ICAEstacion`) VALUES
+('BASAURI', '2021-12-31', '07:00:00', NULL, NULL, 20, 'Muy bueno / Oso ona', 1, 21, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('BASAURI', '2021-12-31', '08:00:00', NULL, NULL, 23, 'Muy bueno / Oso ona', 1, 24, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('BASAURI', '2021-12-31', '09:00:00', NULL, NULL, 20, 'Muy bueno / Oso ona', 3, 24, 7.17, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('BASAURI', '2021-12-31', '10:00:00', NULL, NULL, 18, 'Muy bueno / Oso ona', 5, 25, 7.08, 'Muy bueno / Oso ona', NULL, NULL, 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
@@ -637,9 +638,9 @@ INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `N
 ('LASARTE-ORIA', '2021-12-31', '06:00:00', NULL, NULL, 18, 'Muy bueno / Oso ona', 2, 20, 8.58, 'Muy bueno / Oso ona', 4.58, 'Muy bueno / Oso ona', 9, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('LASARTE-ORIA', '2021-12-31', '07:00:00', NULL, NULL, 22, 'Muy bueno / Oso ona', 4, 28, 8.33, 'Muy bueno / Oso ona', 4.42, 'Muy bueno / Oso ona', 9, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('LASARTE-ORIA', '2021-12-31', '08:00:00', NULL, NULL, 34, 'Muy bueno / Oso ona', 10, 47, 8.21, 'Muy bueno / Oso ona', 4.17, 'Muy bueno / Oso ona', 7, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
-('LASARTE-ORIA', '2021-12-31', '09:00:00', NULL, NULL, 47, 'Bueno / Ona', 45, 115, 8.13, 'Muy bueno / Oso ona', 3.96, 'Muy bueno / Oso ona', 6, 'Muy bueno / Oso ona', 'Bueno / Ona'),
-('LASARTE-ORIA', '2021-12-31', '10:00:00', NULL, NULL, 38, 'Muy bueno / Oso ona', 33, 87, 8.21, 'Muy bueno / Oso ona', 3.88, 'Muy bueno / Oso ona', 7, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona');
+('LASARTE-ORIA', '2021-12-31', '09:00:00', NULL, NULL, 47, 'Bueno / Ona', 45, 115, 8.13, 'Muy bueno / Oso ona', 3.96, 'Muy bueno / Oso ona', 6, 'Muy bueno / Oso ona', 'Bueno / Ona');
 INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `NO2gm3`, `NO2ICA`, `NOgm3`, `NOXgm3`, `PM10gm3`, `PM10ICA`, `PM25gm3`, `PM25ICA`, `SO2gm3`, `SO2ICA`, `ICAEstacion`) VALUES
+('LASARTE-ORIA', '2021-12-31', '10:00:00', NULL, NULL, 38, 'Muy bueno / Oso ona', 33, 87, 8.21, 'Muy bueno / Oso ona', 3.88, 'Muy bueno / Oso ona', 7, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('LASARTE-ORIA', '2021-12-31', '11:00:00', NULL, NULL, 41, 'Bueno / Ona', 44, 107, 8.46, 'Muy bueno / Oso ona', 3.88, 'Muy bueno / Oso ona', 6, 'Muy bueno / Oso ona', 'Bueno / Ona'),
 ('LASARTE-ORIA', '2021-12-31', '12:00:00', NULL, NULL, 30, 'Muy bueno / Oso ona', 18, 57, 8.71, 'Muy bueno / Oso ona', 3.88, 'Muy bueno / Oso ona', 4, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('LASARTE-ORIA', '2021-12-31', '13:00:00', NULL, NULL, 22, 'Muy bueno / Oso ona', 9, 36, 8.92, 'Muy bueno / Oso ona', 3.96, 'Muy bueno / Oso ona', 3, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
@@ -934,10 +935,10 @@ INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `N
 ('SAN JULIAN', '2021-12-31', '22:00:00', NULL, NULL, 5, 'Muy bueno / Oso ona', 4, 12, 12.54, 'Muy bueno / Oso ona', NULL, NULL, 3, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('SAN JULIAN', '2021-12-31', '23:00:00', NULL, NULL, 6, 'Muy bueno / Oso ona', 4, 12, 12.58, 'Muy bueno / Oso ona', NULL, NULL, 3, 'Muy bueno / Oso ona', 'Muy bueno / Oso ona'),
 ('SAN MIGUEL', '2021-12-31', '00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.17, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
-('SAN MIGUEL', '2021-12-31', '05:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.75, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
-('SAN MIGUEL', '2021-12-31', '06:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.54, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
-('SAN MIGUEL', '2021-12-31', '07:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.38, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona');
+('SAN MIGUEL', '2021-12-31', '05:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.75, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona');
 INSERT INTO `datos` (`NombreEstacion`, `Fecha`, `Hora`, `COmgm3`, `CO8hmgm3`, `NO2gm3`, `NO2ICA`, `NOgm3`, `NOXgm3`, `PM10gm3`, `PM10ICA`, `PM25gm3`, `PM25ICA`, `SO2gm3`, `SO2ICA`, `ICAEstacion`) VALUES
+('SAN MIGUEL', '2021-12-31', '06:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.54, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
+('SAN MIGUEL', '2021-12-31', '07:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.38, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
 ('SAN MIGUEL', '2021-12-31', '08:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.25, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
 ('SAN MIGUEL', '2021-12-31', '09:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 7.08, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
 ('SAN MIGUEL', '2021-12-31', '10:00:00', NULL, NULL, NULL, NULL, NULL, NULL, 6.92, 'Muy bueno / Oso ona', NULL, NULL, NULL, NULL, 'Muy bueno / Oso ona'),
