@@ -126,27 +126,41 @@ public class LogIn extends JFrame {
 		btnAccederTopProvincia.setBorder(UIManager.getBorder("ToggleButton.border"));
 		btnAccederTopProvincia.setBounds(328, 374, 113, 39);
 		panelTopEspaciosNaturalesProvincia.add(btnAccederTopProvincia);
-		/////////////////////////////////
-		String topProvincias = (new Query()).getEspaciosNaturalesRankingProv("Bizkaia");
+
+		final JComboBox<String> comboTopProvincia = new JComboBox<String>();
+		comboTopProvincia.setBorder(UIManager.getBorder("Button.border"));
+		comboTopProvincia.setBounds(102, 60, 280, 29);
+		comboTopProvincia.addItem("");
+		comboTopProvincia.addItem("Bizkaia");
+		comboTopProvincia.addItem("Gipuzkoa");
+		comboTopProvincia.addItem("Araba/Álava");
+		panelTopEspaciosNaturalesProvincia.add(comboTopProvincia);
+		panelListaEspaciosNaturales.setLayout(null);
 		
-		List<String> topEN = Utils.getListFromJSON("nombre", "result", topProvincias);
-							
-		for (String espacios : topEN) {
-			modelTopProvincia.addElement(espacios);
-		}
+		comboTopProvincia.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String prov = String.valueOf(comboTopProvincia.getSelectedItem());
+				String topProvincias = (new Query()).getEspaciosNaturalesRankingProv(prov);
+				
+				modelTopProvincia.removeAllElements();
+				List<String> topEN = Utils.getListFromJSON("nombre", "result", topProvincias);
+									
+				for (String espacios : topEN) {
+					modelTopProvincia.addElement(espacios);
+				}
+				
+			}
+			
+		});
+		
 		listENTopProvincia = new JList<String>();
 		listENTopProvincia.setModel(modelTopProvincia);
 		panelTopEspaciosNaturalesProvincia.add(listENTopProvincia);
-		//////////////////////////////////////
+		
 		JScrollPane scrollPaneTopEnProvinicia = new JScrollPane(listENTopProvincia);
 		scrollPaneTopEnProvinicia.setBounds(89, 95, 306, 268);
 		panelTopEspaciosNaturalesProvincia.add(scrollPaneTopEnProvinicia);
-		
-		JComboBox<String> comboTopProvincia = new JComboBox<String>();
-		comboTopProvincia.setBorder(UIManager.getBorder("Button.border"));
-		comboTopProvincia.setBounds(102, 60, 280, 29);
-		panelTopEspaciosNaturalesProvincia.add(comboTopProvincia);
-		panelListaEspaciosNaturales.setLayout(null);
 		
 		JLabel lblListaEspaciosNaturales = new JLabel("Lista de Espacios Naturales");
 		lblListaEspaciosNaturales.setHorizontalAlignment(SwingConstants.CENTER);
@@ -247,28 +261,78 @@ public class LogIn extends JFrame {
 		btnCambiarTopMunicipio.setBorder(UIManager.getBorder("ToggleButton.border"));
 		btnCambiarTopMunicipio.setBounds(180, 374, 125, 39);
 		panelTopEspaciosNaturalesMunicipio.add(btnCambiarTopMunicipio);
-		//////////////////////////////
-		String topMunis = (new Query()).getEspaciosNaturalesRankingMun("Getxo");
 		
-		List<String> topENMun = Utils.getListFromJSON("nombre", "result", topMunis);
-							
-		for (String espacios : topENMun) {
-			modelTopMunicipio.addElement(espacios);
-		}
+		final JComboBox<String> comboTopMunicipio = new JComboBox<String>();
+		comboTopMunicipio.setBorder(UIManager.getBorder("Button.border"));
+		comboTopMunicipio.setBounds(107, 55, 280, 29);
+		comboTopMunicipio.addItem("");
+		comboTopMunicipio.addItem("Abadiño");
+		comboTopMunicipio.addItem("Abanto y Ciérvana-Abanto Zierbena");
+		comboTopMunicipio.addItem("Aia");
+		comboTopMunicipio.addItem("Alonsotegi");
+		comboTopMunicipio.addItem("Amorebieta-Etxano");
+		comboTopMunicipio.addItem("Andoain");
+		comboTopMunicipio.addItem("Arrasate/Mondragón");
+		comboTopMunicipio.addItem("Azpeitia");
+		comboTopMunicipio.addItem("Barakaldo");
+		comboTopMunicipio.addItem("Basauri");
+		comboTopMunicipio.addItem("Beasain");
+		comboTopMunicipio.addItem("Bilbao");
+		comboTopMunicipio.addItem("Durango");
+		comboTopMunicipio.addItem("Elciego");
+		comboTopMunicipio.addItem("Erandio");
+		comboTopMunicipio.addItem("Getxo");
+		comboTopMunicipio.addItem("Hernani");
+		comboTopMunicipio.addItem("Hondarribia");
+		comboTopMunicipio.addItem("Larrabetzu");
+		comboTopMunicipio.addItem("Lasarte-Oria");
+		comboTopMunicipio.addItem("Lezo");
+		comboTopMunicipio.addItem("Llodio/Laudio");
+		comboTopMunicipio.addItem("Mundaka");
+		comboTopMunicipio.addItem("Muskiz");
+		comboTopMunicipio.addItem("Portugalete");
+		comboTopMunicipio.addItem("Salvatierra/Agurain");
+		comboTopMunicipio.addItem("San Sebastián");
+		comboTopMunicipio.addItem("Santurtzi");
+		comboTopMunicipio.addItem("Sestao");
+		comboTopMunicipio.addItem("Sondika");
+		comboTopMunicipio.addItem("Sopela");
+		comboTopMunicipio.addItem("Tolosa");
+		comboTopMunicipio.addItem("Usurbil");
+		comboTopMunicipio.addItem("Valdegovía");
+		comboTopMunicipio.addItem("Vitoria-Gasteiz");
+		comboTopMunicipio.addItem("Zalla");
+		comboTopMunicipio.addItem("Zarautz");
+		comboTopMunicipio.addItem("Zierbena");
+		comboTopMunicipio.addItem("Zumarraga");
+		panelTopEspaciosNaturalesMunicipio.add(comboTopMunicipio);
+		panelInfoMunicipios.setLayout(null);
+		
+		comboTopMunicipio.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String muni = String.valueOf(comboTopMunicipio.getSelectedItem());
+				String topMunicipios = (new Query()).getEspaciosNaturalesRankingMun(muni);
+				
+				modelTopMunicipio.removeAllElements();
+				List<String> topEN = Utils.getListFromJSON("nombre", "result", topMunicipios);
+									
+				for (String espacios : topEN) {
+					modelTopMunicipio.addElement(espacios);
+				}
+				
+			}
+			
+		});
+
 		listENTopMunicipio = new JList<String>();
 		listENTopMunicipio.setModel(modelTopMunicipio);
 		panelTopEspaciosNaturalesMunicipio.add(listENTopMunicipio);
 		
-		JScrollPane scrollPaneTopEnMunicipio = new JScrollPane((Component) null);
+		JScrollPane scrollPaneTopEnMunicipio = new JScrollPane(listENTopMunicipio);
 		scrollPaneTopEnMunicipio.setBounds(92, 95, 306, 268);
 		panelTopEspaciosNaturalesMunicipio.add(scrollPaneTopEnMunicipio);
 		
-		JComboBox<String> comboTopMunicipio = new JComboBox<String>();
-		comboTopMunicipio.setBorder(UIManager.getBorder("Button.border"));
-		comboTopMunicipio.setBounds(107, 55, 280, 29);
-		panelTopEspaciosNaturalesMunicipio.add(comboTopMunicipio);
-		panelInfoMunicipios.setLayout(null);
-		//////////////////////////////////
 		JLabel lblNombreMunicipios = new JLabel("Municipio");
 		lblNombreMunicipios.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNombreMunicipios.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
@@ -836,7 +900,7 @@ public class LogIn extends JFrame {
 		btnCambiarTopPorMunicipioDeProvincia.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				c1.show(contentPane, "panelTopEspaciosNaturalesProvincia");
+				c1.show(contentPane, "panelTopEspaciosNaturalesMunicipio");
 			}
 			
 		});
@@ -844,7 +908,7 @@ public class LogIn extends JFrame {
 		btnCambiarTopMunicipio.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				c1.show(contentPane, "panelTopEspaciosNaturalesMunicipio");
+				c1.show(contentPane, "panelTopEspaciosNaturalesProvincia");
 			}
 			
 		});
