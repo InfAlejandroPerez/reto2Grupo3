@@ -458,6 +458,31 @@ public class DBController {
 		return lista;
 	}
 	
+public List<String> getEspaciosRankingByMun(String mun){
+		
+		Municipios muni = getMunicipio(mun);
+		int idMun = muni.getId().getCodMunicipio();
+		
+		String hql = "SELECT es.nombre "
+				+ "FROM favoritos_espacios "
+				+ "JOIN espacios_naturales es ON es.CodEspacio=favoritos_espacios.CodEspacio "
+				+ "JOIN esta_en esta ON esta.CodEspacio = es.CodEspacio "
+				+ "WHERE esta.CodMunicipio = "+idMun
+				+ " GROUP BY es.CodEspacio "
+				+ "ORDER BY COUNT(es.CodEspacio) "
+				+ "DESC LIMIT 5";
+
+		SessionFactory sessionFac = HibernateUtil.getSessionFactory();
+		Session session = sessionFac.openSession();
+
+		Query query = session.createSQLQuery(hql);
+
+		
+		List<String> lista = query.list();
+		session.close();
+
+		return lista;
+	}
 
 	
 	public Usuarios getUsuario(String userName) {

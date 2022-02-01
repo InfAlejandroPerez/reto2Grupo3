@@ -299,9 +299,17 @@ public class Pasarela {
 	protected void getEspaciosRanking(String query) {
 		JSONObject espacioJSON;
 		try {
+			List<String> espacios = null;
 			espacioJSON = (JSONObject) parser.parse(query);
-			String nombreProvincia = (String) espacioJSON.get("provincia");
-			List<String> espacios = dbController.getEspaciosRanking(nombreProvincia);
+			String nombre = (String) espacioJSON.get("provincia");
+			if (nombre != null) {
+				espacios = dbController.getEspaciosRanking(nombre);				
+			}
+			else {
+				nombre = (String) espacioJSON.get("municipio");		
+				espacios = dbController.getEspaciosRankingByMun(nombre);				
+			}
+				
 			
 			String espaciosJSONStr = "[";
 			for(int i = 0 ; i < espacios.size() ; i++) {
