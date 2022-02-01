@@ -45,6 +45,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Component;
 
 public class LogIn extends JFrame {
 	private Controller controlador;
@@ -59,10 +60,13 @@ public class LogIn extends JFrame {
 	private JPanel panelInfoEspaciosNaturales = new JPanel();
 	private JPanel panelTopEspaciosNaturalesMunicipio = new JPanel();
 	private JPanel panelTopEspaciosNaturalesProvincia = new JPanel();
+	private JPanel panelListaEspaciosNaturales = new JPanel();
 	private DefaultListModel<String> modelEstaciones = new DefaultListModel<String>();
 	private DefaultListModel<String> modelMunicipios = new DefaultListModel<String>();
+	private DefaultListModel<String> modelEspaciosNaturales = new DefaultListModel<String>();
 	private String estaciones;
 	private JList<String> listEstaciones;
+	private JList<String> listEspaciosNaturales;
 	private String espacioNatural;
 	private JTextField txtNombreEstacion;
 	private JTextField txtDireccionEstacion;
@@ -90,8 +94,28 @@ public class LogIn extends JFrame {
 		contentPane.add(panelInfoEstaciones, "panelInfoEstaciones");
 		contentPane.add(panelInfoMunicipios, "panelInfoMunicipios");
 		contentPane.add(panelInfoEspaciosNaturales, "panelInfoEspaciosNaturales");
+		contentPane.add(panelListaEspaciosNaturales, "panelEspaciosNaturales");
 		contentPane.add(panelTopEspaciosNaturalesMunicipio, "panelTopEspaciosNaturales");
 		contentPane.add(panelTopEspaciosNaturalesProvincia, "panelTopEspaciosNaturalesProvincia");
+		panelListaEspaciosNaturales.setLayout(null);
+		
+		JLabel lblListaEspaciosNaturales = new JLabel("Lista de Espacios Naturales");
+		lblListaEspaciosNaturales.setHorizontalAlignment(SwingConstants.CENTER);
+		lblListaEspaciosNaturales.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
+		lblListaEspaciosNaturales.setBounds(99, 29, 280, 29);
+		panelListaEspaciosNaturales.add(lblListaEspaciosNaturales);
+		
+		JButton btnVolverListaEn = new JButton("Volver");
+		btnVolverListaEn.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnVolverListaEn.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnVolverListaEn.setBounds(108, 382, 113, 39);
+		panelListaEspaciosNaturales.add(btnVolverListaEn);
+		
+		JButton btnAccederListaEspacioNatural = new JButton("Acceder");
+		btnAccederListaEspacioNatural.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
+		btnAccederListaEspacioNatural.setBorder(UIManager.getBorder("ToggleButton.border"));
+		btnAccederListaEspacioNatural.setBounds(253, 382, 113, 39);
+		panelListaEspaciosNaturales.add(btnAccederListaEspacioNatural);
 		panelInfoEspaciosNaturales.setLayout(null);
 		
 		JLabel lblNombreEspacioNatural = new JLabel("Espacio Natural");
@@ -125,12 +149,6 @@ public class LogIn extends JFrame {
 		textAreaDescEN.setFocusable(false);
 		textAreaDescEN.setOpaque(false);
 		scrollPaneDescEN.setViewportView(textAreaDescEN);
-		
-		JLabel lblImagenEN = new JLabel("Im\u00E1gen");
-		lblImagenEN.setHorizontalAlignment(SwingConstants.LEFT);
-		lblImagenEN.setFont(new Font("Palatino Linotype", Font.PLAIN, 22));
-		lblImagenEN.setBounds(69, 286, 280, 29);
-		panelInfoEspaciosNaturales.add(lblImagenEN);
 		
 		JButton btnTopEspaciosNaturales = new JButton("Top Espacios Naturales");
 		btnTopEspaciosNaturales.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
@@ -388,7 +406,7 @@ public class LogIn extends JFrame {
 					for (String estaciones : estacionesList) {
 						modelEstaciones.addElement(estaciones);
 					}
-					JList<String> listEstaciones = new JList<String>();
+					listEstaciones = new JList<String>();
 					listEstaciones.setModel(modelEstaciones);
 					panelListaEstaciones.add(listEstaciones);
 
@@ -496,15 +514,13 @@ public class LogIn extends JFrame {
 					
 					JSONObject enObj = new JSONObject(espacioNatural);
 					JSONArray arrEspacios = (JSONArray) enObj.get("result");
-					JSONObject firstResult = ((JSONObject) arrEspacios.get(0));
-					String espacio = (String) firstResult.get("nombre");
-					
-					if (espacio.equals("")) {
-						btnEspacionNaturalesMunicipio.setEnabled(false);
-						lblMunSinEN.setVisible(true);
-					} else {
+										
+					if (arrEspacios != null && arrEspacios.length() > 0) {
 						btnEspacionNaturalesMunicipio.setEnabled(true);
 						lblMunSinEN.setVisible(false);
+					} else {
+						btnEspacionNaturalesMunicipio.setEnabled(false);
+						lblMunSinEN.setVisible(true);
 					}
 					
 				} catch (JSONException e1) {
@@ -527,26 +543,59 @@ public class LogIn extends JFrame {
 					espacioNatural = (new Query()).getEspaciosNaturalesMun(municipio);
 					espacioNatural = espacioNatural.replaceAll("\n", "");
 					
-					String espacio = "";
-					String desc = "";
+					List<String> espaciosList = Utils.getListFromJSON("nombre", "result", espacioNatural);
+					List<String> descList = Utils.getListFromJSON("descripcion", "result", espacioNatural);
 					
-					try {
-						JSONObject enObj = new JSONObject(espacioNatural);
-						JSONArray arrEspacios = (JSONArray) enObj.get("result");
-						JSONObject firstResult = ((JSONObject) arrEspacios.get(0));
-						espacio = (String) firstResult.get("nombre");
-						desc = (String) firstResult.get("descripcion");
-						
-					} catch (JSONException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					for (String espacios : espaciosList) {
+						modelEspaciosNaturales.addElement(espacios);
 					}
+					listEspaciosNaturales = new JList<String>();
+					listEspaciosNaturales.setModel(modelEspaciosNaturales);
+					panelListaEspaciosNaturales.add(listEspaciosNaturales);
 					
-					txtEspacioNatural.setText(espacio);
-					textAreaDescEN.setText(desc);
-					c1.show(contentPane, "panelInfoEspaciosNaturales");
+					JScrollPane scrollPaneEspacios = new JScrollPane(listEspaciosNaturales);
+					scrollPaneEspacios.setBounds(87, 99, 306, 268);
+					panelListaEspaciosNaturales.add(scrollPaneEspacios);
+					
+					c1.show(contentPane, "panelEspaciosNaturales");
 				}
 				
+			}
+			
+		});
+		
+		btnAccederListaEspacioNatural.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				String espacio = listEspaciosNaturales.getSelectedValue();
+				
+				String desc = "";
+				
+				try {
+					JSONObject enObj = new JSONObject(espacioNatural);
+					JSONArray arrEspacios = (JSONArray) enObj.get("result");
+					for(int i = 0; i < arrEspacios.length(); i++) {
+						if(arrEspacios.get(i) instanceof JSONObject) {
+							JSONObject result = (JSONObject) arrEspacios.get(i);
+							String nombre = (String) result.get("nombre");
+							desc = (String) result.get("descripcion");
+							if(nombre.equals(espacio)) {
+								break;
+							}
+						}
+						
+					}
+					
+					
+				} catch (JSONException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				txtEspacioNatural.setText(espacio);
+				textAreaDescEN.setText(desc);
+				
+				c1.show(contentPane, "panelInfoEspaciosNaturales");
 			}
 			
 		});
@@ -587,7 +636,7 @@ public class LogIn extends JFrame {
 		btnVolverInfoEN.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				c1.show(contentPane, "panelInfoMunicipios");
+				c1.show(contentPane, "panelEspaciosNaturales");
 			}
 			
 		});
@@ -600,5 +649,13 @@ public class LogIn extends JFrame {
 			
 		});
 
+		btnVolverListaEn.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				c1.show(contentPane, "panelInfoMunicipios");
+			}
+			
+		});
+		
 	}
 }

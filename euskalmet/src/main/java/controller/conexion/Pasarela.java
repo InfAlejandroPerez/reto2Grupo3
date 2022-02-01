@@ -13,8 +13,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -287,6 +289,9 @@ public class Pasarela {
 			String nombreEstacion = (String) obj.get("nombreEstacion");
 			Estaciones estacion = dbController.getEstacion(nombreEstacion);
 			List<Datos> datos = new ArrayList<Datos>( estacion.getDatoses() );
+			datos = datos.stream().sorted(Comparator.comparing(Datos::getFecha).thenComparing(Datos::getHora)).collect(Collectors.toList());
+			Collections.reverse(datos);
+			    
 			String datosStr = this.listToJSON(datos);
 			
 			String ret = "{\"operation\":\"getDatosEstacion\","
