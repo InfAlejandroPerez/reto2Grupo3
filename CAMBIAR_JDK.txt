@@ -1,0 +1,17 @@
+Para cambiar el jdk
+
+1. Instalamos el jdk-12.0.1 con el .exe que nos dio Alejandro (Jdk12 - para HQLURL)
+
+2. Click derecho sobre el proyecto -> Build Path -> Configure Build Path
+
+3. En Modulepath hacemos click sobre el JRE y le damos a editar
+
+4. Seleccionamos Alternate JRE y buscamos el jdk-12.0.1. Si no lo tenemos clickamos sobre Installed JREs
+
+5. Le damos a Add -> Standard VM -> Y en "JRE home" le damos a Directory
+
+6. Seleccionamos el jdk instalado previamente (Si no le hemos cambiado la ruta se encontrará por defecto en "C:\Program Files\Java"). Seleccionamos la carpeta "jdk-12.0.1" y le damos a Finish.
+
+7. Marcamos la casilla sobre el jdk que acabamos de añadir y le damos a Apply and Close.
+
+8. Ahora nos aparecerá nuestro jdk en el campo de JRE, la seleccionamos y le damos a Finish y Apply and Close para terminar.
