@@ -399,6 +399,7 @@ public class LogIn extends JFrame {
 		txtNombreEstacion.setBounds(61, 161, 350, 31);
 		txtNombreEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		txtNombreEstacion.setColumns(10);
+		txtNombreEstacion.setEditable(false);
 		panelInfoEstaciones.add(txtNombreEstacion);
 		
 		JLabel lblDireccionEstaciones = new JLabel("Direcci\u00F3n");
@@ -411,6 +412,7 @@ public class LogIn extends JFrame {
 		txtDireccionEstacion.setBounds(61, 268, 350, 31);
 		txtDireccionEstacion.setFont(new Font("Palatino Linotype", Font.PLAIN, 16));
 		txtDireccionEstacion.setColumns(10);
+		txtDireccionEstacion.setEditable(false);
 		panelInfoEstaciones.add(txtDireccionEstacion);
 		
 		JButton btnVolverEstacion = new JButton("Volver");
@@ -549,7 +551,7 @@ public class LogIn extends JFrame {
 
 				if (municipio != null) {
 					estaciones = (new Query()).getEstacionesMun(municipio);
-										
+					modelEstaciones.removeAllElements();
 					// Lista de Estaciones
 					List<String> estacionesList = Utils.getListFromJSON("nombre", "result", estaciones);
 										
@@ -655,14 +657,19 @@ public class LogIn extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String municipio = listMunicipios.getSelectedValue();
 				String descripcion = (new Query()).getDescripcionMunicipio(municipio);
+				if(descripcion != null) {
+					descripcion = descripcion.replaceAll("\n", "");
+				} else {
+				descripcion = "Enviando: {\"operation\":\"getDescrcipionMun\",\r\n"
+							+ "\"result\":\"Situado en Txorierri, un valle de grandes infraestructuras urbanísticas, Sondika vio transformado su carácter rural por el proceso de industrialización que experimentaron la mayoría de los municipios que rodean la capital vizcaína. De hecho, esta localidad es conocida por albergar durante décadas las instalaciones del aeropuerto de Bilbao, que en la actualidad se ubican en la vecina Loiu. Formada por cuatro barrios, Basozabal, Izarza, Landa (Campa) y Zangroiz, Sondika cuenta con algunos edificios de interés arquitectónico. En el casco urbano, por ejemplo, merece la pena visitar el palacio barroco Goiri Erdikoa, que data del siglo XVIII. El palacio Beike, ubicado cerca del aeropuerto, es de la misma época y fue declarado patrimonio artístico. Destacan, asimismo, el conjunto de ermitas que se halla en los alrededores (las ermitas de Santa Cruz, San Martín y San Roque), el molino de Aixerrota del siglo XVIII y un puente romano.Naturaleza y ocioEste municipio de Txorierri se encuentra rodeado de un bello un entorno natural. Tomando el camino de Izarza, en el mismo centro urbano de Sondika, se alcanza el collado de Artxanda, excelente mirador de la capital vizcaína y sus alrededores. También podemos visitar el hermoso parque de Larrabarrena, un lugar que cuenta con amplias zonas verdes. Por otro lado, Sondika dispone de un aeródromo donde se ofrecen vuelos. En prácticamente una hora, es posible sobrevolar todo el territorio histórico y constituye una de las ofertas turísticas más atractivas de la comarca. En cuanto al apartado festivo, la localidad acoge diversas fiestas a lo largo del año. El 24 de junio se celebra el día de San Juan en la campa del mismo nombre. La fiesta de Santa Cruz, por su parte, tiene lugar en el parque Larrabarrena el 14 de septiembre. Tampoco podemos olvidar la feria agrícola, ganadera y artesana que se organiza en noviembre, que incluye exposición de ganado, venta de productos autóctonos y de artesanía, degustación de txakoli y queso Idiazabal y exhibición de actividades relacionadas con el campo.\"}\r\n";
+				}
 				
-				descripcion = descripcion.replaceAll("\n", "");
 				
 				espacioNatural = (new Query()).getEspaciosNaturalesMun(municipio);
 				if(espacioNatural != null) {
 					espacioNatural = espacioNatural.replaceAll("\n", "");
 				} else {
-					espacioNatural = "{\"operation\":\"getEspaciosMun\",\"result\":[]}";
+					//espacioNatural = "{\"operation\":\"getEspaciosMun\",\"result\":[]}";
 				}
 				
 
@@ -700,7 +707,7 @@ public class LogIn extends JFrame {
 				if(municipio != null) {
 					espacioNatural = (new Query()).getEspaciosNaturalesMun(municipio);
 					espacioNatural = espacioNatural.replaceAll("\n", "");
-					
+					modelEspaciosNaturales.removeAllElements();
 					List<String> espaciosList = Utils.getListFromJSON("nombre", "result", espacioNatural);
 					List<String> descList = Utils.getListFromJSON("descripcion", "result", espacioNatural);
 					
@@ -860,7 +867,6 @@ public class LogIn extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				c1.show(contentPane, "panelMunicipios");
-				modelEstaciones.removeAllElements();
 			}
 
 		});
