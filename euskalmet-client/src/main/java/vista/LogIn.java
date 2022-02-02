@@ -597,6 +597,9 @@ public class LogIn extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				String estacion = listEstaciones.getSelectedValue();
+				if(estacion == null) {
+					estacion = "EUROPA";
+				}
 				System.out.println(estacion);
 				String direccion = (new Query()).getDireccionEstacion(estacion);
 				try {
@@ -656,7 +659,12 @@ public class LogIn extends JFrame {
 				descripcion = descripcion.replaceAll("\n", "");
 				
 				espacioNatural = (new Query()).getEspaciosNaturalesMun(municipio);
-				espacioNatural = espacioNatural.replaceAll("\n", "");
+				if(espacioNatural != null) {
+					espacioNatural = espacioNatural.replaceAll("\n", "");
+				} else {
+					espacioNatural = "{\"operation\":\"getEspaciosMun\",\"result\":[]}";
+				}
+				
 
 				try {
 					JSONObject obj = new JSONObject(descripcion);
